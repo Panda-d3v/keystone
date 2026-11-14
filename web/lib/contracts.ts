@@ -26,6 +26,8 @@ export interface ExposureLine {
   customs_value_usd: number;
   added_duty_usd: number;
   math?: string | null;
+  old_duty_usd?: number | null;
+  new_duty_usd?: number | null;
 }
 export interface Exposure {
   change_id: string;
@@ -43,6 +45,9 @@ export interface DecisionCheck {
   incumbent_annual_usd: number;
   alternative_with_proof_annual_usd: number;
   alternative_without_proof_annual_usd: number;
+  incumbent_before_annual_usd?: number | null;
+  alternative_with_proof_delta_usd?: number | null;
+  alternative_without_proof_delta_usd?: number | null;
 }
 export interface EvidenceItem {
   supplier_id: string;
@@ -100,4 +105,23 @@ export interface WorkspaceData {
   evidence: EvidenceStatus;
   actions: Action[];
   audit: AuditEvent[];
+}
+
+export interface LineageNode {
+  id: string;
+  kind: "bulletin" | "change" | "rate" | "assumption" | "decision" | "part" | "purchase_order" | "product";
+  label: string;
+  added_duty_usd?: number | null;
+}
+export interface LineageEdge {
+  source: string;
+  target: string;
+  kind: string;
+}
+export interface ExposureLineage {
+  change_id: string;
+  added_duty_usd: number;
+  affected_parts: number;
+  nodes: LineageNode[];
+  edges: LineageEdge[];
 }
