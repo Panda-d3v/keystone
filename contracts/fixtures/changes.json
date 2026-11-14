@@ -17,13 +17,127 @@
       {
         "doc_id": "HTA-2026-118",
         "page": 1,
+        "quote": "Illustrative scenario: Section 232 derivative pump and valve parts move to the 50% tier",
         "bbox": [
-          0.1,
-          0.2,
-          0.9,
-          0.5
+          0.08824,
+          0.13513,
+          0.89301,
+          0.18219
+        ]
+      },
+      {
+        "doc_id": "HTA-2026-118",
+        "page": 1,
+        "quote": "Summary. For this exercise, assume a new proclamation reclassifies certain derivative steel and iron articles from Annex I-B (25% of full customs value) to Annex I-A (50% of full customs value). The change applies to goods entered for consumption, or withdrawn from warehouse, on or after 12:01 a.m. EST on December 1, 2026.",
+        "bbox": [
+          0.08824,
+          0.1935,
+          0.9091,
+          0.24367
+        ]
+      },
+      {
+        "doc_id": "HTA-2026-118",
+        "page": 1,
+        "quote": "8413.91 Parts of pumps for liquids 25% 50% 8481.30 Check (nonreturn) valves 25% 50% 8481.80 Other taps, cocks, valves 25% 50% 8483.30 Bearing housings; plain shaft bearings 25% 50%",
+        "bbox": [
+          0.08824,
+          0.29519,
+          0.76636,
+          0.3647
+        ]
+      },
+      {
+        "doc_id": "HTA-2026-118",
+        "page": 1,
+        "quote": "Basis. Duty is assessed on the full customs value of the article, regardless of metal content. Only one Section 232 metals duty applies per article; duties do not stack across steel, aluminum and copper.",
+        "bbox": [
+          0.08824,
+          0.37279,
+          0.91015,
+          0.40655
         ]
       }
-    ]
+    ],
+    "field_citations": {
+      "measure": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "Illustrative scenario: Section 232 derivative pump and valve parts move to the 50% tier",
+          "bbox": [
+            0.08824,
+            0.13513,
+            0.89301,
+            0.18219
+          ]
+        }
+      ],
+      "hts_scope": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "8413.91 Parts of pumps for liquids 25% 50% 8481.30 Check (nonreturn) valves 25% 50% 8481.80 Other taps, cocks, valves 25% 50% 8483.30 Bearing housings; plain shaft bearings 25% 50%",
+          "bbox": [
+            0.08824,
+            0.29519,
+            0.76636,
+            0.3647
+          ]
+        }
+      ],
+      "old_rate": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "Summary. For this exercise, assume a new proclamation reclassifies certain derivative steel and iron articles from Annex I-B (25% of full customs value) to Annex I-A (50% of full customs value). The change applies to goods entered for consumption, or withdrawn from warehouse, on or after 12:01 a.m. EST on December 1, 2026.",
+          "bbox": [
+            0.08824,
+            0.1935,
+            0.9091,
+            0.24367
+          ]
+        }
+      ],
+      "new_rate": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "Summary. For this exercise, assume a new proclamation reclassifies certain derivative steel and iron articles from Annex I-B (25% of full customs value) to Annex I-A (50% of full customs value). The change applies to goods entered for consumption, or withdrawn from warehouse, on or after 12:01 a.m. EST on December 1, 2026.",
+          "bbox": [
+            0.08824,
+            0.1935,
+            0.9091,
+            0.24367
+          ]
+        }
+      ],
+      "effective_date": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "Summary. For this exercise, assume a new proclamation reclassifies certain derivative steel and iron articles from Annex I-B (25% of full customs value) to Annex I-A (50% of full customs value). The change applies to goods entered for consumption, or withdrawn from warehouse, on or after 12:01 a.m. EST on December 1, 2026.",
+          "bbox": [
+            0.08824,
+            0.1935,
+            0.9091,
+            0.24367
+          ]
+        }
+      ],
+      "basis": [
+        {
+          "doc_id": "HTA-2026-118",
+          "page": 1,
+          "quote": "Basis. Duty is assessed on the full customs value of the article, regardless of metal content. Only one Section 232 metals duty applies per article; duties do not stack across steel, aluminum and copper.",
+          "bbox": [
+            0.08824,
+            0.37279,
+            0.91015,
+            0.40655
+          ]
+        }
+      ]
+    }
   }
 ]

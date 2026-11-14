@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 Probability = Annotated[float, Field(ge=0, le=1)]
 
@@ -13,7 +13,10 @@ class Contract(BaseModel):
 class Citation(Contract):
     doc_id: str
     page: Annotated[int, Field(ge=1)]
-    bbox: tuple[float, float, float, float]
+    bbox: tuple[float, float, float, float] = Field(
+        description="Normalized [x0, y0, x1, y1] with top-left origin on the cited page."
+    )
+    quote: str | None = None
 
 
 class DocEnvelope(Contract):
@@ -35,6 +38,7 @@ class ChangeEvent(Contract):
     basis: str
     effective_date: date
     citations: list[Citation]
+    field_citations: dict[str, list[Citation]] = Field(default_factory=dict)
 
 
 class EvidenceItem(Contract):
@@ -46,6 +50,7 @@ class EvidenceItem(Contract):
     fields: dict[str, str | int | float | bool | None]
     confidence: Probability
     bbox_refs: list[Citation]
+    field_citations: dict[str, list[Citation]] = Field(default_factory=dict)
 
 
 class Match(Contract):
@@ -62,6 +67,7 @@ class ExposureLine(Contract):
     est_entry_date: date
     customs_value_usd: float
     added_duty_usd: float
+    math: str | None = None
 
 
 class Exposure(Contract):
@@ -83,12 +89,21 @@ class DecisionCheck(Contract):
     alternative_without_proof_annual_usd: float
 
 
+class EvidenceRequirement(Contract):
+    id: str
+    label: str
+    status: Literal["checked", "missing", "mismatch", "needs_review"]
+    reason: str | None = None
+    citations: list[Citation] = Field(default_factory=list)
+
+
 class EvidenceStatus(Contract):
     supplier_id: str
     part_no: str
     status: Literal["verified", "missing", "needs_review"]
     missing_requirements: list[str]
     items: list[EvidenceItem]
+    requirements: list[EvidenceRequirement] = Field(default_factory=list)
 
 
 class Action(Contract):
@@ -108,3 +123,19 @@ class AuditEvent(Contract):
     entity_id: str
     previous_hash: str | None
     hash: str
+
+
+class SendActionRequest(Contract):
+    draft_email: Annotated[str, StringConstraints(min_length=1, strip_whitespace=True)]
+
+
+class PendingApproval(Contract):
+    id: str
+    name: str
+
+
+class SendActionResponse(Contract):
+    audit_event: AuditEvent
+    decision_id: str
+    state: Literal["pending_approval"]
+    pending_approvals: list[PendingApproval]

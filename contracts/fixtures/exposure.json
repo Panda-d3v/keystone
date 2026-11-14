@@ -12,7 +12,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2027-01-04",
       "customs_value_usd": 76800.0,
-      "added_duty_usd": 19200.0
+      "added_duty_usd": 19200.0,
+      "math": "$76,800.00 × (50% − 25%) = $19,200.00"
     },
     {
       "po_id": "PO-4502",
@@ -21,7 +22,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2027-01-03",
       "customs_value_usd": 34560.0,
-      "added_duty_usd": 8640.0
+      "added_duty_usd": 8640.0,
+      "math": "$34,560.00 × (50% − 25%) = $8,640.00"
     },
     {
       "po_id": "PO-4503",
@@ -30,7 +32,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2027-01-22",
       "customs_value_usd": 52480.0,
-      "added_duty_usd": 13120.0
+      "added_duty_usd": 13120.0,
+      "math": "$52,480.00 × (50% − 25%) = $13,120.00"
     },
     {
       "po_id": "PO-4504",
@@ -39,7 +42,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2027-02-02",
       "customs_value_usd": 307200.0,
-      "added_duty_usd": 76800.0
+      "added_duty_usd": 76800.0,
+      "math": "$307,200.00 × (50% − 25%) = $76,800.00"
     },
     {
       "po_id": "PO-4505",
@@ -48,7 +52,8 @@
       "supplier_id": "S002",
       "est_entry_date": "2027-01-14",
       "customs_value_usd": 74925.0,
-      "added_duty_usd": 18731.25
+      "added_duty_usd": 18731.25,
+      "math": "$74,925.00 × (50% − 25%) = $18,731.25"
     },
     {
       "po_id": "PO-4506",
@@ -57,7 +62,8 @@
       "supplier_id": "S002",
       "est_entry_date": "2026-12-29",
       "customs_value_usd": 37740.0,
-      "added_duty_usd": 9435.0
+      "added_duty_usd": 9435.0,
+      "math": "$37,740.00 × (50% − 25%) = $9,435.00"
     },
     {
       "po_id": "PO-4507",
@@ -66,7 +72,8 @@
       "supplier_id": "S002",
       "est_entry_date": "2027-01-27",
       "customs_value_usd": 17760.0,
-      "added_duty_usd": 4440.0
+      "added_duty_usd": 4440.0,
+      "math": "$17,760.00 × (50% − 25%) = $4,440.00"
     },
     {
       "po_id": "PO-4508",
@@ -75,7 +82,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2026-12-22",
       "customs_value_usd": 25200.0,
-      "added_duty_usd": 6300.0
+      "added_duty_usd": 6300.0,
+      "math": "$25,200.00 × (50% − 25%) = $6,300.00"
     },
     {
       "po_id": "PO-4509",
@@ -84,7 +92,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2026-12-15",
       "customs_value_usd": 34020.0,
-      "added_duty_usd": 8505.0
+      "added_duty_usd": 8505.0,
+      "math": "$34,020.00 × (50% − 25%) = $8,505.00"
     },
     {
       "po_id": "PO-4510",
@@ -93,7 +102,8 @@
       "supplier_id": "S001",
       "est_entry_date": "2027-02-10",
       "customs_value_usd": 60480.0,
-      "added_duty_usd": 15120.0
+      "added_duty_usd": 15120.0,
+      "math": "$60,480.00 × (50% − 25%) = $15,120.00"
     },
     {
       "po_id": "PO-4511",
@@ -102,7 +112,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-01-17",
       "customs_value_usd": 133650.0,
-      "added_duty_usd": 33412.5
+      "added_duty_usd": 33412.5,
+      "math": "$133,650.00 × (50% − 25%) = $33,412.50"
     },
     {
       "po_id": "PO-4512",
@@ -111,7 +122,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-02-13",
       "customs_value_usd": 168300.0,
-      "added_duty_usd": 42075.0
+      "added_duty_usd": 42075.0,
+      "math": "$168,300.00 × (50% − 25%) = $42,075.00"
     },
     {
       "po_id": "PO-4513",
@@ -120,7 +132,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-01-17",
       "customs_value_usd": 202950.0,
-      "added_duty_usd": 50737.5
+      "added_duty_usd": 50737.5,
+      "math": "$202,950.00 × (50% − 25%) = $50,737.50"
     },
     {
       "po_id": "PO-4514",
@@ -129,7 +142,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2026-12-25",
       "customs_value_usd": 63360.0,
-      "added_duty_usd": 15840.0
+      "added_duty_usd": 15840.0,
+      "math": "$63,360.00 × (50% − 25%) = $15,840.00"
     },
     {
       "po_id": "PO-4515",
@@ -138,7 +152,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-14",
       "customs_value_usd": 5600.0,
-      "added_duty_usd": 1400.0
+      "added_duty_usd": 1400.0,
+      "math": "$5,600.00 × (50% − 25%) = $1,400.00"
     },
     {
       "po_id": "PO-4516",
@@ -147,7 +162,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-26",
       "customs_value_usd": 9520.0,
-      "added_duty_usd": 2380.0
+      "added_duty_usd": 2380.0,
+      "math": "$9,520.00 × (50% − 25%) = $2,380.00"
     },
     {
       "po_id": "PO-4517",
@@ -156,7 +172,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-06",
       "customs_value_usd": 6888.0,
-      "added_duty_usd": 1722.0
+      "added_duty_usd": 1722.0,
+      "math": "$6,888.00 × (50% − 25%) = $1,722.00"
     },
     {
       "po_id": "PO-4518",
@@ -165,7 +182,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-16",
       "customs_value_usd": 8064.0,
-      "added_duty_usd": 2016.0
+      "added_duty_usd": 2016.0,
+      "math": "$8,064.00 × (50% − 25%) = $2,016.00"
     },
     {
       "po_id": "PO-4523",
@@ -174,7 +192,8 @@
       "supplier_id": "S012",
       "est_entry_date": "2026-12-25",
       "customs_value_usd": 1680.0,
-      "added_duty_usd": 420.0
+      "added_duty_usd": 420.0,
+      "math": "$1,680.00 × (50% − 25%) = $420.00"
     },
     {
       "po_id": "PO-4524",
@@ -183,7 +202,8 @@
       "supplier_id": "S012",
       "est_entry_date": "2027-01-14",
       "customs_value_usd": 11340.0,
-      "added_duty_usd": 2835.0
+      "added_duty_usd": 2835.0,
+      "math": "$11,340.00 × (50% − 25%) = $2,835.00"
     },
     {
       "po_id": "PO-4525",
@@ -192,7 +212,8 @@
       "supplier_id": "S012",
       "est_entry_date": "2027-01-30",
       "customs_value_usd": 21420.0,
-      "added_duty_usd": 5355.0
+      "added_duty_usd": 5355.0,
+      "math": "$21,420.00 × (50% − 25%) = $5,355.00"
     },
     {
       "po_id": "PO-4526",
@@ -201,7 +222,8 @@
       "supplier_id": "S012",
       "est_entry_date": "2027-01-27",
       "customs_value_usd": 25830.0,
-      "added_duty_usd": 6457.5
+      "added_duty_usd": 6457.5,
+      "math": "$25,830.00 × (50% − 25%) = $6,457.50"
     },
     {
       "po_id": "PO-4527",
@@ -210,7 +232,8 @@
       "supplier_id": "S012",
       "est_entry_date": "2027-01-25",
       "customs_value_usd": 30240.0,
-      "added_duty_usd": 7560.0
+      "added_duty_usd": 7560.0,
+      "math": "$30,240.00 × (50% − 25%) = $7,560.00"
     },
     {
       "po_id": "PO-4537",
@@ -219,7 +242,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-02-25",
       "customs_value_usd": 4800.0,
-      "added_duty_usd": 1200.0
+      "added_duty_usd": 1200.0,
+      "math": "$4,800.00 × (50% − 25%) = $1,200.00"
     },
     {
       "po_id": "PO-4538",
@@ -228,7 +252,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-02-08",
       "customs_value_usd": 32400.0,
-      "added_duty_usd": 8100.0
+      "added_duty_usd": 8100.0,
+      "math": "$32,400.00 × (50% − 25%) = $8,100.00"
     },
     {
       "po_id": "PO-4539",
@@ -237,7 +262,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-01-15",
       "customs_value_usd": 8160.0,
-      "added_duty_usd": 2040.0
+      "added_duty_usd": 2040.0,
+      "math": "$8,160.00 × (50% − 25%) = $2,040.00"
     },
     {
       "po_id": "PO-4540",
@@ -246,7 +272,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-02-03",
       "customs_value_usd": 11520.0,
-      "added_duty_usd": 2880.0
+      "added_duty_usd": 2880.0,
+      "math": "$11,520.00 × (50% − 25%) = $2,880.00"
     },
     {
       "po_id": "PO-4561",
@@ -255,7 +282,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-02-27",
       "customs_value_usd": 123000.0,
-      "added_duty_usd": 30750.0
+      "added_duty_usd": 30750.0,
+      "math": "$123,000.00 × (50% − 25%) = $30,750.00"
     },
     {
       "po_id": "PO-4562",
@@ -264,7 +292,8 @@
       "supplier_id": "S003",
       "est_entry_date": "2027-01-05",
       "customs_value_usd": 39360.0,
-      "added_duty_usd": 9840.0
+      "added_duty_usd": 9840.0,
+      "math": "$39,360.00 × (50% − 25%) = $9,840.00"
     },
     {
       "po_id": "PO-4563",
@@ -273,7 +302,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-18",
       "customs_value_usd": 52000.0,
-      "added_duty_usd": 13000.0
+      "added_duty_usd": 13000.0,
+      "math": "$52,000.00 × (50% − 25%) = $13,000.00"
     },
     {
       "po_id": "PO-4564",
@@ -282,7 +312,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-02-07",
       "customs_value_usd": 105300.0,
-      "added_duty_usd": 26325.0
+      "added_duty_usd": 26325.0,
+      "math": "$105,300.00 × (50% − 25%) = $26,325.00"
     },
     {
       "po_id": "PO-4565",
@@ -291,7 +322,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-02-12",
       "customs_value_usd": 21320.0,
-      "added_duty_usd": 5330.0
+      "added_duty_usd": 5330.0,
+      "math": "$21,320.00 × (50% − 25%) = $5,330.00"
     },
     {
       "po_id": "PO-4566",
@@ -300,7 +332,8 @@
       "supplier_id": "S004",
       "est_entry_date": "2027-01-24",
       "customs_value_usd": 74880.0,
-      "added_duty_usd": 18720.0
+      "added_duty_usd": 18720.0,
+      "math": "$74,880.00 × (50% − 25%) = $18,720.00"
     }
   ]
 }

@@ -17,7 +17,58 @@
         "melt_location": null
       },
       "confidence": 0.42,
-      "bbox_refs": []
+      "bbox_refs": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.28,
+            0.65,
+            0.31
+          ]
+        }
+      ],
+      "field_citations": {
+        "melt_location": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.28,
+              0.65,
+              0.31
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "requirements": [
+    {
+      "id": "EV-UK-01",
+      "label": "UK melt and pour",
+      "status": "needs_review",
+      "reason": "The mill certificate scan obscures the melt and pour location.",
+      "citations": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.28,
+            0.65,
+            0.31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "origin-declaration",
+      "label": "Origin declaration",
+      "status": "missing",
+      "reason": "No supplier origin declaration was provided."
     }
   ]
 }
