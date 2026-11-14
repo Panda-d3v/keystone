@@ -1,0 +1,110 @@
+[
+  {
+    "id": "AUD-0012",
+    "occurred_at": "2026-11-14T22:12:00Z",
+    "actor": "demo-user",
+    "type": "action_sent",
+    "entity_id": "ACT-0001",
+    "previous_hash": "ce94acdfdbc37ecaa6a85f9f096067957399165c54d529b008508a3e96622c35",
+    "hash": "eb441c12888c1f2a49dc51d9c74b8f5bfad60f789ca362d9726ecb7551bc1897"
+  },
+  {
+    "id": "AUD-0011",
+    "occurred_at": "2026-11-14T22:11:00Z",
+    "actor": "demo-user",
+    "type": "action_reviewed",
+    "entity_id": "ACT-0001",
+    "previous_hash": "c5102237496f82ec8900e4ce8c9cc6fe50f8c071c9574fec0bd2448d9fd57423",
+    "hash": "ce94acdfdbc37ecaa6a85f9f096067957399165c54d529b008508a3e96622c35"
+  },
+  {
+    "id": "AUD-0010",
+    "occurred_at": "2026-11-14T22:10:00Z",
+    "actor": "demo-user",
+    "type": "action_drafted",
+    "entity_id": "ACT-0001",
+    "previous_hash": "d162de03453fd1dc45bff5c24dbfca3e378c34f27bdda701607b7f3ed55b7d7c",
+    "hash": "c5102237496f82ec8900e4ce8c9cc6fe50f8c071c9574fec0bd2448d9fd57423"
+  },
+  {
+    "id": "AUD-0009",
+    "occurred_at": "2026-11-14T22:09:00Z",
+    "actor": "demo-user",
+    "type": "evidence_checked",
+    "entity_id": "S007",
+    "previous_hash": "1b673071a50d3fdb12a9686fe35e706f25799feb83191c4f0e468c540dd0e206",
+    "hash": "d162de03453fd1dc45bff5c24dbfca3e378c34f27bdda701607b7f3ed55b7d7c"
+  },
+  {
+    "id": "AUD-0008",
+    "occurred_at": "2026-11-14T22:08:00Z",
+    "actor": "demo-user",
+    "type": "evidence_refused",
+    "entity_id": "S007",
+    "previous_hash": "ccc4cd3767187471d3f840d4bea1d99a9c87f2bc9860f2aa5e8fe09eacd05a1f",
+    "hash": "1b673071a50d3fdb12a9686fe35e706f25799feb83191c4f0e468c540dd0e206"
+  },
+  {
+    "id": "AUD-0007",
+    "occurred_at": "2026-11-14T22:07:00Z",
+    "actor": "demo-user",
+    "type": "evidence_ingested",
+    "entity_id": "S007",
+    "previous_hash": "17e7b3889b1c1ad4da2cc8eedaa12a4ce354827aab7e284d85ad065eb26afbf5",
+    "hash": "ccc4cd3767187471d3f840d4bea1d99a9c87f2bc9860f2aa5e8fe09eacd05a1f"
+  },
+  {
+    "id": "AUD-0006",
+    "occurred_at": "2026-11-14T22:06:00Z",
+    "actor": "demo-user",
+    "type": "decision_checked",
+    "entity_id": "D-2026-031",
+    "previous_hash": "22b442cec396a8f9c9352be85fa0b419ac216c9763e8ed27c58ea2d7c7889745",
+    "hash": "17e7b3889b1c1ad4da2cc8eedaa12a4ce354827aab7e284d85ad065eb26afbf5"
+  },
+  {
+    "id": "AUD-0005",
+    "occurred_at": "2026-11-14T22:05:00Z",
+    "actor": "demo-user",
+    "type": "exposure_computed",
+    "entity_id": "CE-0007",
+    "previous_hash": "a88197924aa11da68e45970753f863919f32e08e231c7d9f54852f630a440e3f",
+    "hash": "22b442cec396a8f9c9352be85fa0b419ac216c9763e8ed27c58ea2d7c7889745"
+  },
+  {
+    "id": "AUD-0004",
+    "occurred_at": "2026-11-14T22:04:00Z",
+    "actor": "demo-user",
+    "type": "rates_versioned",
+    "entity_id": "CE-0007",
+    "previous_hash": "2e08ceb2ae1b4004b6dec5ed97175582cca25b55216c0694ef745ba8a20640af",
+    "hash": "a88197924aa11da68e45970753f863919f32e08e231c7d9f54852f630a440e3f"
+  },
+  {
+    "id": "AUD-0003",
+    "occurred_at": "2026-11-14T22:03:00Z",
+    "actor": "demo-user",
+    "type": "change_reviewed",
+    "entity_id": "CE-0007",
+    "previous_hash": "4c3196237ed6d7ddd112f010371d3646807fa63e8945831418889821ac552ff8",
+    "hash": "2e08ceb2ae1b4004b6dec5ed97175582cca25b55216c0694ef745ba8a20640af"
+  },
+  {
+    "id": "AUD-0002",
+    "occurred_at": "2026-11-14T22:02:00Z",
+    "actor": "demo-user",
+    "type": "change_extracted",
+    "entity_id": "CE-0007",
+    "previous_hash": "76165b1d47352210a4da7247c852f730189eadf3e50a60317b4fccfb439cd143",
+    "hash": "4c3196237ed6d7ddd112f010371d3646807fa63e8945831418889821ac552ff8"
+  },
+  {
+    "id": "AUD-0001",
+    "occurred_at": "2026-11-14T22:01:00Z",
+    "actor": "demo-user",
+    "type": "document_ingested",
+    "entity_id": "HTA-2026-118",
+    "previous_hash": null,
+    "hash": "76165b1d47352210a4da7247c852f730189eadf3e50a60317b4fccfb439cd143"
+  }
+]

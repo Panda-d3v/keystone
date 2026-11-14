@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ACT-0001",
+    "rank": 1,
+    "type": "request_evidence",
+    "part_ids": [
+      "MF-8413-005"
+    ],
+    "usd_at_stake": 49690,
+    "draft_email": "Please send a legible mill certificate showing the melt and pour location for the heats supplied for MF-8413-005, and an origin declaration."
+  }
+]
