@@ -3,21 +3,127 @@
   "part_no": "MF-8413-005",
   "status": "needs_review",
   "missing_requirements": [
-    "Legible proof of UK melt and pour",
+    "UK melt and pour",
     "Origin declaration"
   ],
   "items": [
     {
       "supplier_id": "S007",
       "part_no": "MF-8413-005",
-      "batch_id": null,
+      "batch_id": "SF-24117",
       "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
       "kind": "mill_certificate",
       "fields": {
-        "melt_location": null
+        "supplier_name": "Sheffield Forge & Pattern Ltd (fictional)",
+        "supplier_name_confidence": 0.93,
+        "certificate_no": "SFP-3.1-07791",
+        "certificate_no_confidence": 0.88,
+        "issue_date": "2026-11-02",
+        "issue_date_confidence": 0.9,
+        "customer_po": "Quote Q-2026-0412",
+        "customer_po_confidence": 0.86,
+        "part_no_confidence": 0.91,
+        "material_spec": "ASTM A536 Grade 65-45-12",
+        "material_spec_confidence": 0.87,
+        "hs_code": "8413.91.90",
+        "hs_code_confidence": 0.88,
+        "country_of_origin": "United Kingdom",
+        "country_of_origin_confidence": 0.93,
+        "melt_location": null,
+        "melt_location_confidence": 0.42,
+        "heat_qty": "60",
+        "batch_id_confidence": 0.9
       },
-      "confidence": 0.42,
+      "confidence": 0.86,
       "bbox_refs": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.1,
+            0.5,
+            0.13
+          ],
+          "quote": "Sheffield Forge & Pattern Ltd (fictional)"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.15,
+            0.5,
+            0.17
+          ],
+          "quote": "SFP-3.1-07791"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.17,
+            0.45,
+            0.19
+          ],
+          "quote": "2026-11-02"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.2,
+            0.52,
+            0.22
+          ],
+          "quote": "Quote Q-2026-0412"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.22,
+            0.47,
+            0.24
+          ],
+          "quote": "MF-8413-005"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.25,
+            0.58,
+            0.27
+          ],
+          "quote": "ASTM A536 Grade 65-45-12"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.27,
+            0.45,
+            0.29
+          ],
+          "quote": "8413.91.90"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.29,
+            0.5,
+            0.31
+          ],
+          "quote": "United Kingdom"
+        },
         {
           "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
           "page": 1,
@@ -27,9 +133,124 @@
             0.65,
             0.31
           ]
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.35,
+            0.2,
+            0.37
+          ],
+          "quote": "SF 24117"
         }
       ],
       "field_citations": {
+        "supplier_name": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.1,
+              0.5,
+              0.13
+            ],
+            "quote": "Sheffield Forge & Pattern Ltd (fictional)"
+          }
+        ],
+        "certificate_no": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.15,
+              0.5,
+              0.17
+            ],
+            "quote": "SFP-3.1-07791"
+          }
+        ],
+        "issue_date": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.17,
+              0.45,
+              0.19
+            ],
+            "quote": "2026-11-02"
+          }
+        ],
+        "customer_po": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.2,
+              0.52,
+              0.22
+            ],
+            "quote": "Quote Q-2026-0412"
+          }
+        ],
+        "part_no": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.22,
+              0.47,
+              0.24
+            ],
+            "quote": "MF-8413-005"
+          }
+        ],
+        "material_spec": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.25,
+              0.58,
+              0.27
+            ],
+            "quote": "ASTM A536 Grade 65-45-12"
+          }
+        ],
+        "hs_code": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.27,
+              0.45,
+              0.29
+            ],
+            "quote": "8413.91.90"
+          }
+        ],
+        "country_of_origin": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.29,
+              0.5,
+              0.31
+            ],
+            "quote": "United Kingdom"
+          }
+        ],
         "melt_location": [
           {
             "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
@@ -41,16 +262,387 @@
               0.31
             ]
           }
+        ],
+        "batch_id": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.35,
+              0.2,
+              0.37
+            ],
+            "quote": "SF 24117"
+          }
+        ]
+      }
+    },
+    {
+      "supplier_id": "S007",
+      "part_no": "MF-8413-005",
+      "batch_id": "SF-24121",
+      "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+      "kind": "mill_certificate",
+      "fields": {
+        "supplier_name": "Sheffield Forge & Pattern Ltd (fictional)",
+        "supplier_name_confidence": 0.93,
+        "certificate_no": "SFP-3.1-07791",
+        "certificate_no_confidence": 0.88,
+        "issue_date": "2026-11-02",
+        "issue_date_confidence": 0.9,
+        "customer_po": "Quote Q-2026-0412",
+        "customer_po_confidence": 0.86,
+        "part_no_confidence": 0.91,
+        "material_spec": "ASTM A536 Grade 65-45-12",
+        "material_spec_confidence": 0.87,
+        "hs_code": "8413.91.90",
+        "hs_code_confidence": 0.88,
+        "country_of_origin": "United Kingdom",
+        "country_of_origin_confidence": 0.93,
+        "melt_location": null,
+        "melt_location_confidence": 0.42,
+        "heat_qty": "60",
+        "batch_id_confidence": 0.9
+      },
+      "confidence": 0.86,
+      "bbox_refs": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.1,
+            0.5,
+            0.13
+          ],
+          "quote": "Sheffield Forge & Pattern Ltd (fictional)"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.15,
+            0.5,
+            0.17
+          ],
+          "quote": "SFP-3.1-07791"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.17,
+            0.45,
+            0.19
+          ],
+          "quote": "2026-11-02"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.2,
+            0.52,
+            0.22
+          ],
+          "quote": "Quote Q-2026-0412"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.22,
+            0.47,
+            0.24
+          ],
+          "quote": "MF-8413-005"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.25,
+            0.58,
+            0.27
+          ],
+          "quote": "ASTM A536 Grade 65-45-12"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.27,
+            0.45,
+            0.29
+          ],
+          "quote": "8413.91.90"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.29,
+            0.5,
+            0.31
+          ],
+          "quote": "United Kingdom"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.28,
+            0.65,
+            0.31
+          ]
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.37,
+            0.2,
+            0.39
+          ],
+          "quote": "SF 24121"
+        }
+      ],
+      "field_citations": {
+        "supplier_name": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.1,
+              0.5,
+              0.13
+            ],
+            "quote": "Sheffield Forge & Pattern Ltd (fictional)"
+          }
+        ],
+        "certificate_no": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.15,
+              0.5,
+              0.17
+            ],
+            "quote": "SFP-3.1-07791"
+          }
+        ],
+        "issue_date": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.17,
+              0.45,
+              0.19
+            ],
+            "quote": "2026-11-02"
+          }
+        ],
+        "customer_po": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.2,
+              0.52,
+              0.22
+            ],
+            "quote": "Quote Q-2026-0412"
+          }
+        ],
+        "part_no": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.22,
+              0.47,
+              0.24
+            ],
+            "quote": "MF-8413-005"
+          }
+        ],
+        "material_spec": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.25,
+              0.58,
+              0.27
+            ],
+            "quote": "ASTM A536 Grade 65-45-12"
+          }
+        ],
+        "hs_code": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.27,
+              0.45,
+              0.29
+            ],
+            "quote": "8413.91.90"
+          }
+        ],
+        "country_of_origin": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.33,
+              0.29,
+              0.5,
+              0.31
+            ],
+            "quote": "United Kingdom"
+          }
+        ],
+        "melt_location": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.28,
+              0.65,
+              0.31
+            ]
+          }
+        ],
+        "batch_id": [
+          {
+            "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.37,
+              0.2,
+              0.39
+            ],
+            "quote": "SF 24121"
+          }
         ]
       }
     }
   ],
   "requirements": [
     {
+      "id": "part-number",
+      "label": "Part number",
+      "status": "checked",
+      "citations": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.22,
+            0.47,
+            0.24
+          ],
+          "quote": "MF-8413-005"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.22,
+            0.47,
+            0.24
+          ],
+          "quote": "MF-8413-005"
+        }
+      ]
+    },
+    {
+      "id": "heat-batch",
+      "label": "Heat and batch",
+      "status": "checked",
+      "citations": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.35,
+            0.2,
+            0.37
+          ],
+          "quote": "SF 24117"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.1,
+            0.37,
+            0.2,
+            0.39
+          ],
+          "quote": "SF 24121"
+        }
+      ]
+    },
+    {
+      "id": "certificate-origin",
+      "label": "Certificate country of origin",
+      "status": "checked",
+      "citations": [
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.29,
+            0.5,
+            0.31
+          ],
+          "quote": "United Kingdom"
+        },
+        {
+          "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+          "page": 1,
+          "bbox": [
+            0.33,
+            0.29,
+            0.5,
+            0.31
+          ],
+          "quote": "United Kingdom"
+        }
+      ]
+    },
+    {
       "id": "EV-UK-01",
       "label": "UK melt and pour",
       "status": "needs_review",
-      "reason": "The mill certificate scan obscures the melt and pour location.",
+      "reason": "UK melt and pour is unreadable or below 85% confidence.",
       "citations": [
         {
           "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
@@ -68,7 +660,8 @@
       "id": "origin-declaration",
       "label": "Origin declaration",
       "status": "missing",
-      "reason": "No supplier origin declaration was provided."
+      "reason": "No matching evidence for origin declaration.",
+      "citations": []
     }
   ]
 }
