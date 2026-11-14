@@ -13,7 +13,7 @@ RESPONSES = {
     "decisions": list[models.DecisionCheck],
     "evidence": models.EvidenceStatus,
     "actions": list[models.Action],
-    "send_action": models.AuditEvent,
+    "send_action": models.SendActionResponse,
     "audit": list[models.AuditEvent],
 }
 
@@ -39,3 +39,14 @@ def test_demo_exposure_totals_match_affected_lines():
     assert exposure.affected_parts == len({line.part_no for line in exposure.lines}) == 33
     assert exposure.added_duty_usd == round(sum(line.added_duty_usd for line in exposure.lines))
     assert exposure.annualized_added_duty_usd == 617061
+
+
+def test_send_request_fixture():
+    sample = json.loads((ROOT / "fixtures" / "send_action_request.json").read_text())
+    models.SendActionRequest.model_validate(sample)
+    spec = json.loads((ROOT / "openapi.yaml").read_text())
+    request = spec["paths"]["/actions/{id}/send"]["post"]["requestBody"]
+    assert request["required"]
+    assert request["content"]["application/json"]["example"] == sample
+    with pytest.raises(ValueError):
+        models.SendActionRequest(draft_email=" ")
