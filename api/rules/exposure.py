@@ -67,6 +67,8 @@ def compute_exposure(
             po_id=po, line_no=line_no, part_no=part, supplier_id=supplier,
             est_entry_date=entry_date, customs_value_usd=float(value),
             added_duty_usd=float(round(duty, 2)),
+            old_duty_usd=float(round(value * previous, 2)),
+            new_duty_usd=float(round(value * current, 2)),
             math=f"${value:,.2f} × ({current:.2%} − {previous:.2%}) = ${duty:,.2f}",
         ))
 
