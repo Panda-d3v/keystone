@@ -17,9 +17,9 @@ NEXT_PUBLIC_USE_FIXTURES=false make up
 docker compose exec api python -m scripts.seed_demo
 ```
 
-Open the Console’s **Intake** screen. Upload the tariff bulletin email from the demo pack, then choose **Run impact**. Upload the Sheffield certificate from Intake to review missing proof under **Evidence**. Open **Actions** to edit and submit the drafted request for approval. **Audit log** shows the recorded steps.
+Open the Console’s **Intake** screen. Upload the tariff bulletin email from the demo pack, then choose **Run impact**. Upload the Sheffield certificate from Intake to review missing proof under **Evidence**. If the scan cannot be linked automatically, confirm the supplier and part from the quote. Unreadable fields will still be flagged for review. Open **Actions** to edit and submit the drafted request for approval. **Audit log** shows the recorded steps.
 
-To exercise these steps through the API on a separately seeded demo database, run `docker compose exec api python -m scripts.e2e`. The runner submits a draft decision, so use a fresh demo database for each run.
+To exercise these steps through the API on a separately seeded demo database, run `docker compose exec api python -m scripts.e2e --confirm-sheffield`. The runner submits a draft decision, so use a fresh demo database for each run.
 
 ## Local development
 

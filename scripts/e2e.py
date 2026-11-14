@@ -15,14 +15,14 @@ def require(condition: bool, detail: str) -> None:
         raise RuntimeError(detail)
 
 
-def run(client: httpx.Client, demo_pack: Path) -> None:
+def run(client: httpx.Client, demo_pack: Path, *, confirm_sheffield: bool = False) -> None:
     with ZipFile(demo_pack) as archive:
         def get(path):
             return client.get(path).raise_for_status().json()
 
-        def upload(name, content_type):
+        def upload(name, content_type, fields=None):
             return client.post(
-                "/intake",
+                "/intake", data=fields,
                 files={"file": (name, archive.read(f"keystone_demo/docs/{name}"), content_type)},
             ).raise_for_status().json()
 
@@ -40,7 +40,10 @@ def run(client: httpx.Client, demo_pack: Path) -> None:
         )
         require(decision is not None and decision["status"] == "broken", "Casing award was not marked broken")
 
-        upload("03_scan_mill_cert_Sheffield_MF-8413-005.jpg", "image/jpeg")
+        scan = "03_scan_mill_cert_Sheffield_MF-8413-005.jpg"
+        result = upload(scan, "image/jpeg")
+        if confirm_sheffield and not result["evidence_doc_ids"]:
+            upload(scan, "image/jpeg", {"supplier_id": "S007", "part_no": "MF-8413-005"})
         evidence = get("/evidence/S007/MF-8413-005")
         melt = next((row for row in evidence["requirements"] if row["id"] == "EV-UK-01"), None)
         require(
@@ -80,7 +83,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--api-url", default="http://127.0.0.1:8000")
     parser.add_argument("--demo-pack", type=Path, default=Path("docs/reference/keystone-demo-pack.zip"))
+    parser.add_argument("--confirm-sheffield", action="store_true",
+                        help="Confirm the demo quote if the scan cannot be linked automatically")
     arguments = parser.parse_args()
     with httpx.Client(base_url=arguments.api_url, timeout=90) as client:
-        run(client, arguments.demo_pack)
+        run(client, arguments.demo_pack, confirm_sheffield=arguments.confirm_sheffield)
     print("Keystone demo acceptance passed.")

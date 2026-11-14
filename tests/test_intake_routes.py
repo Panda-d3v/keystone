@@ -17,7 +17,8 @@ from tests.agents.test_a2_change import GOOD
 from tests.agents.test_a3_evidence import SHEFFIELD_ANSWER, Stub
 
 
-def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
+@pytest.mark.parametrize("manual_link", [False, True])
+def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manual_link):
     dsn = os.environ.get("KEYSTONE_TEST_DATABASE_URL") or os.environ.get("DATABASE_URL")
     archive = Path("docs/reference/keystone-demo-pack.zip")
     if not dsn or not archive.is_file():
@@ -35,7 +36,8 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
         "ChangeDraft": GOOD,
         "VisionEvidenceDraft": {
             **SHEFFIELD_ANSWER,
-            "part_no": {**SHEFFIELD_ANSWER["part_no"], "value": "mf8413005"},
+            "part_no": {**SHEFFIELD_ANSWER["part_no"], "value": "mf8413005",
+                        "confidence": 0.68 if manual_link else 0.91},
         },
     })
     llm = LLMClient(stub, cache_dir=tmp_path, replay=False)
@@ -65,12 +67,22 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                 assert response.headers["content-type"] == "application/pdf"
                 response = client.get("/changes/CE-0007/exposure")
                 assert response.json()["added_duty_usd"] == 470687
+                scan_files = {"file": (scan_name, scan, "image/jpeg")}
+                fields = {"supplier_id": "S007", "part_no": "MF-8413-005"} if manual_link else {}
+                if manual_link:
+                    unlinked = client.post("/intake", files=scan_files).raise_for_status().json()
+                    assert not unlinked["evidence_doc_ids"] and unlinked["review_doc_ids"]
                 for _ in range(2):
-                    response = client.post("/intake", files={"file": (scan_name, scan, "image/jpeg")})
+                    response = client.post("/intake", data=fields, files=scan_files)
                     assert response.status_code == 200, response.text
                     ids = response.json()
                     assert len(ids["evidence_doc_ids"]) == 1
                     assert ids["review_doc_ids"] == ids["evidence_doc_ids"]
+                if manual_link:
+                    conflicting = client.post("/intake", data={
+                        "supplier_id": "S007", "part_no": "MF-8413-001",
+                    }, files=scan_files)
+                    assert conflicting.status_code == 409
                 source = client.get(f"/documents/{ids['evidence_doc_ids'][0]}").raise_for_status()
                 assert source.content == scan
                 assert source.headers["content-type"] == "image/jpeg"
@@ -78,14 +90,18 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                 assert passport["status"] == "needs_review"
                 assert {item["batch_id"] for item in passport["items"]} == {"SF-24117", "SF-24121"}
                 assert [row["status"] for row in passport["requirements"]] == [
-                    "checked", "checked", "checked", "needs_review", "missing",
+                    "needs_review" if manual_link else "checked",
+                    "checked", "checked", "needs_review", "missing",
                 ]
                 refusal = passport["requirements"][3]
                 assert refusal["reason"] and refusal["citations"][0]["bbox"] == [0.1, 0.28, 0.65, 0.31]
-                assert [event["type"] for event in client.get("/audit").json()] == [
+                expected_events = [
                     "action_drafted", "evidence_refused", "evidence_extracted", "document_ingested",
                     "change_extracted", "document_ingested",
                 ]
+                if manual_link:
+                    expected_events.insert(4, "evidence_association_confirmed")
+                assert [event["type"] for event in client.get("/audit").json()] == expected_events
                 assert llm.stats.model_calls == 3
 
                 replay = LLMClient(cache_dir=tmp_path, replay=True)
@@ -93,14 +109,14 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                 assert client.post("/intake", files={
                     "file": (filename, email, "message/rfc822"),
                 }).raise_for_status().json()["change_ids"] == ["CE-0007"]
-                assert client.post("/intake", files={
+                assert client.post("/intake", data=fields, files={
                     "file": (scan_name, scan, "image/jpeg"),
                 }).raise_for_status().json()["evidence_doc_ids"] == ids["evidence_doc_ids"]
                 assert replay.stats.cache_hits == 3 and replay.stats.model_calls == 0
-                assert len(client.get("/audit").json()) == 6
+                assert len(client.get("/audit").json()) == len(expected_events)
                 actions = client.get("/actions").raise_for_status().json()
                 assert len(actions) == 1 and actions[0]["usd_at_stake"] == 49690
-                run(client, archive)
+                run(client, archive, confirm_sheffield=manual_link)
                 assert client.get("/actions").raise_for_status().json() == []
                 assert replay.stats.model_calls == 0
                 assert client.get("/audit").json()[0]["type"] == "action_sent"

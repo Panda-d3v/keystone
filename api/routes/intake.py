@@ -4,7 +4,7 @@ from datetime import date
 from typing import Annotated
 from urllib.parse import quote
 
-from fastapi import File, HTTPException, Response, UploadFile
+from fastapi import File, Form, HTTPException, Response, UploadFile
 from pydantic import BaseModel
 
 from api.agents.a4_match import EntityMatcher
@@ -77,14 +77,30 @@ def document_source(doc_id: str, connection: Database) -> Response:
 
 
 @router.post("/intake", operation_id="intake")
-def intake(connection: Database, file: Annotated[UploadFile, File()]) -> IntakeResponse:
+def intake(
+    connection: Database,
+    file: Annotated[UploadFile, File()],
+    supplier_id: Annotated[str | None, Form()] = None,
+    part_no: Annotated[str | None, Form()] = None,
+) -> IntakeResponse:
     try:
-        return process_upload(connection, file)
+        if bool(supplier_id) != bool(part_no):
+            raise HTTPException(422, "Enter both the supplier ID and part number.")
+        confirmed = (supplier_id.strip(), part_no.strip()) if supplier_id and part_no else None
+        if confirmed and (
+            not all(confirmed) or not connection.execute(
+                "SELECT 1 FROM supplier_parts WHERE supplier_id = %s AND part_no = %s", confirmed,
+            ).fetchone()
+        ):
+            raise HTTPException(422, "That supplier and part do not match an existing quote.")
+        return process_upload(connection, file, confirmed)
     except CacheMiss as exc:
         raise HTTPException(503, "Replay data is missing for this document") from exc
 
 
-def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
+def process_upload(
+    connection: Database, file: UploadFile, confirmed: tuple[str, str] | None = None,
+) -> IntakeResponse:
     content = file.file.read(MAX_UPLOAD + 1)
     if len(content) > MAX_UPLOAD:
         raise HTTPException(413, "Document exceeds the 20 MiB upload limit")
@@ -103,14 +119,22 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
         elif outcome.intake.needs_review and not review:
             review.append("Please confirm the document type.")
         if outcome.evidence:
-            evidence = [
-                row for row in outcome.evidence
-                if row.kind in {"mill_certificate", "origin_declaration"}
-                and connection.execute(
+            evidence = []
+            for row in outcome.evidence:
+                if row.kind not in {"mill_certificate", "origin_declaration"}:
+                    continue
+                if confirmed:
+                    supplier, part = confirmed
+                    if ((row.supplier_id and row.supplier_id != supplier)
+                            or (row.part_no and row.part_no != part)):
+                        raise HTTPException(409, "The document identifies a different supplier or part.")
+                    fields = {**row.fields, "association_confirmed_by_operator": True}
+                    row = row.model_copy(update={"supplier_id": supplier, "part_no": part, "fields": fields})
+                if connection.execute(
                     "SELECT 1 FROM supplier_parts WHERE supplier_id = %s AND part_no = %s",
                     (row.supplier_id, row.part_no),
-                ).fetchone() is not None
-            ]
+                ).fetchone() is not None:
+                    evidence.append(row)
             if evidence:
                 supplier_documents.append((envelope, evidence))
             else:
@@ -153,12 +177,20 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
         if previous is not None:
             if previous[0] != envelope.sha256:
                 raise HTTPException(409, "This document ID belongs to a different supplier document")
+            if confirmed and connection.execute(
+                "SELECT 1 FROM evidence_records WHERE doc_id = %s "
+                "AND (supplier_id <> %s OR part_no <> %s)",
+                (envelope.doc_id, *confirmed),
+            ).fetchone():
+                raise HTTPException(409, "This document is already linked to a different supplier or part.")
         else:
             connection.execute(
                 "INSERT INTO supplier_document_intake VALUES (%s, %s)", (envelope.doc_id, envelope.sha256),
             )
             for item in items:
                 save_evidence(connection, item)
+            if any(item.fields.get("association_confirmed_by_operator") is True for item in items):
+                journal.append(("demo-user", "evidence_association_confirmed", envelope.doc_id))
             journal.extend([
                 ("A1", "document_ingested", envelope.doc_id),
                 ("A3", "evidence_extracted", envelope.doc_id),
