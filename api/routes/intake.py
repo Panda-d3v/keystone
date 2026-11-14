@@ -4,8 +4,9 @@ import re
 from datetime import date
 from collections.abc import Callable
 from typing import Annotated
+from urllib.parse import quote
 
-from fastapi import File, HTTPException, UploadFile
+from fastapi import File, HTTPException, Response, UploadFile
 from pydantic import BaseModel
 
 from api.agents.a1_intake import route_bytes
@@ -20,11 +21,18 @@ from . import Database, evidence_status, router
 from .store import save_evidence
 
 MAX_UPLOAD = 20 * 1024 * 1024
+VIEWABLE_MEDIA = {"application/pdf", "image/jpeg", "image/png", "image/gif", "image/webp"}
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS bulletin_intake (
     doc_id text PRIMARY KEY,
     sha256 text NOT NULL,
     change_number integer GENERATED ALWAYS AS IDENTITY (START WITH 7) UNIQUE
+);
+CREATE TABLE IF NOT EXISTS intake_documents (
+    doc_id text PRIMARY KEY,
+    filename text NOT NULL,
+    media_type text NOT NULL,
+    content bytea NOT NULL
 );
 CREATE TABLE IF NOT EXISTS supplier_document_intake (
     doc_id text PRIMARY KEY,
@@ -56,6 +64,29 @@ def supplier_resolver(connection: Database) -> Callable[[str], str | None]:
         return ids[0] if len(ids) == 1 else None
 
     return resolve
+
+
+@router.get("/documents/{doc_id}", operation_id="document_source")
+def document_source(doc_id: str, connection: Database) -> Response:
+    if not connection.execute("SELECT to_regclass('intake_documents')").fetchone()[0]:
+        raise HTTPException(404, "Document not found")
+    row = connection.execute(
+        "SELECT filename, media_type, content FROM intake_documents WHERE doc_id = %s",
+        (doc_id,),
+    ).fetchone()
+    if row is None:
+        raise HTTPException(404, "Document not found")
+    filename, media_type, content = row
+    return Response(
+        content=content,
+        media_type=media_type,
+        headers={
+            "Content-Disposition": f"inline; filename*=UTF-8''{quote(filename, safe='')}",
+            "Content-Security-Policy": "sandbox",
+            "X-Content-Type-Options": "nosniff",
+            "Cache-Control": "private, no-store",
+        },
+    )
 
 
 @router.post("/intake", operation_id="intake")
@@ -157,6 +188,17 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
                 if any(row.status in {"needs_review", "mismatch"} for row in status.requirements):
                     journal.append(("T14", "evidence_refused", envelope.doc_id))
         evidence_doc_ids.append(envelope.doc_id)
+
+    processed_ids = {
+        envelope.doc_id for envelope, _ in extracted
+    } | set(evidence_doc_ids)
+    for item in results:
+        envelope = item.envelope
+        if envelope.doc_id in processed_ids and envelope.media_type in VIEWABLE_MEDIA:
+            connection.execute(
+                "INSERT INTO intake_documents VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING",
+                (envelope.doc_id, envelope.filename, envelope.media_type, item.content),
+            )
 
     for actor, kind, entity_id in journal:
         append_event(connection, actor=actor, type=kind, entity_id=entity_id)
