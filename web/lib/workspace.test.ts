@@ -12,7 +12,7 @@ describe("shared T00 fixtures", () => {
   });
   it("retains evidence uncertainty and audit history", () => {
     expect(fixtureData.evidence.items[0].fields.melt_location).toBeNull();
-    expect(fixtureData.evidence.items[0].confidence).toBe(0.42);
+    expect(fixtureData.evidence.items[0].fields.melt_location_confidence).toBe(0.42);
     expect(fixtureData.audit).toHaveLength(12);
   });
 });

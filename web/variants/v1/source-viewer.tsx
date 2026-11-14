@@ -42,8 +42,10 @@ export function SourceViewer({ citation }: { citation: Citation | null }) {
   const [failed, setFailed] = useState("");
   const source = citation ? (sources as Record<string, Source>)[citation.doc_id] : undefined;
   const currentLive = liveSource?.docId === citation?.doc_id ? liveSource : null;
-  const page = useFixtures ? citation && source?.pages[citation.page - 1] : currentLive?.url;
-  const pdf = !useFixtures && currentLive?.pdf;
+  const pdf = useFixtures ? !!source?.original.endsWith(".pdf") : !!currentLive?.pdf;
+  const page = useFixtures
+    ? citation && (pdf ? source?.original : source?.pages[citation.page - 1])
+    : currentLive?.url;
   const original = useFixtures ? source?.original : currentLive?.url;
   const box = citation?.bbox;
   const validBox = box?.length === 4 && box.every(value => Number.isFinite(value) && value >= 0 && value <= 1)

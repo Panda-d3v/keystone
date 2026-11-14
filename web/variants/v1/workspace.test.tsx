@@ -2,6 +2,7 @@ import React from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { cleanup, render, screen, fireEvent, within, waitFor } from "@testing-library/react";
 import ConsoleWorkspace from "./workspace";
+vi.mock("./pdf-page", () => ({ default: () => <div aria-label="PDF page"/> }));
 beforeEach(() => {
   sessionStorage.clear();
   vi.stubGlobal("ResizeObserver", class {
@@ -57,7 +58,7 @@ it("maps a selected extracted field to its exact cited region", () => {
 });
 it("shows the refusal reason with a highlighted scan region", () => {
   render(<ConsoleWorkspace screen="evidence"/>);
-  expect(screen.getByText("The mill certificate scan obscures the melt and pour location.")).toBeTruthy();
+  expect(screen.getByText("UK melt and pour is unreadable or below 85% confidence.")).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: "Inspect uk melt and pour source" }));
   expect(parseFloat(screen.getByRole("img", { name: "Highlighted source region" }).style.top)).toBeCloseTo(28);
 });
