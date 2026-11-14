@@ -17,7 +17,7 @@ def test_hts_status_preserves_offline_and_unresolved_distinction():
 
 
 def test_demo_seed_and_where_used():
-    dsn = os.environ.get("KEYSTONE_TEST_DATABASE_URL")
+    dsn = os.environ.get("KEYSTONE_TEST_DATABASE_URL") or os.environ.get("DATABASE_URL")
     demo_pack = Path(os.environ.get("KEYSTONE_DEMO_PACK", "docs/reference/keystone-demo-pack.zip"))
     if not dsn or not demo_pack.is_file():
         pytest.skip("provide KEYSTONE_TEST_DATABASE_URL and the demo ZIP")
