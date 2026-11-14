@@ -74,7 +74,9 @@ def apply_change(connection: Connection, change: ChangeEvent) -> int:
             (version, change.id, Jsonb(event)),
         )
         # Scope entries are deltas. Reading an older version never sees a later delta.
-        measure = METALS_MEASURE if change.measure.startswith("Illustrative Section 232") else change.measure
+        measure = (
+            METALS_MEASURE if "section 232" in change.measure.casefold() else change.measure
+        )
         with connection.cursor() as cursor:
             cursor.executemany(
                 "INSERT INTO tariff_rate_entries VALUES (%s, %s, %s, %s, %s, %s, %s)",

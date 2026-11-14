@@ -171,3 +171,6 @@ def send_action(id: str, request: SendActionRequest, connection: Database) -> Se
 @router.get("/audit", operation_id="audit")
 def audit(connection: Database) -> list[AuditEvent]:
     return list_events(connection)
+
+
+from . import intake as _intake  # noqa: E402, F401
