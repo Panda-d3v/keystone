@@ -3,6 +3,7 @@ WORKDIR /app/web
 COPY web/package*.json ./
 RUN npm ci
 COPY web/ ./
+COPY contracts/ /app/contracts/
 COPY docs/reference/ /app/docs/reference/
 EXPOSE 3000
 CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0"]

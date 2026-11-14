@@ -1,0 +1,29 @@
+{
+  "HTA-2026-118": {
+    "title": "Trade advisory HTA-2026-118",
+    "kind": "Bulletin",
+    "original": "/reference/HTA-2026-118_trade_advisory.pdf",
+    "pages": [
+      "/reference/HTA-2026-118-page-1.png"
+    ],
+    "sha256": "1f814fb5f243ee7d8bdae7de19a772208c0e32d04b1933f4b4fdcd30b1b7f0e6"
+  },
+  "02_mill_cert_Ningbo_MF-8413-005": {
+    "title": "Ningbo mill certificate",
+    "kind": "Supplier document",
+    "original": "/reference/02_mill_cert_Ningbo_MF-8413-005.pdf",
+    "pages": [
+      "/reference/02_mill_cert_Ningbo_MF-8413-005-page-1.png"
+    ],
+    "sha256": "e11851836bf254a8d23789ecec8e674b2653894b1f3d5690e648253370014132"
+  },
+  "03_scan_mill_cert_Sheffield_MF-8413-005": {
+    "title": "Sheffield mill certificate scan",
+    "kind": "Supplier document",
+    "original": "/reference/03_scan_mill_cert_Sheffield_MF-8413-005.jpg",
+    "pages": [
+      "/reference/03_scan_mill_cert_Sheffield_MF-8413-005.jpg"
+    ],
+    "sha256": "96322182733dd11041a520710c9a07ed812d74fba84e61184d95673911f9bd03"
+  }
+}
