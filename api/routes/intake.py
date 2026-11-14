@@ -1,8 +1,6 @@
 """Persist approved A1/A2/A3 intake results and their processing audit events."""
 
-import re
 from datetime import date
-from collections.abc import Callable
 from typing import Annotated
 from urllib.parse import quote
 
@@ -12,6 +10,7 @@ from pydantic import BaseModel
 from api.agents.a1_intake import route_bytes
 from api.agents.a2_change import extract_change
 from api.agents.a3_evidence import extract_evidence
+from api.agents.a4_match import EntityMatcher
 from api.agents.llm import CacheMiss
 from api.audit.log import append_event
 from api.rules.rates import apply_change
@@ -46,24 +45,6 @@ class IntakeResponse(BaseModel):
     change_ids: list[str]
     review_doc_ids: list[str]
     evidence_doc_ids: list[str]
-
-
-def supplier_resolver(connection: Database) -> Callable[[str], str | None]:
-    def key(name: str) -> tuple[str, ...]:
-        words = re.findall(r"[a-z0-9]+", name.casefold())
-        while words and words[-1] in {"fictional", "co", "ltd", "limited", "inc"}:
-            words.pop()
-        return tuple(words)
-
-    matches: dict[tuple[str, ...], list[str]] = {}
-    for supplier_id, name in connection.execute("SELECT supplier_id, name FROM suppliers"):
-        matches.setdefault(key(name), []).append(supplier_id)
-
-    def resolve(name: str) -> str | None:
-        ids = matches.get(key(name), [])
-        return ids[0] if len(ids) == 1 else None
-
-    return resolve
 
 
 @router.get("/documents/{doc_id}", operation_id="document_source")
@@ -118,15 +99,18 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
             else:
                 extracted.append((envelope, extraction.change))
         elif envelope.kind == "supplier_document":
-            extraction = extract_evidence(item, resolve_supplier=supplier_resolver(connection))
-            evidence = [
-                row for row in extraction.items
-                if row.kind in {"mill_certificate", "origin_declaration"}
-                and connection.execute(
+            matcher = EntityMatcher.from_connection(connection)
+            extraction = extract_evidence(item, resolve_supplier=matcher.resolver())
+            evidence = []
+            for row in extraction.items:
+                part = matcher.match_part(row.part_no).match
+                if row.kind not in {"mill_certificate", "origin_declaration"} or part is None:
+                    continue
+                if connection.execute(
                     "SELECT 1 FROM supplier_parts WHERE supplier_id = %s AND part_no = %s",
-                    (row.supplier_id, row.part_no),
-                ).fetchone() is not None
-            ]
+                    (row.supplier_id, part.entity_id),
+                ).fetchone() is not None:
+                    evidence.append(row.model_copy(update={"part_no": part.entity_id}))
             if evidence:
                 supplier_documents.append((envelope, evidence))
             if not evidence or extraction.flags or extraction.low_confidence_fields:

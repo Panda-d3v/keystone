@@ -32,7 +32,10 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
             "kind": "supplier_document", "confidence": 0.9, "reason": "certificate",
         },
         "ChangeDraft": GOOD,
-        "VisionEvidenceDraft": SHEFFIELD_ANSWER,
+        "VisionEvidenceDraft": {
+            **SHEFFIELD_ANSWER,
+            "part_no": {**SHEFFIELD_ANSWER["part_no"], "value": "mf8413005"},
+        },
     })
     llm = LLMClient(stub, cache_dir=tmp_path, replay=False)
     monkeypatch.setattr("api.agents.llm._default_client", llm)
