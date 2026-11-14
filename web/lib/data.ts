@@ -54,8 +54,14 @@ export interface UploadResult {
   document_reviews?: { doc_id: string; summary: string; review: string[] }[];
 }
 
-export function uploadDocument(file: File): Promise<UploadResult> {
+export function uploadDocument(
+  file: File, association?: { supplierId: string; partNo: string },
+): Promise<UploadResult> {
   const form = new FormData();
   form.append("file", file);
+  if (association) {
+    form.append("supplier_id", association.supplierId);
+    form.append("part_no", association.partNo);
+  }
   return apiRequest("/intake", { method: "POST", body: form });
 }

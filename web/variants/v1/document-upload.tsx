@@ -28,6 +28,9 @@ export function DocumentUpload({
 }) {
   const input = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [confirmLink, setConfirmLink] = useState(false);
+  const [supplierId, setSupplierId] = useState("");
+  const [partNo, setPartNo] = useState("");
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [reviews, setReviews] = useState<NonNullable<UploadResult["document_reviews"]>>([]);
@@ -45,12 +48,19 @@ export function DocumentUpload({
     }
     setBusy(true);
     try {
-      const result = await uploadDocument(file);
+      const result = await uploadDocument(file, confirmLink
+        ? { supplierId: supplierId.trim(), partNo: partNo.trim() }
+        : undefined);
       setStatus(uploadSummary(result));
       setReviews(result.document_reviews || []);
-      if (input.current) input.current.value = "";
-      setFile(null);
-      if (result.change_ids.length || result.evidence_doc_ids.length) onUploaded();
+      if (result.change_ids.length || result.evidence_doc_ids.length) {
+        if (input.current) input.current.value = "";
+        setFile(null);
+        setConfirmLink(false);
+        onUploaded();
+      } else if (hasChange && result.review_doc_ids.length) {
+        setConfirmLink(true);
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : "Upload failed. Try again.");
     } finally {
@@ -75,13 +85,28 @@ export function DocumentUpload({
             setFile(event.currentTarget.files?.[0] || null);
             setStatus("");
             setReviews([]);
+            setConfirmLink(false);
+            setSupplierId("");
+            setPartNo("");
             setError("");
           }}
         />
       </label>
+      {hasChange && file && <div className="stack">
+        <label><input type="checkbox" checked={confirmLink} disabled={busy}
+          onChange={event => setConfirmLink(event.currentTarget.checked)} /> Confirm supplier and part</label>
+        {confirmLink && <>
+          <p className="muted small">Use the IDs from your quote or order. Details the scan cannot support still need review.</p>
+          <label className="stack">Supplier ID<input value={supplierId} disabled={busy} required
+            onChange={event => setSupplierId(event.currentTarget.value)} /></label>
+          <label className="stack">Part number<input value={partNo} disabled={busy} required
+            onChange={event => setPartNo(event.currentTarget.value)} /></label>
+        </>}
+      </div>}
       <div className="row">
-        <button className="primary" type="submit" disabled={!file || busy}>
-          {busy ? "Reading document…" : "Upload document"}
+        <button className="primary" type="submit"
+          disabled={!file || busy || (confirmLink && (!supplierId.trim() || !partNo.trim()))}>
+          {busy ? "Reading document…" : confirmLink ? "Confirm and upload" : "Upload document"}
         </button>
         <span className="muted small">Email, PDF, or image. Up to 20 MB.</span>
       </div>
