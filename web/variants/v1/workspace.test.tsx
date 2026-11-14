@@ -74,6 +74,9 @@ it("submits an edited request and keeps the returned draft approval state", asyn
   cleanup();
   render(<ConsoleWorkspace screen="decisions"/>);
   await waitFor(() => expect(screen.getByText("D-2026-044")).toBeTruthy());
+  cleanup();
+  render(<ConsoleWorkspace screen="actions"/>);
+  await waitFor(() => expect((screen.getByRole("textbox", { name: "Supplier request ACT-0001" }) as HTMLTextAreaElement).value).toBe("Please provide the missing origin declaration and a legible mill certificate."));
 });
 
 it("uploads a bulletin and explains the next step", async () => {

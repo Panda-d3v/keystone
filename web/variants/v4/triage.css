@@ -1,0 +1,46 @@
+@import "@fontsource/geist/400.css";
+@import "@fontsource/geist/500.css";
+@import "@fontsource/geist/600.css";
+
+.triage { --accent: #0f766e; --accent-soft: #e8f4f1; --focus: #0f766e; --ink: #18181b; --muted: #595961; --app: #fafafa; --panel: #fff; --line: #dcdce0; color: var(--ink); background: var(--app); font-family: "Geist", sans-serif; min-height: 100vh; }
+.triage-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--line); background: var(--panel); }
+.triage-header .brand { padding: 0; }
+.triage-nav { display: flex; gap: var(--space-5); padding: 0 var(--space-5); border-bottom: 1px solid var(--line); overflow-x: auto; background: var(--panel); }
+.triage-nav a { padding: var(--space-3) 0; color: var(--muted); white-space: nowrap; border-bottom: 2px solid transparent; }
+.triage-nav a[aria-current] { color: var(--accent); border-bottom-color: var(--accent); }
+.triage-nav a:last-child { margin-left: auto; }
+.triage-split { display: grid; grid-template-columns: 19rem minmax(0, 1fr); min-height: 75vh; }
+.triage-queue { min-width: 0; display: flex; flex-direction: column; border-right: 1px solid var(--line); background: var(--panel); }
+.triage-queue-heading { display: grid; gap: var(--space-5); padding: var(--space-5); }
+.triage-queue-heading h1 { font-size: var(--text-lg); }
+.triage-items { border-top: 1px solid var(--line); }
+.triage-item { width: 100%; display: grid; gap: var(--space-3); padding: var(--space-4) var(--space-5); border: 0; border-bottom: 1px solid var(--line); border-radius: 0; text-align: left; }
+.triage-item[aria-current] { background: var(--accent-soft); box-shadow: inset 3px 0 var(--accent); }
+.triage-item .row { justify-content: space-between; width: 100%; }
+.triage-shortcuts { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: auto; padding: var(--space-4); color: var(--muted); font-size: var(--text-xs); }
+.triage kbd { font-family: inherit; font-size: var(--text-xs); border: 1px solid currentColor; border-radius: var(--radius); padding: 0 var(--space-1); }
+.triage-detail { padding: var(--space-6); min-width: 0; display: grid; gap: var(--space-5); align-content: start; max-width: 85rem; width: 100%; }
+.triage-request { display: grid; gap: var(--space-5); }
+.triage-evidence-summary { padding: var(--space-4); border-left: 3px solid var(--accent); background: var(--accent-soft); display: grid; gap: var(--space-4); }
+.triage-result { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--accent); padding: var(--space-5); display: grid; gap: var(--space-3); }
+.triage-result svg { color: var(--good); }
+.triage-empty { display: grid; justify-items: start; align-content: start; gap: var(--space-3); padding: var(--space-5); }
+.triage-empty > svg { width: var(--title); height: var(--title); color: var(--accent); }
+.triage-empty p { color: var(--muted); }
+.triage-checklist { border: 1px solid var(--line); background: var(--panel); }
+.triage-checklist article { padding: var(--space-4); border-bottom: 1px solid var(--line); display: grid; gap: var(--space-3); }
+.triage-checklist article:last-child { border-bottom: 0; }
+.triage-checklist h2 { font-size: var(--text); }
+.triage-checklist button { justify-self: start; }
+.triage-scan { position: relative; line-height: 0; max-width: 45rem; }
+.triage-scan img { width: 100%; height: auto; }
+.triage-scan > div { position: absolute; background: color-mix(in srgb, var(--accent) 20%, transparent); border: 2px solid var(--accent); }
+.triage-footer { padding: var(--space-3) var(--space-5); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-xs); }
+.triage-error { padding: var(--space-6); }
+@media (max-width: 800px) {
+  .triage-split { grid-template-columns: minmax(0, 1fr); }
+  .triage-queue { border-right: 0; border-bottom: 1px solid var(--line); }
+  .triage-queue-heading { padding: var(--space-4); gap: var(--space-3); }
+  .triage-detail { padding: var(--space-4); }
+  .triage-shortcuts { padding: var(--space-3) var(--space-4); }
+}

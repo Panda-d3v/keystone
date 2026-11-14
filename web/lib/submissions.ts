@@ -16,7 +16,8 @@ function readSubmissions(): Submission[] {
     const value = JSON.parse(sessionStorage.getItem(storageKey) || "[]");
     if (!Array.isArray(value)) return [];
     return value.filter(item => typeof item.actionId === "string" && typeof item.draftEmail === "string"
-      && typeof item.response?.decision_id === "string" && Array.isArray(item.response?.pending_approvals));
+      && typeof item.response?.decision_id === "string" && typeof item.response?.audit_event?.id === "string"
+      && Array.isArray(item.response?.pending_approvals));
   } catch {
     return [];
   }
