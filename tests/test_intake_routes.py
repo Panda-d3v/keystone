@@ -83,6 +83,17 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                     "change_extracted", "document_ingested",
                 ]
                 assert llm.stats.model_calls == 3
+
+                replay = LLMClient(cache_dir=tmp_path, replay=True)
+                monkeypatch.setattr("api.agents.llm._default_client", replay)
+                assert client.post("/intake", files={
+                    "file": (filename, email, "message/rfc822"),
+                }).raise_for_status().json()["change_ids"] == ["CE-0007"]
+                assert client.post("/intake", files={
+                    "file": (scan_name, scan, "image/jpeg"),
+                }).raise_for_status().json()["evidence_doc_ids"] == ids["evidence_doc_ids"]
+                assert replay.stats.cache_hits == 3 and replay.stats.model_calls == 0
+                assert len(client.get("/audit").json()) == 5
         finally:
             app.dependency_overrides.pop(get_connection, None)
             admin.execute(sql.SQL("DROP SCHEMA {} CASCADE").format(sql.Identifier(schema)))
