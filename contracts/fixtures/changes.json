@@ -1,0 +1,29 @@
+[
+  {
+    "id": "CE-0007",
+    "measure": "Illustrative Section 232 bulletin HTA-2026-118",
+    "hts_scope": [
+      "841391",
+      "848130",
+      "848180",
+      "848330"
+    ],
+    "countries": [],
+    "old_rate": 0.25,
+    "new_rate": 0.5,
+    "basis": "full_customs_value",
+    "effective_date": "2026-12-01",
+    "citations": [
+      {
+        "doc_id": "HTA-2026-118",
+        "page": 1,
+        "bbox": [
+          0.1,
+          0.2,
+          0.9,
+          0.5
+        ]
+      }
+    ]
+  }
+]
