@@ -22,11 +22,12 @@ export async function apiRequest<T>(path: string, options?: RequestInit): Promis
   }
   return response.json();
 }
-export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData> {
+export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData | null> {
   if (useFixtures) return structuredClone(fixtureData);
   const options = { signal };
-  const [changes, exposure, decisions, evidence, actions, audit] = await Promise.all([
-    apiRequest<WorkspaceData["changes"]>("/changes", options),
+  const changes = await apiRequest<WorkspaceData["changes"]>("/changes", options);
+  if (changes.length === 0) return null;
+  const [exposure, decisions, evidence, actions, audit] = await Promise.all([
     apiRequest<WorkspaceData["exposure"]>("/changes/CE-0007/exposure", options),
     apiRequest<WorkspaceData["decisions"]>("/decisions", options),
     apiRequest<WorkspaceData["evidence"]>("/evidence/S007/MF-8413-005", options),
@@ -43,4 +44,17 @@ export async function sendActionRequest(id: string, draftEmail: string): Promise
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ draft_email: draftEmail }),
   });
+}
+
+
+export interface UploadResult {
+  change_ids: string[];
+  evidence_doc_ids: string[];
+  review_doc_ids: string[];
+}
+
+export function uploadDocument(file: File): Promise<UploadResult> {
+  const form = new FormData();
+  form.append("file", file);
+  return apiRequest("/intake", { method: "POST", body: form });
 }
