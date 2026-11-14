@@ -10,7 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.115,<1", "uvicorn[standard]>=0.34,<1", "pydantic>=2.10,<3",
   "psycopg[binary]>=3.2,<4", "sqlalchemy>=2.0,<3", "networkx>=3.4,<4",
-  "anthropic>=2.8,<3", "python-multipart>=0.0.20,<1", "pymupdf>=1.25,<2",
+  "anthropic>=0.75,<1", "python-multipart>=0.0.20,<1", "pymupdf>=1.25,<2",
 ]
 
 [project.optional-dependencies]
