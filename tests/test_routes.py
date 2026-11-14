@@ -56,6 +56,21 @@ def test_live_routes_against_demo_contracts():
                 assert (exposure.added_duty_usd, exposure.annualized_added_duty_usd) == (470687, 617061)
                 decision = DecisionCheck.model_validate(client.get("/decisions").json()[0])
                 assert decision.status == "broken"
+                assert decision.incumbent_before_annual_usd == 993800
+                assert decision.alternative_with_proof_delta_usd == -49690
+                assert decision.alternative_without_proof_delta_usd == 178884
+                po = next(line for line in exposure.lines if line.po_id == "PO-4504")
+                assert (po.old_duty_usd, po.new_duty_usd) == (76800, 153600)
+                graph = client.get(f"/changes/{change.id}/lineage").raise_for_status().json()
+                assert graph == fixture("lineage")
+                edges = {(edge["source"], edge["target"]) for edge in graph["edges"]}
+                witness = [
+                    "bulletin:HTA-2026-118", "change:CE-0007", "rate:841391:all",
+                    "assumption:A-0311", "decision:D-2026-031", "part:MF-8413-005",
+                    "purchase_order:PO-4504:1",
+                ]
+                assert all(pair in edges for pair in zip(witness, witness[1:]))
+                assert client.get("/changes/unknown/lineage").status_code == 404
                 evidence = EvidenceStatus.model_validate(client.get("/evidence/S007/MF-8413-005").json())
                 assert evidence.status == "needs_review"
                 assert next(row for row in evidence.requirements if row.id == "EV-UK-01").reason

@@ -10,13 +10,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from psycopg.rows import dict_row
 
 from api.audit.log import FIELDS, append_event, event_from_row, list_events
+from api.graph.lineage import build_lineage
 from api.rules.decisions import check_decision
 from api.rules.evidence import check_uk_evidence
 from api.rules.exposure import compute_exposure
 from api.rules.rates import initialize_rates
 from contracts.models import (
     Action, AuditEvent, ChangeEvent, DecisionCheck, EvidenceItem, EvidenceStatus,
-    Exposure, PendingApproval, SendActionRequest, SendActionResponse,
+    Exposure, ExposureLineage, PendingApproval, SendActionRequest, SendActionResponse,
 )
 
 from .store import initialize_store
@@ -70,8 +71,7 @@ def changes(connection: Database) -> list[ChangeEvent]:
     ]
 
 
-@router.get("/changes/{id}/exposure", operation_id="exposure")
-def exposure(id: str, connection: Database) -> Exposure:
+def change_exposure(id: str, connection: Database) -> tuple[ChangeEvent, int, Exposure]:
     initialize_rates(connection)
     row = connection.execute(
         "SELECT version, change_event FROM tariff_rate_versions WHERE change_id = %s", (id,),
@@ -91,7 +91,18 @@ def exposure(id: str, connection: Database) -> Exposure:
         )
         if evidence_status(connection, supplier, part, change.effective_date).status == "verified"
     }
-    return compute_exposure(connection, change, version, verified)
+    return change, version, compute_exposure(connection, change, version, verified)
+
+
+@router.get("/changes/{id}/exposure", operation_id="exposure")
+def exposure(id: str, connection: Database) -> Exposure:
+    return change_exposure(id, connection)[2]
+
+
+@router.get("/changes/{id}/lineage", operation_id="lineage", response_model_exclude_none=True)
+def lineage(id: str, connection: Database) -> ExposureLineage:
+    change, version, result = change_exposure(id, connection)
+    return build_lineage(connection, change, version, result)
 
 
 @router.get("/decisions", operation_id="decisions")
