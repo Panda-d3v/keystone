@@ -62,11 +62,17 @@ def append_event(connection: Connection, *, actor: str, type: str, entity_id: st
     return event
 
 
+def event_from_row(row: dict) -> AuditEvent:
+    event = AuditEvent.model_validate(row)
+    event.occurred_at = event.occurred_at.astimezone(timezone.utc)
+    return event
+
+
 def list_events(connection: Connection) -> list[AuditEvent]:
     initialize_audit(connection)
     with connection.cursor(row_factory=dict_row) as cursor:
         cursor.execute(f"SELECT {FIELDS} FROM audit_events ORDER BY sequence DESC")
-        return [AuditEvent.model_validate(row) for row in cursor]
+        return [event_from_row(row) for row in cursor]
 
 
 def verify_chain(connection: Connection) -> bool:
