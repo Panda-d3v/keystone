@@ -40,6 +40,7 @@ def check_decision(
     covered = defaultdict(set)
     full_cost = defaultdict(Decimal)
     cost_with_proof = defaultdict(Decimal)
+    incumbent_before = Decimal(0)
     for supplier, part, hs6, country, value in connection.execute(
         """
         WITH volume AS (
@@ -62,6 +63,14 @@ def check_decision(
         if rate is None:
             raise ValueError(f"Missing rate for award part {part} in {country}")
         preferred = UK_TIERS.get(rate, rate) if country == "GB" else rate
+        if supplier == chosen_supplier:
+            previous = (
+                Decimal(0) if country == "US"
+                else read_rate(connection, version - 1, hs6, country, change.effective_date)
+            )
+            if previous is None:
+                raise ValueError(f"Missing prior rate for award part {part} in {country}")
+            incumbent_before += round(value * (1 + previous))
         covered[supplier].add(part)
         full_cost[supplier] += round(value * (1 + rate))
         cost_with_proof[supplier] += round(value * (1 + preferred))
@@ -79,4 +88,7 @@ def check_decision(
         incumbent_annual_usd=full_cost[chosen_supplier],
         alternative_with_proof_annual_usd=cost_with_proof[best],
         alternative_without_proof_annual_usd=full_cost[best],
+        incumbent_before_annual_usd=incumbent_before,
+        alternative_with_proof_delta_usd=cost_with_proof[best] - full_cost[chosen_supplier],
+        alternative_without_proof_delta_usd=full_cost[best] - full_cost[chosen_supplier],
     )

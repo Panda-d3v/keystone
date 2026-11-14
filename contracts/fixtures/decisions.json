@@ -3,9 +3,12 @@
     "decision_id": "D-2026-031",
     "change_id": "CE-0007",
     "status": "broken",
-    "reason": "The Ningbo award assumed a 25% tariff rate.",
-    "incumbent_annual_usd": 1192560,
-    "alternative_with_proof_annual_usd": 1142870,
-    "alternative_without_proof_annual_usd": 1371444
+    "reason": "841391/CN changed from 25% to 50%",
+    "incumbent_annual_usd": 1192560.0,
+    "alternative_with_proof_annual_usd": 1142870.0,
+    "alternative_without_proof_annual_usd": 1371444.0,
+    "incumbent_before_annual_usd": 993800.0,
+    "alternative_with_proof_delta_usd": -49690.0,
+    "alternative_without_proof_delta_usd": 178884.0
   }
 ]

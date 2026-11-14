@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1] / "contracts"
 RESPONSES = {
     "changes": list[models.ChangeEvent],
     "exposure": models.Exposure,
+    "lineage": models.ExposureLineage,
     "decisions": list[models.DecisionCheck],
     "evidence": models.EvidenceStatus,
     "actions": list[models.Action],

@@ -68,6 +68,8 @@ class ExposureLine(Contract):
     customs_value_usd: float
     added_duty_usd: float
     math: str | None = None
+    old_duty_usd: float | None = None
+    new_duty_usd: float | None = None
 
 
 class Exposure(Contract):
@@ -87,6 +89,9 @@ class DecisionCheck(Contract):
     incumbent_annual_usd: float
     alternative_with_proof_annual_usd: float
     alternative_without_proof_annual_usd: float
+    incumbent_before_annual_usd: float | None = None
+    alternative_with_proof_delta_usd: float | None = None
+    alternative_without_proof_delta_usd: float | None = None
 
 
 class EvidenceRequirement(Contract):
@@ -139,3 +144,24 @@ class SendActionResponse(Contract):
     decision_id: str
     state: Literal["pending_approval"]
     pending_approvals: list[PendingApproval]
+
+
+class LineageNode(Contract):
+    id: str
+    kind: Literal["bulletin", "change", "rate", "assumption", "decision", "part", "purchase_order", "product"]
+    label: str
+    added_duty_usd: float | None = None
+
+
+class LineageEdge(Contract):
+    source: str
+    target: str
+    kind: str
+
+
+class ExposureLineage(Contract):
+    change_id: str
+    added_duty_usd: float
+    affected_parts: int
+    nodes: list[LineageNode]
+    edges: list[LineageEdge]
