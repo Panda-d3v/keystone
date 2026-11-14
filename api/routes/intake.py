@@ -7,11 +7,9 @@ from urllib.parse import quote
 from fastapi import File, HTTPException, Response, UploadFile
 from pydantic import BaseModel
 
-from api.agents.a1_intake import route_bytes
-from api.agents.a2_change import extract_change
-from api.agents.a3_evidence import extract_evidence
 from api.agents.a4_match import EntityMatcher
 from api.agents.llm import CacheMiss
+from api.agents.pipeline import AgentPipeline
 from api.audit.log import append_event
 from api.rules.rates import apply_change
 from contracts.models import DocEnvelope
@@ -41,11 +39,18 @@ CREATE TABLE IF NOT EXISTS supplier_document_intake (
 """
 
 
+class DocumentReview(BaseModel):
+    doc_id: str
+    summary: str
+    review: list[str]
+
+
 class IntakeResponse(BaseModel):
     documents: list[DocEnvelope]
     change_ids: list[str]
     review_doc_ids: list[str]
     evidence_doc_ids: list[str]
+    document_reviews: list[DocumentReview]
 
 
 @router.get("/documents/{doc_id}", operation_id="document_source")
@@ -85,37 +90,32 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
         raise HTTPException(413, "Document exceeds the 20 MiB upload limit")
     if not content or not file.filename:
         raise HTTPException(422, "A named, nonempty document is required")
-    results = route_bytes(content, file.filename)
+    pipeline = AgentPipeline(EntityMatcher.from_connection(connection))
+    outcomes = pipeline.ingest(content, file.filename)
     extracted = []
     supplier_documents = []
-    review = []
-    for item in results:
-        envelope = item.envelope
-        if item.needs_review or envelope.kind == "unknown":
-            review.append(envelope.doc_id)
-        elif envelope.kind == "bulletin" and envelope.media_type == "application/pdf":
-            extraction = extract_change(item, change_id="unassigned")
-            if extraction.change is None or extraction.needs_review:
-                review.append(envelope.doc_id)
-            else:
-                extracted.append((envelope, extraction.change))
-        elif envelope.kind == "supplier_document":
-            matcher = EntityMatcher.from_connection(connection)
-            extraction = extract_evidence(item, resolve_supplier=matcher.resolver())
-            evidence = []
-            for row in extraction.items:
-                part = matcher.match_part(row.part_no).match
-                if row.kind not in {"mill_certificate", "origin_declaration"} or part is None:
-                    continue
-                if connection.execute(
+    reviews = []
+    for outcome in outcomes:
+        envelope = outcome.intake.envelope
+        review = list(outcome.review)
+        if outcome.change is not None and not outcome.needs_review and not outcome.intake.needs_review:
+            extracted.append((envelope, outcome.change))
+        elif outcome.intake.needs_review and not review:
+            review.append("Please confirm the document type.")
+        if outcome.evidence:
+            evidence = [
+                row for row in outcome.evidence
+                if row.kind in {"mill_certificate", "origin_declaration"}
+                and connection.execute(
                     "SELECT 1 FROM supplier_parts WHERE supplier_id = %s AND part_no = %s",
-                    (row.supplier_id, part.entity_id),
-                ).fetchone() is not None:
-                    evidence.append(row.model_copy(update={"part_no": part.entity_id}))
+                    (row.supplier_id, row.part_no),
+                ).fetchone() is not None
+            ]
             if evidence:
                 supplier_documents.append((envelope, evidence))
-            if not evidence or extraction.flags or extraction.low_confidence_fields:
-                review.append(envelope.doc_id)
+            else:
+                review.append("The supplier and part could not be linked to an existing supplier quote.")
+        reviews.append(DocumentReview(doc_id=envelope.doc_id, summary=outcome.summary, review=review))
 
     change_ids = []
     evidence_doc_ids = []
@@ -177,7 +177,8 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
     processed_ids = {
         envelope.doc_id for envelope, _ in extracted
     } | set(evidence_doc_ids)
-    for item in results:
+    for outcome in outcomes:
+        item = outcome.intake
         envelope = item.envelope
         if envelope.doc_id in processed_ids and envelope.media_type in VIEWABLE_MEDIA:
             connection.execute(
@@ -193,8 +194,9 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
         append_event(connection, actor=actor, type=kind, entity_id=entity_id)
 
     return IntakeResponse(
-        documents=[item.envelope for item in results],
+        documents=[outcome.intake.envelope for outcome in outcomes],
         change_ids=change_ids,
-        review_doc_ids=review,
+        review_doc_ids=[item.doc_id for item in reviews if item.review],
         evidence_doc_ids=evidence_doc_ids,
+        document_reviews=reviews,
     )
