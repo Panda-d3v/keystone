@@ -1,1 +1,30 @@
-# keystone
+# Keystone
+
+Decision integrity for industrial procurement. Illustrative MeridianFlow scenario; Section 232 layer only, not a duty determination.
+
+## Start the stack
+
+Requirements: Docker with Compose v2. Run `make up` from a clean clone, then open http://localhost:3000. The API is at http://localhost:8000/docs and Postgres at localhost:5432. `make test` runs Python tests and the web typecheck, tests, and production build inside the containers. `make down` stops the stack while retaining the database volume.
+
+Copy `.env.example` to `.env` only to override local defaults. No API key is needed for the scaffold or fixture UI. Live document extraction requires `ANTHROPIC_API_KEY`; recorded agent outputs support `REPLAY=1`. Never commit credentials.
+
+## Local development
+
+Use Python 3.12+ and Node 22. Run `python3.12 -m venv .venv`, `.venv/bin/pip install -e '.[dev]'`, then `npm ci --prefix web`. Start Postgres with `docker compose up -d --wait db`, the API with `.venv/bin/uvicorn infra.app:app --reload`, and the web app with `npm run dev --prefix web`. Run `.venv/bin/pytest` and `npm run check --prefix web` before a PR.
+
+## Workstreams
+
+- `contracts/`: shared Pydantic models, OpenAPI, and endpoint fixtures (T00 owner).
+- `api/`: loaders, graph, deterministic rules, agents, routes, and audit (backend/agent owners).
+- `infra/`: ASGI bootstrap, Dockerfiles, and scaffold smoke tests.
+- `web/`: Next.js 15 app. Shared data access belongs in `web/lib/`; independent visual directions live under `web/variants/v1` through `v5`.
+- `docs/reference/`: original team task/design PDFs and demo archive.
+- `pitch/`: pitch and demo materials.
+
+T15 should export an `APIRouter` named `router` from `api.routes`; the bootstrap registers it automatically. A missing routes package is allowed during scaffold development; broken route imports fail visibly. `/health` is liveness; `/ready` checks the Postgres connection. Configure browser requests with `NEXT_PUBLIC_API_BASE_URL` and API CORS with `WEB_ORIGINS`.
+
+## Shared documents
+
+See [task breakdown](docs/reference/keystone-task-breakdown.pdf), [technical design](docs/reference/keystone-technical-design.pdf), and [demo pack](docs/reference/keystone-demo-pack.zip). Original files are preserved without modification.
+
+Work on a dedicated branch, keep contract changes coordinated in #ai-builders, and open PRs with validation output. Task completion updates include PR and GitHub check status. Human reviewers merge at the agreed merge windows.

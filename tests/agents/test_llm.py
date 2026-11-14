@@ -21,7 +21,7 @@ from api.agents.llm import (
     sha256_file,
 )
 
-DEMO_DOCS = Path(__file__).resolve().parents[2] / "keystone_demo" / "docs"
+DEMO_DOCS = Path(__file__).resolve().parent / "fixtures" / "demo_docs"
 
 
 class Classified(BaseModel):
