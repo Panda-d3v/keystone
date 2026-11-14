@@ -1,0 +1,23 @@
+{
+  "supplier_id": "S007",
+  "part_no": "MF-8413-005",
+  "status": "needs_review",
+  "missing_requirements": [
+    "Legible proof of UK melt and pour",
+    "Origin declaration"
+  ],
+  "items": [
+    {
+      "supplier_id": "S007",
+      "part_no": "MF-8413-005",
+      "batch_id": null,
+      "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+      "kind": "mill_certificate",
+      "fields": {
+        "melt_location": null
+      },
+      "confidence": 0.42,
+      "bbox_refs": []
+    }
+  ]
+}

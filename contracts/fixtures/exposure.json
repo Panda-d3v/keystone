@@ -1,0 +1,306 @@
+{
+  "change_id": "CE-0007",
+  "affected_parts": 33,
+  "open_po_lines": 33,
+  "added_duty_usd": 470687,
+  "annualized_added_duty_usd": 617061,
+  "lines": [
+    {
+      "po_id": "PO-4501",
+      "line_no": 1,
+      "part_no": "MF-8413-001",
+      "supplier_id": "S001",
+      "est_entry_date": "2027-01-04",
+      "customs_value_usd": 76800.0,
+      "added_duty_usd": 19200.0
+    },
+    {
+      "po_id": "PO-4502",
+      "line_no": 1,
+      "part_no": "MF-8413-002",
+      "supplier_id": "S001",
+      "est_entry_date": "2027-01-03",
+      "customs_value_usd": 34560.0,
+      "added_duty_usd": 8640.0
+    },
+    {
+      "po_id": "PO-4503",
+      "line_no": 1,
+      "part_no": "MF-8413-004",
+      "supplier_id": "S001",
+      "est_entry_date": "2027-01-22",
+      "customs_value_usd": 52480.0,
+      "added_duty_usd": 13120.0
+    },
+    {
+      "po_id": "PO-4504",
+      "line_no": 1,
+      "part_no": "MF-8413-005",
+      "supplier_id": "S001",
+      "est_entry_date": "2027-02-02",
+      "customs_value_usd": 307200.0,
+      "added_duty_usd": 76800.0
+    },
+    {
+      "po_id": "PO-4505",
+      "line_no": 1,
+      "part_no": "MF-8413-007",
+      "supplier_id": "S002",
+      "est_entry_date": "2027-01-14",
+      "customs_value_usd": 74925.0,
+      "added_duty_usd": 18731.25
+    },
+    {
+      "po_id": "PO-4506",
+      "line_no": 1,
+      "part_no": "MF-8413-008",
+      "supplier_id": "S002",
+      "est_entry_date": "2026-12-29",
+      "customs_value_usd": 37740.0,
+      "added_duty_usd": 9435.0
+    },
+    {
+      "po_id": "PO-4507",
+      "line_no": 1,
+      "part_no": "MF-8413-010",
+      "supplier_id": "S002",
+      "est_entry_date": "2027-01-27",
+      "customs_value_usd": 17760.0,
+      "added_duty_usd": 4440.0
+    },
+    {
+      "po_id": "PO-4508",
+      "line_no": 1,
+      "part_no": "MF-8413-011",
+      "supplier_id": "S001",
+      "est_entry_date": "2026-12-22",
+      "customs_value_usd": 25200.0,
+      "added_duty_usd": 6300.0
+    },
+    {
+      "po_id": "PO-4509",
+      "line_no": 1,
+      "part_no": "MF-8413-012",
+      "supplier_id": "S001",
+      "est_entry_date": "2026-12-15",
+      "customs_value_usd": 34020.0,
+      "added_duty_usd": 8505.0
+    },
+    {
+      "po_id": "PO-4510",
+      "line_no": 1,
+      "part_no": "MF-8413-015",
+      "supplier_id": "S001",
+      "est_entry_date": "2027-02-10",
+      "customs_value_usd": 60480.0,
+      "added_duty_usd": 15120.0
+    },
+    {
+      "po_id": "PO-4511",
+      "line_no": 1,
+      "part_no": "MF-8413-017",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-01-17",
+      "customs_value_usd": 133650.0,
+      "added_duty_usd": 33412.5
+    },
+    {
+      "po_id": "PO-4512",
+      "line_no": 1,
+      "part_no": "MF-8413-018",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-02-13",
+      "customs_value_usd": 168300.0,
+      "added_duty_usd": 42075.0
+    },
+    {
+      "po_id": "PO-4513",
+      "line_no": 1,
+      "part_no": "MF-8413-019",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-01-17",
+      "customs_value_usd": 202950.0,
+      "added_duty_usd": 50737.5
+    },
+    {
+      "po_id": "PO-4514",
+      "line_no": 1,
+      "part_no": "MF-8413-020",
+      "supplier_id": "S003",
+      "est_entry_date": "2026-12-25",
+      "customs_value_usd": 63360.0,
+      "added_duty_usd": 15840.0
+    },
+    {
+      "po_id": "PO-4515",
+      "line_no": 1,
+      "part_no": "MF-8413-021",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-14",
+      "customs_value_usd": 5600.0,
+      "added_duty_usd": 1400.0
+    },
+    {
+      "po_id": "PO-4516",
+      "line_no": 1,
+      "part_no": "MF-8413-023",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-26",
+      "customs_value_usd": 9520.0,
+      "added_duty_usd": 2380.0
+    },
+    {
+      "po_id": "PO-4517",
+      "line_no": 1,
+      "part_no": "MF-8413-024",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-06",
+      "customs_value_usd": 6888.0,
+      "added_duty_usd": 1722.0
+    },
+    {
+      "po_id": "PO-4518",
+      "line_no": 1,
+      "part_no": "MF-8413-025",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-16",
+      "customs_value_usd": 8064.0,
+      "added_duty_usd": 2016.0
+    },
+    {
+      "po_id": "PO-4523",
+      "line_no": 1,
+      "part_no": "MF-8413-031",
+      "supplier_id": "S012",
+      "est_entry_date": "2026-12-25",
+      "customs_value_usd": 1680.0,
+      "added_duty_usd": 420.0
+    },
+    {
+      "po_id": "PO-4524",
+      "line_no": 1,
+      "part_no": "MF-8413-032",
+      "supplier_id": "S012",
+      "est_entry_date": "2027-01-14",
+      "customs_value_usd": 11340.0,
+      "added_duty_usd": 2835.0
+    },
+    {
+      "po_id": "PO-4525",
+      "line_no": 1,
+      "part_no": "MF-8413-033",
+      "supplier_id": "S012",
+      "est_entry_date": "2027-01-30",
+      "customs_value_usd": 21420.0,
+      "added_duty_usd": 5355.0
+    },
+    {
+      "po_id": "PO-4526",
+      "line_no": 1,
+      "part_no": "MF-8413-034",
+      "supplier_id": "S012",
+      "est_entry_date": "2027-01-27",
+      "customs_value_usd": 25830.0,
+      "added_duty_usd": 6457.5
+    },
+    {
+      "po_id": "PO-4527",
+      "line_no": 1,
+      "part_no": "MF-8413-035",
+      "supplier_id": "S012",
+      "est_entry_date": "2027-01-25",
+      "customs_value_usd": 30240.0,
+      "added_duty_usd": 7560.0
+    },
+    {
+      "po_id": "PO-4537",
+      "line_no": 1,
+      "part_no": "MF-8483-051",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-02-25",
+      "customs_value_usd": 4800.0,
+      "added_duty_usd": 1200.0
+    },
+    {
+      "po_id": "PO-4538",
+      "line_no": 1,
+      "part_no": "MF-8483-052",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-02-08",
+      "customs_value_usd": 32400.0,
+      "added_duty_usd": 8100.0
+    },
+    {
+      "po_id": "PO-4539",
+      "line_no": 1,
+      "part_no": "MF-8483-053",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-01-15",
+      "customs_value_usd": 8160.0,
+      "added_duty_usd": 2040.0
+    },
+    {
+      "po_id": "PO-4540",
+      "line_no": 1,
+      "part_no": "MF-8483-055",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-02-03",
+      "customs_value_usd": 11520.0,
+      "added_duty_usd": 2880.0
+    },
+    {
+      "po_id": "PO-4561",
+      "line_no": 1,
+      "part_no": "MF-8481-091",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-02-27",
+      "customs_value_usd": 123000.0,
+      "added_duty_usd": 30750.0
+    },
+    {
+      "po_id": "PO-4562",
+      "line_no": 1,
+      "part_no": "MF-8481-095",
+      "supplier_id": "S003",
+      "est_entry_date": "2027-01-05",
+      "customs_value_usd": 39360.0,
+      "added_duty_usd": 9840.0
+    },
+    {
+      "po_id": "PO-4563",
+      "line_no": 1,
+      "part_no": "MF-8481-096",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-18",
+      "customs_value_usd": 52000.0,
+      "added_duty_usd": 13000.0
+    },
+    {
+      "po_id": "PO-4564",
+      "line_no": 1,
+      "part_no": "MF-8481-097",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-02-07",
+      "customs_value_usd": 105300.0,
+      "added_duty_usd": 26325.0
+    },
+    {
+      "po_id": "PO-4565",
+      "line_no": 1,
+      "part_no": "MF-8481-099",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-02-12",
+      "customs_value_usd": 21320.0,
+      "added_duty_usd": 5330.0
+    },
+    {
+      "po_id": "PO-4566",
+      "line_no": 1,
+      "part_no": "MF-8481-100",
+      "supplier_id": "S004",
+      "est_entry_date": "2027-01-24",
+      "customs_value_usd": 74880.0,
+      "added_duty_usd": 18720.0
+    }
+  ]
+}

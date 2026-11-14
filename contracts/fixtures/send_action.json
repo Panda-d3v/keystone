@@ -1,0 +1,9 @@
+{
+  "id": "AUD-0012",
+  "occurred_at": "2026-11-14T22:12:00Z",
+  "actor": "demo-user",
+  "type": "action_sent",
+  "entity_id": "ACT-0001",
+  "previous_hash": "ce94acdfdbc37ecaa6a85f9f096067957399165c54d529b008508a3e96622c35",
+  "hash": "eb441c12888c1f2a49dc51d9c74b8f5bfad60f789ca362d9726ecb7551bc1897"
+}
