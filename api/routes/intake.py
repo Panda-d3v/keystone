@@ -17,6 +17,7 @@ from api.rules.rates import apply_change
 from contracts.models import DocEnvelope
 
 from . import Database, evidence_status, router
+from .action_drafts import refresh_evidence_requests
 from .store import save_evidence
 
 MAX_UPLOAD = 20 * 1024 * 1024
@@ -183,6 +184,10 @@ def process_upload(connection: Database, file: UploadFile) -> IntakeResponse:
                 "INSERT INTO intake_documents VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING",
                 (envelope.doc_id, envelope.filename, envelope.media_type, item.content),
             )
+
+    if journal:
+        journal.extend(("A5", "action_drafted", action_id)
+                       for action_id in refresh_evidence_requests(connection))
 
     for actor, kind, entity_id in journal:
         append_event(connection, actor=actor, type=kind, entity_id=entity_id)

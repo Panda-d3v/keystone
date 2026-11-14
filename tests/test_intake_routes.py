@@ -11,6 +11,7 @@ from psycopg import sql
 from api.agents.llm import LLMClient
 from api.routes import get_connection
 from infra.app import app
+from scripts.e2e import run
 from scripts.seed_demo import seed_demo
 from tests.agents.test_a2_change import GOOD
 from tests.agents.test_a3_evidence import SHEFFIELD_ANSWER, Stub
@@ -82,7 +83,7 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                 refusal = passport["requirements"][3]
                 assert refusal["reason"] and refusal["citations"][0]["bbox"] == [0.1, 0.28, 0.65, 0.31]
                 assert [event["type"] for event in client.get("/audit").json()] == [
-                    "evidence_refused", "evidence_extracted", "document_ingested",
+                    "action_drafted", "evidence_refused", "evidence_extracted", "document_ingested",
                     "change_extracted", "document_ingested",
                 ]
                 assert llm.stats.model_calls == 3
@@ -96,7 +97,13 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path):
                     "file": (scan_name, scan, "image/jpeg"),
                 }).raise_for_status().json()["evidence_doc_ids"] == ids["evidence_doc_ids"]
                 assert replay.stats.cache_hits == 3 and replay.stats.model_calls == 0
-                assert len(client.get("/audit").json()) == 5
+                assert len(client.get("/audit").json()) == 6
+                actions = client.get("/actions").raise_for_status().json()
+                assert len(actions) == 1 and actions[0]["usd_at_stake"] == 49690
+                run(client, archive)
+                assert client.get("/actions").raise_for_status().json() == []
+                assert replay.stats.model_calls == 0
+                assert client.get("/audit").json()[0]["type"] == "action_sent"
         finally:
             app.dependency_overrides.pop(get_connection, None)
             admin.execute(sql.SQL("DROP SCHEMA {} CASCADE").format(sql.Identifier(schema)))
