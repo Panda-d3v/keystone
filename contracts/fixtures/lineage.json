@@ -1,0 +1,1116 @@
+{
+  "change_id": "CE-0007",
+  "added_duty_usd": 470687.0,
+  "affected_parts": 33,
+  "nodes": [
+    {
+      "id": "assumption:A-0311",
+      "kind": "assumption",
+      "label": "841391 / CN assumed 0.25"
+    },
+    {
+      "id": "bulletin:HTA-2026-118",
+      "kind": "bulletin",
+      "label": "HTA-2026-118"
+    },
+    {
+      "id": "change:CE-0007",
+      "kind": "change",
+      "label": "Illustrative Section 232 bulletin HTA-2026-118",
+      "added_duty_usd": 470687.0
+    },
+    {
+      "id": "decision:D-2026-031",
+      "kind": "decision",
+      "label": "D-2026-031"
+    },
+    {
+      "id": "part:MF-8413-001",
+      "kind": "part",
+      "label": "MF-8413-001",
+      "added_duty_usd": 19200.0
+    },
+    {
+      "id": "part:MF-8413-002",
+      "kind": "part",
+      "label": "MF-8413-002",
+      "added_duty_usd": 8640.0
+    },
+    {
+      "id": "part:MF-8413-004",
+      "kind": "part",
+      "label": "MF-8413-004",
+      "added_duty_usd": 13120.0
+    },
+    {
+      "id": "part:MF-8413-005",
+      "kind": "part",
+      "label": "MF-8413-005",
+      "added_duty_usd": 76800.0
+    },
+    {
+      "id": "part:MF-8413-007",
+      "kind": "part",
+      "label": "MF-8413-007",
+      "added_duty_usd": 18731.25
+    },
+    {
+      "id": "part:MF-8413-008",
+      "kind": "part",
+      "label": "MF-8413-008",
+      "added_duty_usd": 9435.0
+    },
+    {
+      "id": "part:MF-8413-010",
+      "kind": "part",
+      "label": "MF-8413-010",
+      "added_duty_usd": 4440.0
+    },
+    {
+      "id": "part:MF-8413-011",
+      "kind": "part",
+      "label": "MF-8413-011",
+      "added_duty_usd": 6300.0
+    },
+    {
+      "id": "part:MF-8413-012",
+      "kind": "part",
+      "label": "MF-8413-012",
+      "added_duty_usd": 8505.0
+    },
+    {
+      "id": "part:MF-8413-015",
+      "kind": "part",
+      "label": "MF-8413-015",
+      "added_duty_usd": 15120.0
+    },
+    {
+      "id": "part:MF-8413-017",
+      "kind": "part",
+      "label": "MF-8413-017",
+      "added_duty_usd": 33412.5
+    },
+    {
+      "id": "part:MF-8413-018",
+      "kind": "part",
+      "label": "MF-8413-018",
+      "added_duty_usd": 42075.0
+    },
+    {
+      "id": "part:MF-8413-019",
+      "kind": "part",
+      "label": "MF-8413-019",
+      "added_duty_usd": 50737.5
+    },
+    {
+      "id": "part:MF-8413-020",
+      "kind": "part",
+      "label": "MF-8413-020",
+      "added_duty_usd": 15840.0
+    },
+    {
+      "id": "part:MF-8413-021",
+      "kind": "part",
+      "label": "MF-8413-021",
+      "added_duty_usd": 1400.0
+    },
+    {
+      "id": "part:MF-8413-023",
+      "kind": "part",
+      "label": "MF-8413-023",
+      "added_duty_usd": 2380.0
+    },
+    {
+      "id": "part:MF-8413-024",
+      "kind": "part",
+      "label": "MF-8413-024",
+      "added_duty_usd": 1722.0
+    },
+    {
+      "id": "part:MF-8413-025",
+      "kind": "part",
+      "label": "MF-8413-025",
+      "added_duty_usd": 2016.0
+    },
+    {
+      "id": "part:MF-8413-031",
+      "kind": "part",
+      "label": "MF-8413-031",
+      "added_duty_usd": 420.0
+    },
+    {
+      "id": "part:MF-8413-032",
+      "kind": "part",
+      "label": "MF-8413-032",
+      "added_duty_usd": 2835.0
+    },
+    {
+      "id": "part:MF-8413-033",
+      "kind": "part",
+      "label": "MF-8413-033",
+      "added_duty_usd": 5355.0
+    },
+    {
+      "id": "part:MF-8413-034",
+      "kind": "part",
+      "label": "MF-8413-034",
+      "added_duty_usd": 6457.5
+    },
+    {
+      "id": "part:MF-8413-035",
+      "kind": "part",
+      "label": "MF-8413-035",
+      "added_duty_usd": 7560.0
+    },
+    {
+      "id": "part:MF-8481-091",
+      "kind": "part",
+      "label": "MF-8481-091",
+      "added_duty_usd": 30750.0
+    },
+    {
+      "id": "part:MF-8481-095",
+      "kind": "part",
+      "label": "MF-8481-095",
+      "added_duty_usd": 9840.0
+    },
+    {
+      "id": "part:MF-8481-096",
+      "kind": "part",
+      "label": "MF-8481-096",
+      "added_duty_usd": 13000.0
+    },
+    {
+      "id": "part:MF-8481-097",
+      "kind": "part",
+      "label": "MF-8481-097",
+      "added_duty_usd": 26325.0
+    },
+    {
+      "id": "part:MF-8481-099",
+      "kind": "part",
+      "label": "MF-8481-099",
+      "added_duty_usd": 5330.0
+    },
+    {
+      "id": "part:MF-8481-100",
+      "kind": "part",
+      "label": "MF-8481-100",
+      "added_duty_usd": 18720.0
+    },
+    {
+      "id": "part:MF-8483-051",
+      "kind": "part",
+      "label": "MF-8483-051",
+      "added_duty_usd": 1200.0
+    },
+    {
+      "id": "part:MF-8483-052",
+      "kind": "part",
+      "label": "MF-8483-052",
+      "added_duty_usd": 8100.0
+    },
+    {
+      "id": "part:MF-8483-053",
+      "kind": "part",
+      "label": "MF-8483-053",
+      "added_duty_usd": 2040.0
+    },
+    {
+      "id": "part:MF-8483-055",
+      "kind": "part",
+      "label": "MF-8483-055",
+      "added_duty_usd": 2880.0
+    },
+    {
+      "id": "product:P-ANSI-3X2-10",
+      "kind": "product",
+      "label": "P-ANSI-3X2-10"
+    },
+    {
+      "id": "product:P-SPLIT-6X4-12",
+      "kind": "product",
+      "label": "P-SPLIT-6X4-12"
+    },
+    {
+      "id": "product:P-VIL-4X3-13",
+      "kind": "product",
+      "label": "P-VIL-4X3-13"
+    },
+    {
+      "id": "purchase_order:PO-4501:1",
+      "kind": "purchase_order",
+      "label": "PO-4501 · 1",
+      "added_duty_usd": 19200.0
+    },
+    {
+      "id": "purchase_order:PO-4502:1",
+      "kind": "purchase_order",
+      "label": "PO-4502 · 1",
+      "added_duty_usd": 8640.0
+    },
+    {
+      "id": "purchase_order:PO-4503:1",
+      "kind": "purchase_order",
+      "label": "PO-4503 · 1",
+      "added_duty_usd": 13120.0
+    },
+    {
+      "id": "purchase_order:PO-4504:1",
+      "kind": "purchase_order",
+      "label": "PO-4504 · 1",
+      "added_duty_usd": 76800.0
+    },
+    {
+      "id": "purchase_order:PO-4505:1",
+      "kind": "purchase_order",
+      "label": "PO-4505 · 1",
+      "added_duty_usd": 18731.25
+    },
+    {
+      "id": "purchase_order:PO-4506:1",
+      "kind": "purchase_order",
+      "label": "PO-4506 · 1",
+      "added_duty_usd": 9435.0
+    },
+    {
+      "id": "purchase_order:PO-4507:1",
+      "kind": "purchase_order",
+      "label": "PO-4507 · 1",
+      "added_duty_usd": 4440.0
+    },
+    {
+      "id": "purchase_order:PO-4508:1",
+      "kind": "purchase_order",
+      "label": "PO-4508 · 1",
+      "added_duty_usd": 6300.0
+    },
+    {
+      "id": "purchase_order:PO-4509:1",
+      "kind": "purchase_order",
+      "label": "PO-4509 · 1",
+      "added_duty_usd": 8505.0
+    },
+    {
+      "id": "purchase_order:PO-4510:1",
+      "kind": "purchase_order",
+      "label": "PO-4510 · 1",
+      "added_duty_usd": 15120.0
+    },
+    {
+      "id": "purchase_order:PO-4511:1",
+      "kind": "purchase_order",
+      "label": "PO-4511 · 1",
+      "added_duty_usd": 33412.5
+    },
+    {
+      "id": "purchase_order:PO-4512:1",
+      "kind": "purchase_order",
+      "label": "PO-4512 · 1",
+      "added_duty_usd": 42075.0
+    },
+    {
+      "id": "purchase_order:PO-4513:1",
+      "kind": "purchase_order",
+      "label": "PO-4513 · 1",
+      "added_duty_usd": 50737.5
+    },
+    {
+      "id": "purchase_order:PO-4514:1",
+      "kind": "purchase_order",
+      "label": "PO-4514 · 1",
+      "added_duty_usd": 15840.0
+    },
+    {
+      "id": "purchase_order:PO-4515:1",
+      "kind": "purchase_order",
+      "label": "PO-4515 · 1",
+      "added_duty_usd": 1400.0
+    },
+    {
+      "id": "purchase_order:PO-4516:1",
+      "kind": "purchase_order",
+      "label": "PO-4516 · 1",
+      "added_duty_usd": 2380.0
+    },
+    {
+      "id": "purchase_order:PO-4517:1",
+      "kind": "purchase_order",
+      "label": "PO-4517 · 1",
+      "added_duty_usd": 1722.0
+    },
+    {
+      "id": "purchase_order:PO-4518:1",
+      "kind": "purchase_order",
+      "label": "PO-4518 · 1",
+      "added_duty_usd": 2016.0
+    },
+    {
+      "id": "purchase_order:PO-4523:1",
+      "kind": "purchase_order",
+      "label": "PO-4523 · 1",
+      "added_duty_usd": 420.0
+    },
+    {
+      "id": "purchase_order:PO-4524:1",
+      "kind": "purchase_order",
+      "label": "PO-4524 · 1",
+      "added_duty_usd": 2835.0
+    },
+    {
+      "id": "purchase_order:PO-4525:1",
+      "kind": "purchase_order",
+      "label": "PO-4525 · 1",
+      "added_duty_usd": 5355.0
+    },
+    {
+      "id": "purchase_order:PO-4526:1",
+      "kind": "purchase_order",
+      "label": "PO-4526 · 1",
+      "added_duty_usd": 6457.5
+    },
+    {
+      "id": "purchase_order:PO-4527:1",
+      "kind": "purchase_order",
+      "label": "PO-4527 · 1",
+      "added_duty_usd": 7560.0
+    },
+    {
+      "id": "purchase_order:PO-4537:1",
+      "kind": "purchase_order",
+      "label": "PO-4537 · 1",
+      "added_duty_usd": 1200.0
+    },
+    {
+      "id": "purchase_order:PO-4538:1",
+      "kind": "purchase_order",
+      "label": "PO-4538 · 1",
+      "added_duty_usd": 8100.0
+    },
+    {
+      "id": "purchase_order:PO-4539:1",
+      "kind": "purchase_order",
+      "label": "PO-4539 · 1",
+      "added_duty_usd": 2040.0
+    },
+    {
+      "id": "purchase_order:PO-4540:1",
+      "kind": "purchase_order",
+      "label": "PO-4540 · 1",
+      "added_duty_usd": 2880.0
+    },
+    {
+      "id": "purchase_order:PO-4561:1",
+      "kind": "purchase_order",
+      "label": "PO-4561 · 1",
+      "added_duty_usd": 30750.0
+    },
+    {
+      "id": "purchase_order:PO-4562:1",
+      "kind": "purchase_order",
+      "label": "PO-4562 · 1",
+      "added_duty_usd": 9840.0
+    },
+    {
+      "id": "purchase_order:PO-4563:1",
+      "kind": "purchase_order",
+      "label": "PO-4563 · 1",
+      "added_duty_usd": 13000.0
+    },
+    {
+      "id": "purchase_order:PO-4564:1",
+      "kind": "purchase_order",
+      "label": "PO-4564 · 1",
+      "added_duty_usd": 26325.0
+    },
+    {
+      "id": "purchase_order:PO-4565:1",
+      "kind": "purchase_order",
+      "label": "PO-4565 · 1",
+      "added_duty_usd": 5330.0
+    },
+    {
+      "id": "purchase_order:PO-4566:1",
+      "kind": "purchase_order",
+      "label": "PO-4566 · 1",
+      "added_duty_usd": 18720.0
+    },
+    {
+      "id": "rate:841391:all",
+      "kind": "rate",
+      "label": "841391 · All origins · 50%"
+    },
+    {
+      "id": "rate:848130:all",
+      "kind": "rate",
+      "label": "848130 · All origins · 50%"
+    },
+    {
+      "id": "rate:848180:all",
+      "kind": "rate",
+      "label": "848180 · All origins · 50%"
+    },
+    {
+      "id": "rate:848330:all",
+      "kind": "rate",
+      "label": "848330 · All origins · 50%"
+    }
+  ],
+  "edges": [
+    {
+      "source": "assumption:A-0311",
+      "target": "decision:D-2026-031",
+      "kind": "supports"
+    },
+    {
+      "source": "bulletin:HTA-2026-118",
+      "target": "change:CE-0007",
+      "kind": "cites"
+    },
+    {
+      "source": "change:CE-0007",
+      "target": "rate:841391:all",
+      "kind": "changes"
+    },
+    {
+      "source": "change:CE-0007",
+      "target": "rate:848130:all",
+      "kind": "changes"
+    },
+    {
+      "source": "change:CE-0007",
+      "target": "rate:848180:all",
+      "kind": "changes"
+    },
+    {
+      "source": "change:CE-0007",
+      "target": "rate:848330:all",
+      "kind": "changes"
+    },
+    {
+      "source": "decision:D-2026-031",
+      "target": "part:MF-8413-001",
+      "kind": "covers"
+    },
+    {
+      "source": "decision:D-2026-031",
+      "target": "part:MF-8413-002",
+      "kind": "covers"
+    },
+    {
+      "source": "decision:D-2026-031",
+      "target": "part:MF-8413-004",
+      "kind": "covers"
+    },
+    {
+      "source": "decision:D-2026-031",
+      "target": "part:MF-8413-005",
+      "kind": "covers"
+    },
+    {
+      "source": "part:MF-8413-001",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-001",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-001",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-001",
+      "target": "purchase_order:PO-4501:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-002",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-002",
+      "target": "purchase_order:PO-4502:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-004",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-004",
+      "target": "purchase_order:PO-4503:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-005",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-005",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-005",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-005",
+      "target": "purchase_order:PO-4504:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-007",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-007",
+      "target": "purchase_order:PO-4505:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-008",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-008",
+      "target": "purchase_order:PO-4506:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-010",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-010",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-010",
+      "target": "purchase_order:PO-4507:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-011",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-011",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-011",
+      "target": "purchase_order:PO-4508:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-012",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-012",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-012",
+      "target": "purchase_order:PO-4509:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-015",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-015",
+      "target": "purchase_order:PO-4510:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-017",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-017",
+      "target": "purchase_order:PO-4511:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-018",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-018",
+      "target": "purchase_order:PO-4512:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-019",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-019",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-019",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-019",
+      "target": "purchase_order:PO-4513:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-020",
+      "target": "purchase_order:PO-4514:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-021",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-021",
+      "target": "purchase_order:PO-4515:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-023",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-023",
+      "target": "purchase_order:PO-4516:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-024",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-024",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-024",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-024",
+      "target": "purchase_order:PO-4517:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-025",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-025",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-025",
+      "target": "purchase_order:PO-4518:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-031",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-031",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-031",
+      "target": "purchase_order:PO-4523:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-032",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-032",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-032",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-032",
+      "target": "purchase_order:PO-4524:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-033",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-033",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-033",
+      "target": "purchase_order:PO-4525:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-034",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-034",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-034",
+      "target": "purchase_order:PO-4526:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8413-035",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-035",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-035",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8413-035",
+      "target": "purchase_order:PO-4527:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-091",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-091",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-091",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-091",
+      "target": "purchase_order:PO-4561:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-095",
+      "target": "purchase_order:PO-4562:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-096",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-096",
+      "target": "purchase_order:PO-4563:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-097",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-097",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-097",
+      "target": "purchase_order:PO-4564:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-099",
+      "target": "purchase_order:PO-4565:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8481-100",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-100",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8481-100",
+      "target": "purchase_order:PO-4566:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8483-051",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8483-051",
+      "target": "purchase_order:PO-4537:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8483-052",
+      "target": "purchase_order:PO-4538:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8483-053",
+      "target": "product:P-ANSI-3X2-10",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8483-053",
+      "target": "product:P-SPLIT-6X4-12",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8483-053",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8483-053",
+      "target": "purchase_order:PO-4539:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "part:MF-8483-055",
+      "target": "product:P-VIL-4X3-13",
+      "kind": "used_in"
+    },
+    {
+      "source": "part:MF-8483-055",
+      "target": "purchase_order:PO-4540:1",
+      "kind": "appears_on"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "assumption:A-0311",
+      "kind": "invalidates"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-001",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-002",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-004",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-005",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-007",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-008",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-010",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-011",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-012",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-015",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-017",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-018",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-019",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-020",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-021",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-023",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-024",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-025",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-031",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-032",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-033",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-034",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:841391:all",
+      "target": "part:MF-8413-035",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848130:all",
+      "target": "part:MF-8481-096",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848130:all",
+      "target": "part:MF-8481-097",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848130:all",
+      "target": "part:MF-8481-099",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848130:all",
+      "target": "part:MF-8481-100",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848180:all",
+      "target": "part:MF-8481-091",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848180:all",
+      "target": "part:MF-8481-095",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848330:all",
+      "target": "part:MF-8483-051",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848330:all",
+      "target": "part:MF-8483-052",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848330:all",
+      "target": "part:MF-8483-053",
+      "kind": "affects"
+    },
+    {
+      "source": "rate:848330:all",
+      "target": "part:MF-8483-055",
+      "kind": "affects"
+    }
+  ]
+}
