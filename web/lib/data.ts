@@ -6,14 +6,20 @@ import actions from "../../contracts/fixtures/actions.json";
 import audit from "../../contracts/fixtures/audit.json";
 import sendAction from "../../contracts/fixtures/send_action.json";
 
-export const fixtureData = { changes, exposure, decisions, evidence, actions, audit };
-export type WorkspaceData = typeof fixtureData;
+import type { WorkspaceData, SendActionResponse } from "./contracts";
+export type { WorkspaceData } from "./contracts";
+
+export const fixtureData: WorkspaceData = { changes, exposure, decisions, evidence, actions, audit };
 export const useFixtures = process.env.NEXT_PUBLIC_USE_FIXTURES !== "false";
 const base = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000").replace(/\/$/, "");
 
 export async function apiRequest<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${base}${path}`, { ...options, cache: "no-store" });
-  if (!response.ok) throw new Error(`Request failed (${response.status}). Please retry or check the API connection.`);
+  if (!response.ok) {
+    const detail = await response.json().catch(() => null);
+    const message = typeof detail?.detail === "string" ? detail.detail : "Please retry or check the API connection.";
+    throw new Error(`Request failed (${response.status}). ${message}`);
+  }
   return response.json();
 }
 export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData> {
@@ -29,7 +35,12 @@ export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData
   ]);
   return { changes, exposure, decisions, evidence, actions, audit };
 }
-export async function sendActionRequest(id: string): Promise<typeof sendAction> {
+export async function sendActionRequest(id: string, draftEmail: string): Promise<SendActionResponse> {
+  if (!draftEmail.trim()) throw new Error("Enter a supplier request before submitting.");
   if (useFixtures) return structuredClone(sendAction);
-  return apiRequest(`/actions/${encodeURIComponent(id)}/send`, { method: "POST" });
+  return apiRequest(`/actions/${encodeURIComponent(id)}/send`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ draft_email: draftEmail }),
+  });
 }
