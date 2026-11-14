@@ -15,8 +15,8 @@ def require(condition: bool, detail: str) -> None:
         raise RuntimeError(detail)
 
 
-def run(api_url: str, demo_pack: Path) -> None:
-    with httpx.Client(base_url=api_url, timeout=90) as client, ZipFile(demo_pack) as archive:
+def run(client: httpx.Client, demo_pack: Path) -> None:
+    with ZipFile(demo_pack) as archive:
         def get(path):
             return client.get(path).raise_for_status().json()
 
@@ -48,11 +48,17 @@ def run(api_url: str, demo_pack: Path) -> None:
             "Expected a cited refusal for the Sheffield melt location",
         )
 
+        source = client.get(f"/documents/{melt['citations'][0]['doc_id']}").raise_for_status()
+        require(source.headers.get("content-type") == "image/jpeg", "Expected the cited scan bytes")
+
         actions = get("/actions")
         require(bool(actions), "No evidence request was drafted")
         action = actions[0]
+        require("SF-24117" in action["draft_email"] and "SF-24121" in action["draft_email"],
+                "Evidence request must name both heats")
+        draft = action["draft_email"] + "\nPlease include the quote number in your reply."
         sent = client.post(
-            f"/actions/{action['id']}/send", json={"draft_email": action["draft_email"]},
+            f"/actions/{action['id']}/send", json={"draft_email": draft},
         ).raise_for_status().json()
         require(sent["decision_id"] == "D-2026-044", "Unexpected draft decision ID")
         require(
@@ -70,11 +76,11 @@ def run(api_url: str, demo_pack: Path) -> None:
             )
             previous_hash = event.hash
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--api-url", default="http://127.0.0.1:8000")
     parser.add_argument("--demo-pack", type=Path, default=Path("docs/reference/keystone-demo-pack.zip"))
     arguments = parser.parse_args()
-    run(arguments.api_url, arguments.demo_pack)
+    with httpx.Client(base_url=arguments.api_url, timeout=90) as client:
+        run(client, arguments.demo_pack)
     print("Keystone demo acceptance passed.")
