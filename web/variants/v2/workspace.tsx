@@ -7,7 +7,7 @@ import { routeFor, screens, type Screen } from "@/lib/routes";
 import type { Action, Citation, SendActionResponse, WorkspaceData } from "@/lib/contracts";
 import { date, money, percent, words } from "@/lib/format";
 import { referenceUrl } from "@/lib/reference";
-import { submitAction, useSubmissions } from "@/lib/submissions";
+import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
 import { verifyAudit } from "@/lib/audit";
 import "./entry.css";
 
@@ -84,15 +84,15 @@ function EntryApproval({ result }: { result: SendActionResponse }) {
 }
 function EntryActions({ data }: { data: WorkspaceData }) {
   const submissions = useSubmissions(data.audit);
-  return <section className="entry-section stack"><h2>Supplier requests</h2>{data.actions.map(action => <EntryRequest key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)?.response}/>)}{submissions.filter(item => !data.actions.some(action => action.id === item.actionId)).map(item => <EntryApproval key={item.actionId} result={item.response}/>)}{!data.actions.length && !submissions.length && <p>No requests need review.</p>}</section>;
+  return <section className="entry-section stack"><h2>Supplier requests</h2>{data.actions.map(action => <EntryRequest key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)}/>)}{submissions.filter(item => !data.actions.some(action => action.id === item.actionId)).map(item => <EntryApproval key={item.actionId} result={item.response}/>)}{!data.actions.length && !submissions.length && <p>No requests need review.</p>}</section>;
 }
-function EntryRequest({ action, saved }: { action: Action; saved?: SendActionResponse }) {
+function EntryRequest({ action, saved }: { action: Action; saved?: Submission }) {
   const [draft, setDraft] = useState(action.draft_email);
   const [result, setResult] = useState<SendActionResponse>();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const guard = useRef(false);
-  const accepted = result || saved;
+  const accepted = result || saved?.response;
   async function submit() {
     if (guard.current || accepted) return;
     guard.current = true; setBusy(true); setError("");
@@ -100,7 +100,7 @@ function EntryRequest({ action, saved }: { action: Action; saved?: SendActionRes
     catch (error) { setError(error instanceof Error ? error.message : "Submission failed."); }
     finally { guard.current = false; setBusy(false); }
   }
-  return <article className="entry-decision stack"><div className="row spread"><h3>{words(action.type)}</h3><strong>{money(action.usd_at_stake)} at stake</strong></div><p className="code">{action.part_ids.join(", ")}</p><label className="stack">Supplier request<textarea value={draft} disabled={!!accepted || busy} onChange={event => setDraft(event.target.value)}/></label>{error && <p role="alert" className="negative">{error}</p>}{accepted ? <EntryApproval result={accepted}/> : <button className="primary" disabled={busy || !draft.trim()} onClick={submit}>{busy ? "Submitting…" : "Submit request"}</button>}</article>;
+  return <article className="entry-decision stack"><div className="row spread"><h3>{words(action.type)}</h3><strong>{money(action.usd_at_stake)} at stake</strong></div><p className="code">{action.part_ids.join(", ")}</p><label className="stack">Supplier request<textarea value={accepted ? saved?.draftEmail ?? draft : draft} disabled={!!accepted || busy} onChange={event => setDraft(event.target.value)}/></label>{error && <p role="alert" className="negative">{error}</p>}{accepted ? <EntryApproval result={accepted}/> : <button className="primary" disabled={busy || !draft.trim()} onClick={submit}>{busy ? "Submitting…" : "Submit request"}</button>}</article>;
 }
 function EntryAudit({ data }: { data: WorkspaceData }) {
   const [query, setQuery] = useState("");
