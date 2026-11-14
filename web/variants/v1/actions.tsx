@@ -2,7 +2,7 @@
 import { useState } from "react";
 import type { Action, SendActionResponse, WorkspaceData } from "@/lib/contracts";
 import { money, words } from "@/lib/format";
-import { submitAction, useSubmissions } from "@/lib/submissions";
+import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
 
 export function ApprovalResult({ result }: { result: SendActionResponse }) {
   return <section className="notice stack" role="status">
@@ -16,17 +16,17 @@ export function Actions({ data }: { data: WorkspaceData }) {
   const currentIds = new Set(data.actions.map(action => action.id));
   return <div className="stack">
     {[...data.actions].sort((a, b) => a.rank - b.rank).map(action => <ActionEditor
-      key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)?.response} />)}
+      key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)} />)}
     {submissions.filter(item => !currentIds.has(item.actionId)).map(item => <ApprovalResult key={item.actionId} result={item.response} />)}
     {!data.actions.length && !submissions.length && <p>No actions need review.</p>}
   </div>;
 }
-function ActionEditor({ action, saved }: { action: Action; saved?: SendActionResponse }) {
+function ActionEditor({ action, saved }: { action: Action; saved?: Submission }) {
   const [draft, setDraft] = useState(action.draft_email);
   const [sending, setSending] = useState(false);
-  const [result, setResult] = useState<SendActionResponse | undefined>(saved);
+  const [result, setResult] = useState<SendActionResponse | undefined>(saved?.response);
   const [error, setError] = useState("");
-  const accepted = result || saved;
+  const accepted = result || saved?.response;
   async function submit() {
     if (sending || accepted) return;
     setSending(true);
@@ -39,7 +39,7 @@ function ActionEditor({ action, saved }: { action: Action; saved?: SendActionRes
     <div className="panel-header"><h2>{action.rank}. {words(action.type)}</h2><span className="status">{money(action.usd_at_stake)} at stake</span></div>
     <div className="panel-body stack">
       <p className="code">{action.part_ids.join(", ")}</p>
-      <label className="stack">Supplier request<textarea aria-label={`Supplier request ${action.id}`} value={draft} disabled={sending || !!accepted} onChange={event => setDraft(event.target.value)} /></label>
+      <label className="stack">Supplier request<textarea aria-label={`Supplier request ${action.id}`} value={accepted ? saved?.draftEmail ?? draft : draft} disabled={sending || !!accepted} onChange={event => setDraft(event.target.value)} /></label>
       {error && <p role="alert" className="negative">{error}</p>}
       {accepted ? <ApprovalResult result={accepted} /> : <div className="row"><button className="primary" disabled={sending || !draft.trim()} onClick={submit}>{sending ? "Submitting…" : "Submit request"}</button><span className="muted small">Creates a draft decision for approval.</span></div>}
     </div>
