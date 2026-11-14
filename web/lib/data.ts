@@ -51,6 +51,7 @@ export interface UploadResult {
   change_ids: string[];
   evidence_doc_ids: string[];
   review_doc_ids: string[];
+  document_reviews?: { doc_id: string; summary: string; review: string[] }[];
 }
 
 export function uploadDocument(file: File): Promise<UploadResult> {

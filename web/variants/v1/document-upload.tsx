@@ -30,12 +30,14 @@ export function DocumentUpload({
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
+  const [reviews, setReviews] = useState<NonNullable<UploadResult["document_reviews"]>>([]);
   const [error, setError] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!file || busy) return;
     setStatus("");
+    setReviews([]);
     setError("");
     if (file.size > MAX_UPLOAD_BYTES) {
       setError("Choose a file of 20 MB or less.");
@@ -45,6 +47,7 @@ export function DocumentUpload({
     try {
       const result = await uploadDocument(file);
       setStatus(uploadSummary(result));
+      setReviews(result.document_reviews || []);
       if (input.current) input.current.value = "";
       setFile(null);
       if (result.change_ids.length || result.evidence_doc_ids.length) onUploaded();
@@ -71,6 +74,7 @@ export function DocumentUpload({
           onChange={event => {
             setFile(event.currentTarget.files?.[0] || null);
             setStatus("");
+            setReviews([]);
             setError("");
           }}
         />
@@ -82,6 +86,12 @@ export function DocumentUpload({
         <span className="muted small">Email, PDF, or image. Up to 20 MB.</span>
       </div>
       {status && <p role="status">{status}</p>}
+      {reviews.length > 0 && <ul className="stack" aria-label="Document review results">
+        {reviews.map(item => <li key={item.doc_id}>
+          <p>{item.summary}</p>
+          {item.review.map(reason => <p className="muted small" key={reason}>{reason}</p>)}
+        </li>)}
+      </ul>}
       {error && <p role="alert" className="negative">{error}</p>}
     </form>
   </section>;
