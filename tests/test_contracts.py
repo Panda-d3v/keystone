@@ -50,3 +50,31 @@ def test_send_request_fixture():
     assert request["content"]["application/json"]["example"] == sample
     with pytest.raises(ValueError):
         models.SendActionRequest(draft_email=" ")
+
+
+def test_demo_audit_matches_live_hash_chain():
+    from api.audit.log import event_hash
+
+    events = TypeAdapter(list[models.AuditEvent]).validate_json(
+        (ROOT / "fixtures" / "audit.json").read_text()
+    )
+    previous = None
+    for event in reversed(events):
+        assert event.previous_hash == previous
+        assert event.hash == event_hash(event)
+        previous = event.hash
+    send = models.SendActionResponse.model_validate_json(
+        (ROOT / "fixtures" / "send_action.json").read_text()
+    )
+    assert send.audit_event == events[0]
+
+
+def test_sheffield_fixture_has_the_five_rule_results():
+    evidence = models.EvidenceStatus.model_validate_json(
+        (ROOT / "fixtures" / "evidence.json").read_text()
+    )
+    assert [row.status for row in evidence.requirements] == [
+        "checked", "checked", "checked", "needs_review", "missing",
+    ]
+    melt = next(row for row in evidence.requirements if row.id == "EV-UK-01")
+    assert melt.reason and melt.citations
