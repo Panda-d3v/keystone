@@ -5,8 +5,8 @@
     "actor": "demo-user",
     "type": "action_sent",
     "entity_id": "ACT-0001",
-    "previous_hash": "ce94acdfdbc37ecaa6a85f9f096067957399165c54d529b008508a3e96622c35",
-    "hash": "eb441c12888c1f2a49dc51d9c74b8f5bfad60f789ca362d9726ecb7551bc1897"
+    "previous_hash": "0b11e8089ddb4b36258704f81f366fa6faae5e367a5697eb5af815c79a70cad3",
+    "hash": "59a1e1866e4e1156b4452f95fd713a19cf48dc5334470d045cfe46068099c2a8"
   },
   "decision_id": "D-2026-044",
   "state": "pending_approval",
