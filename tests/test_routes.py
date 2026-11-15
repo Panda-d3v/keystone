@@ -48,6 +48,7 @@ def test_live_routes_against_demo_contracts():
                 for item in fixture("evidence")["items"]:
                     save_evidence(connection, EvidenceItem.model_validate(item))
                 save_action(connection, action)
+                save_action(connection, action.model_copy(update={"id": "ACT-0002", "rank": 2}))
 
             app.dependency_overrides[get_connection] = dependency
             with TestClient(app) as client:
@@ -74,6 +75,12 @@ def test_live_routes_against_demo_contracts():
                 evidence = EvidenceStatus.model_validate(client.get("/evidence/S007/MF-8413-005").json())
                 assert evidence.status == "needs_review"
                 assert next(row for row in evidence.requirements if row.id == "EV-UK-01").reason
+                assert len(client.get("/actions").json()) == 2
+                declined = client.post("/actions/ACT-0002/decline").raise_for_status().json()
+                assert declined["state"] == "declined"
+                assert declined["audit_event"]["type"] == "action_declined"
+                assert client.post("/actions/ACT-0002/decline").json() == declined
+                assert client.post("/actions/ACT-0002/send", json={"draft_email": "Draft"}).status_code == 409
                 assert client.get("/actions").json() == fixture("actions")
                 url = f"/actions/{action.id}/send"
                 response = client.post(url, json={"draft_email": "Edited draft"})
@@ -84,7 +91,8 @@ def test_live_routes_against_demo_contracts():
                 assert client.post(url, json={"draft_email": "Edited draft"}).json() == response.json()
                 assert client.post(url, json={"draft_email": "Different draft"}).status_code == 409
                 assert client.get("/actions").json() == []
-                assert client.get("/audit").json() == [response.json()["audit_event"]]
+                assert client.post(url.replace("/send", "/decline")).status_code == 409
+                assert client.get("/audit").json() == [response.json()["audit_event"], declined["audit_event"]]
             with connect() as connection:
                 assert verify_chain(connection)
         finally:

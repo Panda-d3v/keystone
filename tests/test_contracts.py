@@ -15,6 +15,7 @@ RESPONSES = {
     "evidence": models.EvidenceStatus,
     "actions": list[models.Action],
     "send_action": models.SendActionResponse,
+    "decline_action": models.DeclineActionResponse,
     "audit": list[models.AuditEvent],
 }
 

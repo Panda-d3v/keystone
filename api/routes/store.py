@@ -25,6 +25,10 @@ CREATE TABLE IF NOT EXISTS proposed_actions (
     id text PRIMARY KEY,
     payload jsonb NOT NULL
 );
+CREATE TABLE IF NOT EXISTS declined_actions (
+    action_id text PRIMARY KEY,
+    audit_id text NOT NULL
+);
 CREATE TABLE IF NOT EXISTS sent_actions (
     action_id text PRIMARY KEY REFERENCES proposed_actions,
     decision_number integer GENERATED ALWAYS AS IDENTITY (START WITH 44) UNIQUE,

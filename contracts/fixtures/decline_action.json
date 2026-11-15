@@ -1,0 +1,13 @@
+{
+  "action_id": "ACT-0001",
+  "state": "declined",
+  "audit_event": {
+    "id": "AUD-0012",
+    "occurred_at": "2026-11-14T22:12:00Z",
+    "actor": "demo-user",
+    "type": "action_declined",
+    "entity_id": "ACT-0001",
+    "previous_hash": null,
+    "hash": "b9ab4ebe06d36635d7f6c5b5ec98b664825105fc625a7044e9877ec752a14a03"
+  }
+}

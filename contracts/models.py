@@ -165,3 +165,9 @@ class ExposureLineage(Contract):
     affected_parts: int
     nodes: list[LineageNode]
     edges: list[LineageEdge]
+
+
+class DeclineActionResponse(Contract):
+    action_id: str
+    state: Literal["declined"]
+    audit_event: AuditEvent
