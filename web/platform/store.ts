@@ -8,7 +8,7 @@ import scenario from "./scenario/phones.json";
 import { canonicalAuditPayload } from "@/lib/audit";
 import type { AuditEvent, ExposureLineage, WorkspaceData } from "@/lib/contracts";
 
-export type OutcomeKind = "submitted" | "approved" | "declined";
+export type OutcomeKind = "submitted" | "approved" | "declined" | "award_approved" | "award_declined";
 export interface Outcome { actionId: string; kind: OutcomeKind; draftEmail?: string; event: AuditEvent }
 
 const KEY = "keystone.phones.outcomes.v1";
@@ -17,6 +17,8 @@ const ACTOR: Record<OutcomeKind, [string, string]> = {
   submitted: ["maya.chen", "action_reviewed"],
   approved: ["elena.park", "action_sent"],
   declined: ["elena.park", "action_declined"],
+  award_approved: ["elena.park", "decision_approved"],
+  award_declined: ["elena.park", "decision_declined"],
 };
 
 export const baseWorkspace = scenario.workspace as WorkspaceData;
@@ -43,7 +45,7 @@ async function sha256(text: string) {
 export async function recordOutcome(actionId: string, kind: OutcomeKind, draftEmail?: string): Promise<Outcome> {
   const existing = readOutcomes();
   const audit = applyOutcomes(baseWorkspace, existing).audit;
-  if (existing.some(o => o.actionId === actionId && o.kind !== "submitted")) throw new Error("This request was already decided.");
+  if (existing.some(o => o.actionId === actionId && o.kind !== "submitted")) throw new Error("This was already decided.");
   if (kind === "submitted" && existing.some(o => o.actionId === actionId)) throw new Error("This request was already submitted.");
   const [actor, type] = ACTOR[kind];
   const draft: AuditEvent = {

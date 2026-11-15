@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { date, money, percent } from "@/lib/format";
-import { HEADINGS, ORDERS, PARTS, partName } from "../catalog";
+import { HEADINGS, ORDERS, PARTS, PASSPORTS, WORKLIST, partName, passportId, type WorkItem } from "../catalog";
 import { PartPicker } from "./parts";
 import { hts, supplierName } from "../names";
 import { EmptyWorkspace, PageHead } from "../shell";
@@ -27,56 +27,73 @@ function byHeading(data: WorkspaceData, part = "") {
   return [...groups.values()].sort((a, b) => a.heading.localeCompare(b.heading));
 }
 
+const QUEUE: { id: WorkItem["status"]; label: string }[] = [
+  { id: "open", label: "Needs a person" }, { id: "later", label: "Later" }, { id: "done", label: "Done" },
+];
+const short = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${iso}T00:00:00Z`));
+
 export function ComplianceOverview({ data }: { data: WorkspaceData | null }) {
+  const [tab, setTab] = useState<WorkItem["status"]>("open");
   if (!data) return <><PageHead title="Overview" /><EmptyWorkspace /></>;
   const docs = data.documents ?? [];
-  const toCheck = docs.filter(d => d.review.length);
-  const rows = data.evidence.requirements ?? [];
-  const proven = rows.filter(r => r.status === "checked").length;
   const headings = byHeading(data);
+  const count = (status: WorkItem["status"]) => WORKLIST.filter(w => w.status === status).length;
+  const items = WORKLIST.filter(w => w.status === tab).sort((a, b) => tab === "done" ? b.due.localeCompare(a.due) : a.due.localeCompare(b.due));
+  const proven = PASSPORTS.filter(p => p.status === "verified").length;
 
   return <div className="d-grid gap-4">
-    <PageHead title="Overview">Documents received, evidence on file, and the duty owed under the new rate.</PageHead>
+    <PageHead title="Overview">The work behind change {data.changes[0]?.id}: {data.exposure.affected_parts} covered parts, {data.exposure.open_po_lines} entry lines, {PASSPORTS.length} supplier evidence files.</PageHead>
 
     <section className="ks-kpis" aria-label="Status">
-      <div className="ks-kpi"><div className="label">Documents received</div><div className="value">{docs.length}</div></div>
-      <div className="ks-kpi"><div className="label">Need a person</div><div className={`value ${toCheck.length ? "accent" : ""}`}>{toCheck.length}</div></div>
-      <div className="ks-kpi"><div className="label">US-origin proof</div><div className="value">{proven} of {rows.length}</div><div className="sub">requirements proven</div></div>
-      <div className="ks-kpi"><div className="label">Added duty, entry lines</div><div className="value">{money(data.exposure.added_duty_usd)}</div></div>
+      <div className="ks-kpi"><div className="label">Needs a person</div><div className={`value ${count("open") ? "accent" : ""}`}>{count("open")}</div><div className="sub">{count("later")} more later</div></div>
+      <div className="ks-kpi"><div className="label">Documents received</div><div className="value">{docs.length}</div><div className="sub">{docs.filter(d => d.review.length).length} to check</div></div>
+      <div className="ks-kpi"><div className="label">Evidence files complete</div><div className="value">{proven} of {PASSPORTS.length}</div><div className="sub">by supplier and part</div></div>
+      <div className="ks-kpi"><div className="label">Added duty, entry lines</div><div className="value">{money(data.exposure.added_duty_usd)}</div><div className="sub">from {date(data.changes[0]?.effective_date ?? "")}</div></div>
+    </section>
+
+    <section className="card">
+      <div className="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span>Work queue</span>
+        <div className="ks-tabs" role="tablist" aria-label="Work queue">
+          {QUEUE.map(q => <button key={q.id} type="button" role="tab" aria-selected={tab === q.id} onClick={() => setTab(q.id)}>
+            {q.label} <span className="count">{count(q.id)}</span></button>)}
+        </div>
+      </div>
+      <div className="ks-list" role="tabpanel" aria-label={QUEUE.find(q => q.id === tab)?.label}>{items.map(w => <Link key={w.id} href={w.href} className="align-items-start">
+        <span className="d-flex gap-3 align-items-start">
+          <span className={`ks-dot ${w.status}`} aria-hidden="true" />
+          <span><span className="d-block fw-medium">{w.title}</span>
+            <span className="meta d-block">{w.detail}</span>
+            <span className="meta d-block mt-1">{w.kind}{w.part_no ? `, ${partName(w.part_no)}` : ""}{w.supplier_id ? `, ${supplierName(w.supplier_id)}` : ""}</span></span>
+        </span>
+        <span className={`chip ${w.status === "open" ? "chip-warn" : w.status === "later" ? "chip-neutral" : "chip-good"} plain text-nowrap`}>
+          {w.status === "done" ? `Done ${short(w.due)}` : `Due ${short(w.due)}`}</span>
+      </Link>)}</div>
     </section>
 
     <div className="ks-grid-2">
       <section className="card">
-        <div className="card-header">Needs a person</div>
-        {toCheck.length ? <div className="ks-list">{toCheck.map(d => <Link key={d.doc_id} href="/compliance/documents">
-          <span><span className="d-block fw-medium text-truncate" style={{ maxWidth: "22rem" }}>{d.filename}</span><span className="meta">{d.review[0]}</span></span>
-          <span className="chip chip-warn">Check</span>
-        </Link>)}</div> : <div className="card-body text-soft">Every document was read.</div>}
+        <div className="card-header">Evidence by supplier and part</div>
+        <div className="ks-list">{PASSPORTS.map(pp => <Link key={passportId(pp)} href={`/compliance/evidence?passport=${passportId(pp)}`}>
+          <span><span className="d-block fw-medium">{supplierName(pp.supplier_id)}, {partName(pp.part_no)}</span><span className="meta">{pp.purpose}</span></span>
+          <span className={`chip ${pp.status === "verified" ? "chip-good" : pp.status === "needs_review" ? "chip-warn" : "chip-neutral"}`}>
+            {pp.status === "verified" ? "Complete" : pp.status === "needs_review" ? "Needs review" : "Not yet"}</span>
+        </Link>)}</div>
       </section>
 
       <section className="card">
-        <div className="card-header d-flex justify-content-between"><span>{supplierName(data.evidence.supplier_id)}, {data.evidence.part_no}</span>
-          <span className={`chip ${data.evidence.status === "verified" ? "chip-good" : "chip-warn"}`}>{data.evidence.status === "verified" ? "0% rate supported" : "0% rate not supported"}</span></div>
-        <ul className="ks-list">{rows.map(r => {
-          const [label, chip] = STATUS[r.status] ?? [r.status, "chip-neutral"];
-          return <li key={r.id}><span>{r.label}</span><span className={`chip ${chip}`}>{label}</span></li>;
-        })}</ul>
-        <div className="card-footer"><Link className="link-arrow" href="/compliance/evidence">Open the evidence <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
+        <div className="card-header">Duty by HTS heading</div>
+        <div className="table-responsive"><table className="table align-middle">
+          <thead><tr><th>Heading</th><th className="money">Lines</th><th className="money">Added</th></tr></thead>
+          <tbody>{headings.map(h => <tr key={h.heading}>
+            <td><span className="d-block code">{hts(h.heading)}</span><span className="sub">{HEADINGS[h.heading] ?? ""}</span></td>
+            <td className="money">{h.lines.length}</td>
+            <td className="money fw-medium" style={{ color: "var(--accent-ink)" }}>+{money(h.added)}</td>
+          </tr>)}</tbody>
+        </table></div>
+        <div className="card-footer"><Link className="link-arrow" href="/compliance/duty-bill">Open the duty bill <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
       </section>
     </div>
-
-    <section className="card">
-      <div className="card-header">Duty by HTS heading</div>
-      <div className="table-responsive"><table className="table align-middle">
-        <thead><tr><th>Heading</th><th className="money">Entry lines</th><th className="money">Previous duty</th><th className="money">New duty</th><th className="money">Added</th></tr></thead>
-        <tbody>{headings.map(h => <tr key={h.heading}>
-          <td><span className="d-block code">{hts(h.heading)}</span><span className="sub">{HEADINGS[h.heading] ?? ""}</span></td>
-          <td className="money">{h.lines.length}</td><td className="money">{money(h.old)}</td><td className="money">{money(h.next)}</td>
-          <td className="money fw-medium" style={{ color: "var(--accent-ink)" }}>+{money(h.added)}</td>
-        </tr>)}</tbody>
-      </table></div>
-      <div className="card-footer"><Link className="link-arrow" href="/compliance/duty-bill">Open the duty bill <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
-    </section>
   </div>;
 }
 

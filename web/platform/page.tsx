@@ -21,7 +21,7 @@ export function PlatformPage({ step }: { step: StepId }) {
     switch (step) {
       case "sourcing-overview": return <SourcingOverview data={data} />;
       case "sourcing-parts": return <Parts data={data} />;
-      case "sourcing-decisions": return <Decisions data={data} />;
+      case "sourcing-decisions": return <Decisions data={data} outcomes={outcomes} />;
       case "sourcing-cost": return <CostImpact data={data} />;
       case "sourcing-requests": return <Actions data={data} outcomes={outcomes} record={record} />;
       case "compliance-overview": return <ComplianceOverview data={data} />;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { actionTitle, date, money } from "@/lib/format";
-import { AWARD, PARTS, PRODUCTS, QUOTES, partName } from "../catalog";
+import { AWARD, AWARDS_LIST, PARTS, PRODUCTS, QUOTES, partName } from "../catalog";
 import { supplierName, supplierPlace } from "../names";
 import { changeHeadline, decisionStory } from "../story";
 import { EmptyWorkspace, PageHead } from "../shell";
@@ -40,7 +40,7 @@ export function SourcingOverview({ data }: { data: WorkspaceData | null }) {
     <section className="ks-kpis" aria-label="Exposure">
       <div className="ks-kpi"><div className="label">Added duty, open orders</div><div className="value accent">{money(data.exposure.added_duty_usd)}</div></div>
       <div className="ks-kpi"><div className="label">Per year at current builds</div><div className="value">{money(data.exposure.annualized_added_duty_usd)}</div></div>
-      <div className="ks-kpi"><div className="label">Awards to review</div><div className="value">{data.decisions.filter(d => d.status === "broken").length}</div></div>
+      <div className="ks-kpi"><div className="label">Awards to review</div><div className="value">{AWARDS_LIST.filter(a => a.status === "open").length}</div><div className="sub">{AWARDS_LIST.filter(a => a.status === "decided").length} decided</div></div>
       <div className="ks-kpi"><div className="label">Supplier requests</div><div className="value">{requests.length}</div></div>
     </section>
 

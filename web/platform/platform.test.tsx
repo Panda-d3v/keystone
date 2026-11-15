@@ -157,3 +157,48 @@ it("keeps the source document beside the fields on Documents, with no zoom", asy
   expect(within(split).getByText(/8542.31, 8542.32, 8542.39, 8523.51/, { selector: ".card-footer *, .card-footer" })).toBeTruthy();
   expect(screen.queryByText(/Zoom/)).toBeNull();
 });
+
+it("gives trade compliance a work queue: needs a person, later and done", async () => {
+  render(<PlatformPage step="compliance-overview" />);
+  const tabs = await screen.findByRole("tablist", { name: "Work queue" });
+  expect(within(tabs).getAllByRole("tab").map(t => t.textContent)).toEqual(["Needs a person 5", "Later 4", "Done 4"]);
+  expect(screen.getByText("Origin conflict on the 5G transceiver")).toBeTruthy();
+  fireEvent.click(within(tabs).getByRole("tab", { name: /Later/ }));
+  expect(screen.getByText("Chennai Cell Works battery documents")).toBeTruthy();
+  fireEvent.click(within(tabs).getByRole("tab", { name: /Done/ }));
+  expect(screen.getByText("Advisory CA-2026-311 read and confirmed")).toBeTruthy();
+});
+
+it("switches evidence between suppliers and parts", async () => {
+  render(<PlatformPage step="compliance-evidence" />);
+  fireEvent.click(await screen.findByRole("button", { name: "Evidence file: Snake River Memory" }));
+  fireEvent.click(screen.getByText("Hanul Semiconductor"));
+  expect(screen.getByRole("heading", { name: "Hanul Semiconductor" })).toBeTruthy();
+  expect(screen.getByText(/so the 25% rate applies/)).toBeTruthy();
+  expect(screen.getByText("Complete")).toBeTruthy();
+});
+
+it("lists open, in-review and decided awards for sourcing", async () => {
+  render(<PlatformPage step="sourcing-decisions" />);
+  const tabs = await screen.findByRole("tablist", { name: "Awards" });
+  expect(within(tabs).getAllByRole("tab").map(t => t.textContent)).toEqual(["Needs a decision 2", "In review 1", "Decided 2"]);
+  expect(screen.getByText("Power management IC award")).toBeTruthy();
+  fireEvent.click(within(tabs).getByRole("tab", { name: /Decided/ }));
+  expect(screen.getByText("Kept with Hsinchu Advanced Silicon.")).toBeTruthy();
+  expect(screen.getByText("Cover glass award")).toBeTruthy();
+});
+
+it("lets the approver open other briefs, including decided ones, and decide an open one", async () => {
+  render(<PlatformPage step="approver-brief" />);
+  fireEvent.click(await screen.findByRole("button", { name: "Brief: LPDDR5X memory award" }));
+  const list = screen.getByRole("listbox", { name: "Brief" });
+  expect(within(list).getByText("Waiting for you")).toBeTruthy();
+  expect(within(list).getByText("Decided")).toBeTruthy();
+  fireEvent.click(within(list).getByText("Application processor award"));
+  expect(screen.getByRole("heading", { name: "Application processor award: decided" })).toBeTruthy();
+  expect(screen.getByText("Kept with Hsinchu Advanced Silicon")).toBeTruthy();
+  fireEvent.click(screen.getByRole("button", { name: "Brief: Application processor award" }));
+  fireEvent.click(screen.getByText("Power management IC award"));
+  fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+  expect(await screen.findByRole("heading", { name: "Power management IC award: decided" })).toBeTruthy();
+});
