@@ -36,8 +36,10 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
         "ChangeDraft": GOOD,
         "VisionEvidenceDraft": {
             **SHEFFIELD_ANSWER,
+            # A3 votes across three scan reads (T41); a value every read rates
+            # below 0.5 stays unconfirmed, which is how "unreadable" is modelled.
             "part_no": {**SHEFFIELD_ANSWER["part_no"], "value": "mf8413005",
-                        "confidence": 0.68 if manual_link else 0.91},
+                        "confidence": 0.4 if manual_link else 0.91},
         },
     })
     llm = LLMClient(stub, cache_dir=tmp_path, replay=False)
