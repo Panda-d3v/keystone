@@ -34,7 +34,7 @@ export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData
   const [exposure, decisions, evidence, actions, audit, documents] = await Promise.all([
     apiRequest<WorkspaceData["exposure"]>(`/changes/${encodeURIComponent(changes[0].id)}/exposure`, options),
     apiRequest<WorkspaceData["decisions"]>("/decisions", options),
-    apiRequest<WorkspaceData["evidence"]>("/evidence/S007/MF-8413-005", options),
+    apiRequest<WorkspaceData["evidence"]>("/evidence", options),
     apiRequest<WorkspaceData["actions"]>("/actions", options),
     apiRequest<WorkspaceData["audit"]>("/audit", options),
     // Older API builds have no document list; the Intake screen just hides it.

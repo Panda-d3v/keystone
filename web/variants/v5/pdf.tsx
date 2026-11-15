@@ -92,12 +92,12 @@ export async function downloadBrief(data: WorkspaceData) {
   );
   const change = data.changes[0];
   const document = (
-    <Document title="MeridianFlow decision brief" author="Keystone">
+    <Document title="Keystone decision brief" author="Keystone">
       <Page size="A4" style={styles.page}>
         <Text style={styles.masthead}>
-          Keystone / MeridianFlow procurement / {change.id}
+          Keystone / Procurement / {change.id}
         </Text>
-        <Text style={styles.title}>The casing award needs review</Text>
+        <Text style={styles.title}>Supplier award decision brief</Text>
         <Text style={styles.paragraph}>
           The tariff assumption behind the award has changed. The alternative’s
           advantage depends on evidence that still needs to be supplied.

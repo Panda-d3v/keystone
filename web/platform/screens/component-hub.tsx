@@ -6,6 +6,7 @@ import type { Citation, Exposure, WorkspaceData } from "@/lib/contracts";
 import { actionTitle, date, money, percent } from "@/lib/format";
 import { SourceViewer } from "@/variants/v1/source-viewer";
 import type { Role } from "../roles";
+import { componentName } from "../names";
 import { Lineage } from "./specialist";
 
 export function ComponentHub({ data, role }: { data: WorkspaceData; role: Role }) {
@@ -46,35 +47,37 @@ export function ComponentHub({ data, role }: { data: WorkspaceData; role: Role }
   }
 
   return <div className="d-grid gap-4">
+    <div className="ks-component-overview">
     <section className="card" aria-labelledby="recent-tariffs">
       <div className="card-header" id="recent-tariffs">Latest tariff updates</div>
       <div className="list-group list-group-flush">
         {data.changes.slice(0, 5).map(item => <button key={item.id} type="button"
           aria-pressed={item.id === id} className="list-group-item list-group-item-action text-start"
           onClick={() => selectChange(item.id)}>
-          <strong>{item.measure}</strong><span className="d-block small text-soft">{item.id} · Effective {date(item.effective_date)}</span>
+          <strong>{item.measure.split(" (modeled")[0]}</strong><span className="d-block small text-soft">{item.id} · Effective {date(item.effective_date)}</span>
         </button>)}
       </div>
     </section>
+    <div className="d-grid gap-3 align-content-start">
     <header className="ks-page-head mb-0">
       <div>
-        <h1>{selectedPart ?? "Affected components"}</h1>
-        <p>{change.measure} · {percent(change.old_rate)} → {percent(change.new_rate)}</p>
+        <h1>{selectedPart ? componentName(selectedPart) : "Affected components"}</h1>
+        <p>Modeled duty {percent(change.old_rate)} → {percent(change.new_rate)} · Effective {date(change.effective_date)}</p>
       </div>
       <div className="d-flex gap-2 flex-wrap">
         <div><label htmlFor="hub-part">Component</label><select id="hub-part" className="form-select" value={selectedPart ?? ""} onChange={event => { setPart(event.target.value); setSource(null); }}>
           {!parts.length && <option value="">No affected order lines</option>}
-          {parts.map(value => <option key={value}>{value}</option>)}
+          {parts.map(value => <option key={value} value={value}>{componentName(value)}</option>)}
         </select></div>
         <div><label htmlFor="hub-update">Tariff update</label><select id="hub-update" className="form-select" value={id} onChange={event => selectChange(event.target.value)}>
-          {data.changes.map(item => <option key={item.id} value={item.id}>{item.id}</option>)}
+          {data.changes.map(item => <option key={item.id} value={item.id}>{item.measure.split(" (modeled")[0]}</option>)}
         </select></div>
       </div>
     </header>
     {failure ? <p role="alert">{failure}</p> : !exposure ? <p role="status">Loading affected orders…</p> :
       <div className="card"><div className="card-body">
-        <h2>{money(lines.reduce((total, line) => total + line.added_duty_usd, 0), 2)} in added duty on {lines.length} open order lines</h2>
-        {lines.map(line => <details key={`${line.po_id}-${line.line_no}`}>
+        <h2>{money(lines.reduce((total, line) => total + line.added_duty_usd, 0), 2)} in added duty</h2><p className="mb-0 text-soft">{lines.length} affected open order {lines.length === 1 ? "line" : "lines"}</p>
+        {role.id === "analyst" && lines.map(line => <details key={`${line.po_id}-${line.line_no}`}>
           <summary>{line.po_id} / {line.line_no} · {money(line.added_duty_usd, 2)}</summary>
           <p className="small">{line.math ?? `Customs value: ${money(line.customs_value_usd, 2)}.`}</p>
         </details>)}
@@ -87,7 +90,9 @@ export function ComponentHub({ data, role }: { data: WorkspaceData; role: Role }
         </li>)}
       </ul>
     </section>}
-    <section className="ks-split" aria-label="Documents">
+    </div>
+    </div>
+    {role.id === "analyst" && <section className="ks-split" aria-label="Documents">
       <div className="card"><div className="card-body">
         <h2>Documents</h2>
         <p className="text-soft">Open the bulletin or supporting evidence to check the source values.</p>
@@ -102,7 +107,7 @@ export function ComponentHub({ data, role }: { data: WorkspaceData; role: Role }
         </button>) : <p>No cited documents are available for this update.</p>}
       </div></div>
       <div className="legacy"><SourceViewer citation={source ?? documents[0] ?? null} /></div>
-    </section>
+    </section>}
     {role.id === "analyst" && scopedGraph && <Lineage data={scopedGraph} />}
   </div>;
 }

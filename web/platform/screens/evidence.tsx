@@ -35,6 +35,7 @@ export function Evidence({ data, role }: { data: WorkspaceData | null; role: Rol
   const current = rows.find(row => row.id === selected);
   const citation: Citation | null = current?.citations?.[0] ?? null;
   const heats = [...new Set(evidence.items.map(item => item.batch_id).filter(Boolean))];
+  const originDeclaration = evidence.items.some(item => item.kind === "component_origin_declaration");
   const country = SUPPLIERS[evidence.supplier_id]?.country;
   const passport = PASSPORT[evidence.status] ?? { label: evidence.status, chip: "chip-neutral" };
   const open = rows.filter(row => row.status !== "checked").length;
@@ -42,12 +43,12 @@ export function Evidence({ data, role }: { data: WorkspaceData | null; role: Rol
   return <div>
     <PageHead eyebrow="Evidence passport" title={supplierName(evidence.supplier_id)}
       actions={<span className={`chip ${passport.chip} fs-6 px-3 py-1`}>{passport.label}</span>}>
-      {country ? `${country}. ` : ""}Part <span className="code">{evidence.part_no}</span>{heats.length ? `, heats ${heats.join(" and ")}` : ""}.
-      {" "}The lower UK rate applies only when every requirement below is proven.
+      {country ? `${country}. ` : ""}Part <span className="code">{evidence.part_no}</span>{heats.length ? `, ${originDeclaration ? "lots" : "heats"} ${heats.join(" and ")}` : ""}.
+      {originDeclaration ? " Check the supplier’s declaration against the ordered lot." : " The lower UK rate applies only when every requirement below is proven."}
     </PageHead>
     <div className="ks-split">
       <section className="card" aria-labelledby="needs">
-        <div className="card-header d-flex justify-content-between"><span id="needs">What the lower rate needs</span><span className="text-soft small">{rows.length - open} of {rows.length} proven</span></div>
+        <div className="card-header d-flex justify-content-between"><span id="needs">{originDeclaration ? "Origin checks" : "What the lower rate needs"}</span><span className="text-soft small">{rows.length - open} of {rows.length} proven</span></div>
         <div>{rows.map(row => {
           const tag = STATUS[row.status] ?? { label: row.status, chip: "chip-neutral" };
           const hasSource = !!row.citations?.length;

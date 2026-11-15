@@ -16,15 +16,15 @@ const KIND: Record<IntakeDocument["kind"], { label: string; chip: string }> = {
 const VIEWABLE = /^(application\/pdf|image\/)/;
 
 export function Intake({ data, useFixtures, reload }: { data: WorkspaceData | null; useFixtures: boolean; reload: () => void }) {
-  const change = data?.changes[0];
-  const bulletinId = change?.citations[0]?.doc_id;
+  const bulletinId = data?.changes[0]?.citations[0]?.doc_id;
   const documents = useMemo(() => data?.documents ?? [], [data]);
   const [uploading, setUploading] = useState(false);
   const [docId, setDocId] = useState<string | undefined>(undefined);
   const [field, setField] = useState("measure");
   const selected = documents.find(doc => doc.doc_id === docId)
     ?? documents.find(doc => doc.doc_id === bulletinId) ?? documents[0];
-  const showingBulletin = !!change && (!selected || selected.doc_id === bulletinId || selected.kind === "bulletin");
+  const change = selected ? data?.changes.find(item => item.citations.some(source => source.doc_id === selected.doc_id)) : data?.changes[0];
+  const showingBulletin = !!change;
 
   const fields = change ? [
     { key: "measure", label: "Measure", value: change.measure },
@@ -40,7 +40,7 @@ export function Intake({ data, useFixtures, reload }: { data: WorkspaceData | nu
   else if (selected && VIEWABLE.test(selected.media_type)) citation = { doc_id: selected.doc_id, page: 1, bbox: [0, 0, 0, 0] };
 
   return <div>
-    <PageHead eyebrow="Documents" title="Intake"
+    <PageHead title="Documents"
       actions={!useFixtures && <button className="btn btn-primary" onClick={() => setUploading(!uploading)} aria-expanded={uploading}>
         {uploading ? <X aria-hidden="true" className="lucide" /> : <Upload aria-hidden="true" className="lucide" />}
         {uploading ? "Close" : "Upload a document"}</button>}>

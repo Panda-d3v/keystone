@@ -15,7 +15,7 @@ import { Brief, Lineage } from "./screens/specialist";
 /** One platform, one shell; the role decides the menu and the landing page. */
 export function PlatformPage({ page }: { page: PageId }) {
   return <Shell page={page}>{({ role, data, reload, useFixtures }) => {
-    if (data && !offline && (page === "home" || page === "exposure")) return <ComponentHub data={data} role={role} />;
+    if (data && !offline && page === "home") return <ComponentHub data={data} role={role} />;
     const shown = page === "home" ? role.home : page;
     switch (shown) {
       case "home": return <Home data={data} role={role} />;

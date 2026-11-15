@@ -34,7 +34,7 @@ export const ROLES: Role[] = [
     id: "compliance", label: "Trade compliance", person: "Priya Raman", initials: "PR",
     focus: "Make sure every duty claim is backed by documents.",
     home: "home", pages: ["home", "intake", "evidence", "exposure"],
-    labels: { exposure: "Duty bill" },
+    labels: { intake: "Documents", exposure: "Duty bill" },
   },
   {
     id: "analyst", label: "Analyst", person: "Sam Okafor", initials: "SO",

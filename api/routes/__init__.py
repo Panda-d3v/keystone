@@ -17,7 +17,7 @@ from api.rules.exposure import compute_exposure
 from api.rules.rates import initialize_rates
 from contracts.models import (
     Action, AuditEvent, ChangeEvent, DecisionCheck, DeclineActionResponse, EvidenceItem, EvidenceStatus,
-    Exposure, ExposureLineage, PendingApproval, SendActionRequest, SendActionResponse,
+    EvidenceRequirement, Exposure, ExposureLineage, PendingApproval, SendActionRequest, SendActionResponse,
 )
 
 from .store import initialize_store
@@ -57,6 +57,19 @@ def evidence_status(
             (supplier_id, part_no),
         )
     ]
+    declarations = [item for item in items if item.kind == "component_origin_declaration"]
+    if declarations:
+        return EvidenceStatus(
+            supplier_id=supplier_id, part_no=part_no, status="needs_review",
+            items=declarations, missing_requirements=["origin-review"],
+            requirements=[
+                EvidenceRequirement(
+                    id="origin-review", label="Confirm the declared origin", status="needs_review",
+                    reason="Check the supplier declaration against the lot being ordered.",
+                    citations=[citation for item in declarations for citation in item.field_citations.get("country_of_origin", [])],
+                ),
+            ],
+        )
     return check_uk_evidence(supplier_id, part_no, set(scope[0]) if scope else set(), items, on_date)
 
 
@@ -124,6 +137,20 @@ def decisions(connection: Database) -> list[DecisionCheck]:
             "SELECT decision_id FROM decisions WHERE type = 'supplier_award' ORDER BY decision_id"
         )
     ]
+
+
+@router.get("/evidence", operation_id="workspace_evidence")
+def workspace_evidence(connection: Database) -> EvidenceStatus:
+    initialize_store(connection)
+    pair = connection.execute(
+        """SELECT supplier_id, part_no FROM evidence_records
+           ORDER BY (kind = 'component_origin_declaration') DESC, supplier_id, part_no DESC LIMIT 1"""
+    ).fetchone() or connection.execute(
+        "SELECT supplier_id, part_no FROM evidence_scopes ORDER BY supplier_id DESC, part_no LIMIT 1"
+    ).fetchone()
+    if pair is None:
+        return EvidenceStatus(supplier_id="", part_no="", status="missing", items=[], missing_requirements=[])
+    return evidence_status(connection, *pair, date.today())
 
 
 @router.get("/evidence/{supplier_id}/{part_no}", operation_id="evidence")

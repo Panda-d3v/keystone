@@ -306,3 +306,40 @@
   }
   .phone-workspace .phone-chevron { display: none; }
 }
+
+.ks .ks-live-steps {
+  overflow: hidden;
+  background: var(--nav);
+  border-color: var(--nav);
+}
+
+.ks .ks-live-steps a {
+  background: var(--nav);
+  color: #f3f7f7;
+  border-color: #435b64;
+}
+
+.ks .ks-live-steps a:hover,
+.ks .ks-live-steps a[aria-current] {
+  background: #38535d;
+}
+
+.ks-live-arrow {
+  margin-inline-start: auto;
+  opacity: .75;
+}
+
+.ks-live-steps a:last-child .ks-live-arrow {
+  visibility: hidden;
+}
+
+.ks-component-overview {
+  display: grid;
+  grid-template-columns: minmax(15rem, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 1.5rem;
+}
+
+@media (max-width: 48rem) {
+  .ks-component-overview { grid-template-columns: 1fr; }
+}

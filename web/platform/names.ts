@@ -3,6 +3,8 @@
 // decisions.csv); everything else is wording, never a number.
 
 export const SUPPLIERS: Record<string, { name: string; country: string; city: string }> = {
+  "PHONE-KR": { name: "Hanul Mobile Components", country: "South Korea", city: "Suwon" },
+  "PHONE-US": { name: "Redwood Silicon Works", country: "United States", city: "Austin" },
   S001: { name: "Ningbo Haitai Precision Casting", country: "China", city: "Ningbo" },
   S002: { name: "Taizhou Jinhong Pump Parts", country: "China", city: "Taizhou" },
   S003: { name: "Rajkot Sterling Castings", country: "India", city: "Rajkot" },
@@ -52,3 +54,16 @@ export const hts = (code: string) =>
   /^\d{6,10}$/.test(code) ? `${code.slice(0, 4)}.${code.slice(4, 6)}${code.length > 6 ? `.${code.slice(6)}` : ""}` : code;
 
 export const sentence = (value: string) => value.charAt(0).toUpperCase() + value.slice(1).replaceAll("_", " ");
+
+
+const COMPONENT_NAMES: Record<string, string> = {
+  "AP-X1": "Application processor X1",
+  "AP-X2": "Application processor X2",
+  "RAM-L8": "LPDDR memory 8 GB",
+  "UFS-256": "UFS storage 256 GB",
+  "OLED-61": "6.1-inch OLED display",
+  "OLED-67": "6.7-inch OLED display",
+  "BAT-45": "4,500 mAh battery pack",
+};
+
+export const componentName = (id: string) => COMPONENT_NAMES[id] ?? id;

@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  ClipboardCheck, FileSearch, FileText, GitBranch, Home, Inbox, Layers, ListChecks,
+  ChevronRight, ClipboardCheck, FileSearch, FileText, GitBranch, Home, Inbox, Layers, ListChecks,
   RefreshCw, Scale, ScrollText, TrendingUp,
 } from "lucide-react";
 import { PhoneWorkflow } from "./screens/phone-workflow";
@@ -87,7 +87,7 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
         <header className="ks-topbar">
           <Link href="/" className="ks-brand phone-brand p-0" style={{ color: "var(--ink)" }}>
             <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span></Link>
-          <div className="ks-crumbs"><span>MeridianFlow</span><span aria-hidden="true">/</span><strong>{pageLabel(role, shown)}</strong></div>
+          <div className="ks-crumbs"><span>Procurement</span><span aria-hidden="true">/</span><strong>{pageLabel(role, shown)}</strong></div>
           <div className="ms-auto d-flex align-items-center gap-2">
             <button className="btn btn-quiet btn-sm" onClick={reload} aria-label="Refresh data">
               <RefreshCw aria-hidden="true" className="lucide" /><span className="d-none d-md-inline">Refresh</span></button>
@@ -102,11 +102,11 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
           </div>
         </header>
         <main className="ks-main">
-          <nav className="phone-steps ks-no-print mb-4" aria-label="Main navigation">
+          <nav className="phone-steps ks-live-steps ks-no-print mb-4" aria-label="Main navigation">
             {role.pages.map(id => {
               const Icon = ICONS[id];
               return <Link key={id} href={PAGES[id].path} aria-current={id === shown ? "page" : undefined}>
-                <Icon aria-hidden="true" className="lucide" />{pageLabel(role, id)}
+                <Icon aria-hidden="true" className="lucide" />{pageLabel(role, id)}<ChevronRight aria-hidden="true" className="lucide ks-live-arrow" />
               </Link>;
             })}
           </nav>
