@@ -262,13 +262,9 @@ export async function downloadBrief(data: WorkspaceData) {
         {!data.actions.length && !submissions.length && !declines.length && (
           <Text>No supplier request is awaiting review.</Text>
         )}
-        <Text
-          fixed
-          style={styles.footer}
-          render={({ pageNumber, totalPages }) =>
-            `Illustrative MeridianFlow scenario. Section 232 layer only.   ${pageNumber} / ${totalPages}`
-          }
-        />
+        <Text fixed style={styles.footer}>
+          Illustrative MeridianFlow scenario. Section 232 layer only.
+        </Text>
       </Page>
     </Document>
   );
