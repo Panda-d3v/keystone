@@ -27,7 +27,7 @@ export interface Role {
 export const ROLES: Role[] = [
   {
     id: "sourcing", label: "Sourcing manager", person: "Maya Chen", initials: "MC",
-    focus: "Keep supplier decisions right when trade rules change.",
+    focus: "Review affected components and choose where to source them.",
     home: "home", pages: ["home", "decisions", "exposure", "actions"],
   },
   {

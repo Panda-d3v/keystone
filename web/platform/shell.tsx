@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ClipboardCheck, FileSearch, FileText, GitBranch, Home, Inbox, Layers, ListChecks,
-  ReceiptText, RefreshCw, Scale, ScrollText, TrendingUp,
+  RefreshCw, Scale, ScrollText, TrendingUp,
 } from "lucide-react";
+import { PhoneWorkflow } from "./screens/phone-workflow";
 import { useWorkspace } from "@/lib/use-workspace";
 import type { WorkspaceData } from "@/lib/contracts";
 import { DEFAULT_ROLE, PAGES, ROLES, ownerOf, pageLabel, roleById, type PageId, type Role, type RoleId } from "./roles";
@@ -77,27 +78,14 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
     if (page !== "home" && !nextRole.pages.includes(page)) router.push(PAGES[nextRole.home].path);
   }
 
+  if (useFixtures) return <PhoneWorkflow page={page} role={role} onRole={setRole} />;
+
   const ctx: PlatformContext = { role, setRole: switchRole, data, reload, useFixtures };
   return <Ctx.Provider value={ctx}>
     <div className="ks ks-layout">
-      <aside className="ks-sidebar" aria-label="Keystone">
-        <Link href="/" className="ks-brand"><span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span>Keystone</Link>
-        <div className="label">{role.label}</div>
-        <nav className="ks-nav" aria-label="Main navigation">
-          {role.pages.map(id => {
-            const Icon = id === "exposure" && role.labels?.exposure ? ReceiptText : ICONS[id];
-            return <Link key={id} href={PAGES[id].path} className={id === shown ? "active" : ""}
-              aria-current={id === shown ? "page" : undefined}>
-              <Icon aria-hidden="true" className="lucide" />{pageLabel(role, id)}
-            </Link>;
-          })}
-        </nav>
-        <div className="ks-sidebar-foot">{role.focus}</div>
-      </aside>
-
       <div className="ks-body">
         <header className="ks-topbar">
-          <Link href="/" className="ks-brand ks-mobile-brand p-0" style={{ color: "var(--ink)" }}>
+          <Link href="/" className="ks-brand phone-brand p-0" style={{ color: "var(--ink)" }}>
             <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span></Link>
           <div className="ks-crumbs"><span>MeridianFlow</span><span aria-hidden="true">/</span><strong>{pageLabel(role, shown)}</strong></div>
           <div className="ms-auto d-flex align-items-center gap-2">
@@ -114,18 +102,20 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
             </div>
           </div>
         </header>
-        <nav className="ks-mobile-nav" aria-label="Sections">
-          {role.pages.map(id => <Link key={id} href={PAGES[id].path} className={id === shown ? "active" : ""}
-            aria-current={id === shown ? "page" : undefined}>{pageLabel(role, id)}</Link>)}
-        </nav>
-
         <main className="ks-main">
+          <nav className="phone-steps ks-no-print mb-4" aria-label="Main navigation">
+            {role.pages.map(id => {
+              const Icon = ICONS[id];
+              return <Link key={id} href={PAGES[id].path} aria-current={id === shown ? "page" : undefined}>
+                <Icon aria-hidden="true" className="lucide" />{pageLabel(role, id)}
+              </Link>;
+            })}
+          </nav>
           {error ? <div className="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
             <span>{error}</span><button className="btn btn-sm btn-outline-secondary" onClick={reload}>Try again</button>
           </div> : !allowed ? <RoleGate page={shown} onSwitch={switchRole} />
             : loading && !data ? <p className="text-soft" role="status">Loading…</p>
             : children(ctx)}
-          <p className="ks-footnote ks-no-print">Illustrative MeridianFlow scenario. Section 232 layer only; not a duty determination.</p>
         </main>
       </div>
     </div>

@@ -327,7 +327,7 @@ export function BriefContent({
         </details>
       </section>
       <footer>
-        Illustrative MeridianFlow scenario. Section 232 layer only.
+        Section 232 layer only.
       </footer>
     </>
   );

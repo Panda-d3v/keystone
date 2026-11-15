@@ -27,7 +27,7 @@ export default function EntryWorkspace({ screen }: { screen: Screen }) {
           </>}
         </section>
         : <EntryContent screen={screen} data={data}/>}
-      <footer className="entry-scenario">Illustrative MeridianFlow scenario. Section 232 layer only. Other duty layers are outside this demo.</footer>
+      <footer className="entry-scenario">Section 232 layer only. Other duty layers are outside this demo.</footer>
     </main>
   </div>;
 }

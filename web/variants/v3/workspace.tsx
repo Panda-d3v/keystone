@@ -137,7 +137,7 @@ export default function LineageWorkspace({ screen }: { screen: Screen }) {
           <LineageContent screen={screen} data={data} graph={lineage.data} />
         )}
         <footer>
-          Illustrative MeridianFlow scenario. Section 232 layer only.
+          Section 232 layer only.
         </footer>
       </main>
     </div>

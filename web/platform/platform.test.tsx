@@ -9,6 +9,11 @@ const push = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
 vi.mock("@/variants/v1/pdf-page", () => ({ default: () => <div aria-label="PDF page" /> }));
 
+vi.mock("@/lib/use-workspace", async (original) => {
+  const module = await original<typeof import("@/lib/use-workspace")>();
+  return { useWorkspace: () => ({ ...module.useWorkspace(), useFixtures: false }) };
+});
+
 function as(role: string) {
   window.localStorage.setItem("keystone.role", role);
 }

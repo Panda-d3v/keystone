@@ -264,7 +264,7 @@ export async function downloadBrief(data: WorkspaceData) {
           <Text>No supplier request is awaiting review.</Text>
         )}
         <Text fixed style={styles.footer}>
-          Illustrative MeridianFlow scenario. Section 232 layer only.
+          Section 232 layer only.
         </Text>
       </Page>
     </Document>
