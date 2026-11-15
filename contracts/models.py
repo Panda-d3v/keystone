@@ -90,6 +90,7 @@ class DecisionCheck(Contract):
     alternative_with_proof_annual_usd: float
     alternative_without_proof_annual_usd: float
     incumbent_before_annual_usd: float | None = None
+    incumbent_delta_annual_usd: float | None = None
     alternative_with_proof_delta_usd: float | None = None
     alternative_without_proof_delta_usd: float | None = None
 
