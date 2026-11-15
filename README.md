@@ -32,7 +32,7 @@ Use Python 3.12+ and Node 22. Run `python3.12 -m venv .venv`, `.venv/bin/pip ins
 - `infra/`: ASGI bootstrap, Dockerfiles, and scaffold smoke tests.
 - `web/`: Next.js 15 app. Shared data access belongs in `web/lib/`; independent visual directions live under `web/variants/v1` through `v5`.
 - `docs/reference/`: original team task/design PDFs and demo archive.
-- `pitch/`: pitch and demo materials.
+- `docs/pitch/`: current pitch decks and slide PDF.
 
 T15 should export an `APIRouter` named `router` from `api.routes`; the bootstrap registers it automatically. A missing routes package is allowed during scaffold development; broken route imports fail visibly. `/health` is liveness; `/ready` checks the Postgres connection. Configure browser requests with `NEXT_PUBLIC_API_BASE_URL` and API CORS with `WEB_ORIGINS`.
 
@@ -43,6 +43,15 @@ The Keystone business proposal is in [`docs/business/`](docs/business/). It cove
 - [Word document](docs/business/keystone-business-proposal.docx)
 - [PDF](docs/business/keystone-business-proposal.pdf)
 - [Markdown source](docs/business/keystone-business-proposal.md)
+
+## Pitch materials
+
+Current slides are in [`docs/pitch/`](docs/pitch/).
+
+- [Pitch slides (PowerPoint)](docs/pitch/keystone-pitch-slides.pptx)
+- [Pitch slides (PDF)](docs/pitch/keystone-pitch-slides.pdf)
+- [Investor pitch (PowerPoint)](docs/pitch/keystone-investor-pitch.pptx)
+- [Pitch script](docs/pitch/pitch.md)
 
 ## Shared documents
 
