@@ -12,6 +12,7 @@ import {
 } from "@xyflow/react";
 import { Layers, RefreshCw, X, ZoomIn, ZoomOut, Maximize } from "lucide-react";
 import { useWorkspace } from "@/lib/use-workspace";
+import { WorkspaceEmpty } from "@/lib/workspace-empty";
 import { useLineage } from "@/lib/use-lineage";
 import { routeFor, screens, type Screen } from "@/lib/routes";
 import type {
@@ -90,7 +91,7 @@ function SourceNode({ data }: NodeProps<TraceNode>) {
 const nodeTypes = { source: SourceNode };
 
 export default function LineageWorkspace({ screen }: { screen: Screen }) {
-  const { data, error, reload, useFixtures } = useWorkspace();
+  const { data, error, loading, reload, useFixtures } = useWorkspace();
   const lineage = useLineage(data?.changes[0]?.id || "CE-0007", data);
   return (
     <div className="lineage-app">
@@ -123,7 +124,9 @@ export default function LineageWorkspace({ screen }: { screen: Screen }) {
             </Link>
           ))}
         </nav>
-        {error || lineage.error ? (
+        {!data && !loading && !error ? (
+          <WorkspaceEmpty />
+        ) : error || lineage.error ? (
           <section role="alert">
             {error || lineage.error}
             <button onClick={reload}>Retry</button>

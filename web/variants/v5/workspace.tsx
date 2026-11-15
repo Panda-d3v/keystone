@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { Download, Layers, Printer, RefreshCw } from "lucide-react";
 import { useWorkspace } from "@/lib/use-workspace";
+import { WorkspaceEmpty } from "@/lib/workspace-empty";
 import type {
   Action,
   DeclineActionResponse,
@@ -23,7 +24,7 @@ import { waterfallBars } from "./waterfall";
 import "./brief.css";
 
 export default function BriefWorkspace() {
-  const { data, error, reload, useFixtures } = useWorkspace();
+  const { data, error, loading, reload, useFixtures } = useWorkspace();
   const [exporting, setExporting] = useState(false);
   const [exportError, setExportError] = useState("");
   async function exportPdf() {
@@ -73,7 +74,9 @@ export default function BriefWorkspace() {
         </p>
       )}
       <main className="brief-paper">
-        {error ? (
+        {!data && !loading && !error ? (
+          <WorkspaceEmpty />
+        ) : error ? (
           <div role="alert">
             <p>{error}</p>
             <button onClick={reload}>Retry</button>

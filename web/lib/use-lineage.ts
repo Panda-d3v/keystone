@@ -9,7 +9,7 @@ export function useLineage(changeId: string, workspace: unknown) {
   );
   const [error, setError] = useState("");
   useEffect(() => {
-    if (useFixtures) return;
+    if (useFixtures || !workspace) return;
     const controller = new AbortController();
     setData(null);
     setError("");
