@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { FileUp } from "lucide-react";
+import styles from "./document-upload.module.css";
+import { useId, useRef, useState, type FormEvent } from "react";
 import { uploadDocument, type UploadResult } from "@/lib/data";
 
 const MAX_UPLOAD_BYTES = 20 * 1024 * 1024;
@@ -26,6 +28,8 @@ export function DocumentUpload({
   hasChange: boolean;
   onUploaded: () => void;
 }) {
+  const inputId = useId();
+  const hintId = useId();
   const input = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [confirmLink, setConfirmLink] = useState(false);
@@ -68,17 +72,22 @@ export function DocumentUpload({
     }
   }
 
-  return <section className="panel">
+  return <section className={`panel ${styles.panel}`}>
     <div className="panel-header"><h2>Upload a document</h2></div>
-    <form className="panel-body stack" onSubmit={submit}>
+    <form className={`panel-body ${styles.form}`} onSubmit={submit}>
       <p>{hasChange
         ? "Add a supplier certificate to check its supporting evidence."
         : "Upload the tariff bulletin email or PDF to see which orders are affected."}</p>
-      <label className="stack">
-        <span>Choose a bulletin or supplier certificate</span>
+      <div className={styles.picker}>
+        <span className={styles.icon}><FileUp aria-hidden="true" size={20} /></span>
+        <label htmlFor={inputId} className={styles.label}>Choose a bulletin or supplier certificate</label>
+        <span id={hintId} className={styles.hint}>Email (.eml), PDF, or image · Up to 20 MB</span>
         <input
+          id={inputId}
           ref={input}
           type="file"
+          className={styles.file}
+          aria-describedby={hintId}
           accept=".eml,.pdf,.jpg,.jpeg,.png,.webp,.gif"
           disabled={busy}
           onChange={event => {
@@ -91,7 +100,7 @@ export function DocumentUpload({
             setError("");
           }}
         />
-      </label>
+      </div>
       {file && <div className="stack">
         <label><input type="checkbox" checked={confirmLink} disabled={busy}
           onChange={event => setConfirmLink(event.currentTarget.checked)} /> Confirm supplier and part</label>
@@ -103,12 +112,11 @@ export function DocumentUpload({
             onChange={event => setPartNo(event.currentTarget.value)} /></label>
         </>}
       </div>}
-      <div className="row">
-        <button className="primary" type="submit"
+      <div className={styles.actions}>
+        <button className={styles.submit} type="submit"
           disabled={!file || busy || (confirmLink && (!supplierId.trim() || !partNo.trim()))}>
           {busy ? "Reading document…" : confirmLink ? "Confirm and upload" : "Upload document"}
         </button>
-        <span className="muted small">Email, PDF, or image. Up to 20 MB.</span>
       </div>
       {status && <p role="status">{status}</p>}
       {reviews.length > 0 && <ul className="stack" aria-label="Document review results">
