@@ -3,17 +3,26 @@
 import { useEffect, useState } from "react";
 import { Check, ChevronRight, Circle, Layers } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { money, percent } from "@/lib/format";
 import { costs, phoneCases, workflow, type Choice } from "../phone-cases";
 import { ROLES, type PageId, type Role, type RoleId } from "../roles";
 
 const storageKey = "keystone.phone-decisions.v1";
 
+const roleWork = {
+  sourcing: { start: "decisions", title: "Sourcing decisions", task: "Compare the incumbent and alternative for each part. Record which supplier to use." },
+  compliance: { start: "intake", title: "Tariff and origin review", task: "Confirm the effective date and affected parts, then check the origin documents for proposed switches." },
+  analyst: { start: "exposure", title: "Cost analysis", task: "Check the customs value, rate change, and annual volume behind each cost estimate." },
+  approver: { start: "brief", title: "Approval review", task: "Review the savings, completed decisions, and evidence still needed before signing off." },
+} as const;
+
 export function PhoneWorkflow({ page, role, onRole }: {
   page: PageId;
   role: Role;
   onRole: (role: RoleId) => void;
 }) {
+  const router = useRouter();
   const [caseId, setCaseId] = useState(phoneCases[0].id);
   const [choices, setChoices] = useState<Record<string, Choice>>({});
   const [saveError, setSaveError] = useState(false);
@@ -29,8 +38,12 @@ export function PhoneWorkflow({ page, role, onRole }: {
   }, [page]);
 
   const tariff = phoneCases.find(item => item.id === caseId) ?? phoneCases[0];
-  const step = workflow.find(item => item.id === page)
-    ?? workflow[page === "evidence" ? 3 : page === "lineage" ? 1 : page === "audit" || (page === "home" && role.id === "approver") ? 4 : 0];
+  const work = roleWork[role.id];
+  const stage = page === "home" ? work.start
+    : page === "evidence" ? "actions"
+    : page === "lineage" ? "exposure"
+    : page === "audit" ? "brief" : page;
+  const step = workflow.find(item => item.id === stage) ?? workflow[0];
   const href = (id: string) => `/${id}?case=${tariff.id}`;
   const entries = tariff.components.map(component => {
     const choice = choices[component.id] ?? component.decision;
@@ -68,7 +81,11 @@ Scope: ${scope}
         <span className="chip chip-neutral d-none d-sm-inline-flex">Sample data</span>
         <label className="visually-hidden" htmlFor="phone-role">Viewing as</label>
         <select className="form-select form-select-sm" id="phone-role" value={role.id}
-          onChange={event => onRole(event.target.value as RoleId)}>
+          onChange={event => {
+            const nextRole = event.target.value as RoleId;
+            onRole(nextRole);
+            router.push(href(roleWork[nextRole].start));
+          }}>
           {ROLES.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
         </select>
       </div>
@@ -97,6 +114,11 @@ Scope: ${scope}
           </Link>;
         })}
       </nav>
+      <aside className="card mt-4 ks-no-print" aria-label="Role task">
+        <div className="card-body">
+          <h2>{work.title}</h2><p className="mb-0">{work.task}</p>
+        </div>
+      </aside>
       <section className="phone-section" aria-labelledby="phone-stage">
         <div className="d-flex align-items-center justify-content-between gap-3 flex-wrap">
           <h2 id="phone-stage" className="mb-0">{step.label}</h2>

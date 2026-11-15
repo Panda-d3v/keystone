@@ -3,6 +3,8 @@ import { afterEach, expect, it, vi } from "vitest";
 import { PhoneWorkflow } from "./screens/phone-workflow";
 import { roleById } from "./roles";
 
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn() }) }));
+
 afterEach(() => {
   cleanup();
   localStorage.clear();
@@ -23,4 +25,16 @@ it("keeps decisions separate by component and carries them into the brief", () =
   expect(screen.getByText(/\$1,800,000 in modeled first-year savings/)).toBeTruthy();
   fireEvent.change(screen.getByLabelText("Tariff case"), { target: { value: "TC-102" } });
   expect(screen.getByText("Component decisions complete")).toBeTruthy();
+});
+
+
+it.each([
+  ["sourcing", "Choose by component"],
+  ["compliance", "Review tariff"],
+  ["analyst", "Check costs"],
+  ["approver", "Review brief"],
+] as const)("starts the %s role on its own work", (role, label) => {
+  render(<PhoneWorkflow page="home" role={roleById(role)} onRole={vi.fn()} />);
+  const nav = screen.getByRole("navigation", { name: "Tariff workflow" });
+  expect(within(nav).getByRole("link", { name: new RegExp(label) }).getAttribute("aria-current")).toBe("step");
 });
