@@ -46,6 +46,7 @@ export interface DecisionCheck {
   alternative_with_proof_annual_usd: number;
   alternative_without_proof_annual_usd: number;
   incumbent_before_annual_usd?: number | null;
+  incumbent_delta_annual_usd?: number | null;
   alternative_with_proof_delta_usd?: number | null;
   alternative_without_proof_delta_usd?: number | null;
 }
@@ -124,4 +125,10 @@ export interface ExposureLineage {
   affected_parts: number;
   nodes: LineageNode[];
   edges: LineageEdge[];
+}
+
+export interface DeclineActionResponse {
+  action_id: string;
+  state: "declined";
+  audit_event: AuditEvent;
 }

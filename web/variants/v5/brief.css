@@ -1,0 +1,439 @@
+@import "@fontsource/source-sans-3/400.css";
+@import "@fontsource/source-sans-3/600.css";
+@import "@fontsource/source-serif-4/600.css";
+.brief-app {
+  --accent: #1f5135;
+  --text: #1a1d21;
+  min-height: 100vh;
+  background: white;
+  color: var(--text);
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+}
+.brief-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 18px 32px;
+  border-bottom: 1px solid #d6dfd8;
+  font-size: 14px;
+}
+.brief-toolbar .row {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brief-app .brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+}
+.brief-app .brand svg {
+  width: 23px;
+}
+.brief-app a {
+  color: var(--accent);
+}
+.brief-app button {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #aebfb3;
+  border-radius: 3px;
+  color: var(--text);
+  cursor: pointer;
+}
+.brief-app button svg {
+  width: 16px;
+  height: 16px;
+}
+.brief-app button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.brief-app button:focus-visible,
+.brief-app a:focus-visible,
+.brief-app textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.brief-app .primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.brief-paper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 54px 48px 32px;
+}
+.brief-masthead {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #1f5135;
+  padding-bottom: 18px;
+  font-size: 14px;
+  color: #4f6257;
+}
+.brief-masthead p {
+  margin: 0;
+}
+.brief-app h1,
+.brief-app h2,
+.brief-app h3 {
+  font-family: "Source Serif 4", serif;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.brief-app h1 {
+  font-size: 48px;
+  letter-spacing: -1.5px;
+  margin: 38px 0 24px;
+  max-width: 650px;
+}
+.brief-app h2 {
+  font-size: 27px;
+  margin: 0 0 20px;
+}
+.brief-app h3 {
+  font-size: 20px;
+}
+.brief-app p {
+  margin: 14px 0;
+}
+.brief-deck {
+  font-size: 22px;
+  line-height: 1.55;
+  color: #526258;
+  margin-bottom: 38px !important;
+}
+.brief-paper > section {
+  padding: 32px 0;
+  border-top: 1px solid #d6dfd8;
+}
+.brief-source {
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 16px;
+}
+.brief-app .code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.8em;
+}
+.brief-waterfall {
+  margin: 30px 0 24px;
+}
+.brief-chart {
+  display: flex;
+  gap: 30px;
+  align-items: flex-end;
+}
+.brief-column {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: 14px;
+}
+.brief-plot {
+  height: 245px;
+  position: relative;
+  border-bottom: 1px solid #a4b6a9;
+}
+.brief-plot > strong {
+  position: absolute;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.brief-bar {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  background: #96ae9e;
+}
+.column-1 .brief-bar {
+  background: #557c64;
+}
+.column-2 .brief-bar {
+  background: #1f5135;
+}
+.brief-column > span {
+  display: block;
+  min-height: 48px;
+  padding-top: 12px;
+}
+.brief-waterfall figcaption {
+  font-size: 13px;
+  color: #526258;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.brief-options {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.brief-options th,
+.brief-options td {
+  text-align: left;
+  border-bottom: 1px solid #d6dfd8;
+  padding: 14px 10px 14px 0;
+}
+.brief-options th {
+  font-weight: 600;
+}
+.brief-options td + td {
+  text-align: right;
+  white-space: nowrap;
+}
+.brief-options th + th {
+  text-align: right;
+}
+.brief-delta {
+  color: #1f5135;
+}
+.brief-evidence {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.brief-evidence li {
+  padding: 18px 0;
+  border-bottom: 1px solid #e2e8e4;
+}
+.brief-evidence li:last-child {
+  border: 0;
+}
+.brief-evidence li > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brief-evidence p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+.brief-finding {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #5d625f;
+}
+.brief-finding.checked {
+  color: #1f5135;
+}
+.brief-response {
+  background: #e7efea;
+  padding: 30px !important;
+  margin: 0 -30px;
+}
+.brief-request {
+  margin-top: 22px;
+}
+.brief-request textarea {
+  display: block;
+  width: 100%;
+  min-height: 280px;
+  padding: 16px;
+  border: 1px solid #aebfb3;
+  border-radius: 0;
+  background: #fff;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+  resize: vertical;
+  margin: 8px 0 20px;
+}
+.brief-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.brief-outcome {
+  border-top: 1px solid #aebfb3;
+  margin-top: 24px;
+  padding-top: 8px;
+}
+.brief-audit {
+  font-size: 15px;
+  border-top: 0 !important;
+}
+.brief-audit summary {
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.brief-audit li {
+  margin: 12px 0;
+}
+.brief-audit small {
+  display: block;
+  color: #526258;
+}
+.brief-paper footer {
+  font-size: 13px;
+  color: #526258;
+  border-top: 1px solid #d6dfd8;
+  padding-top: 20px;
+}
+.brief-export-error {
+  padding: 16px 32px;
+}
+@media (max-width: 700px) {
+  .brief-toolbar {
+    padding: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brief-toolbar .row {
+    margin: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .brief-paper {
+    padding: 28px 22px;
+  }
+  .brief-app h1 {
+    font-size: 36px;
+    letter-spacing: -0.8px;
+    margin-top: 28px;
+  }
+  .brief-deck {
+    font-size: 20px;
+  }
+  .brief-app h2 {
+    font-size: 25px;
+  }
+  .brief-response {
+    margin: 0 -10px;
+    padding: 22px 10px !important;
+  }
+  .brief-chart {
+    gap: 12px;
+  }
+  .brief-plot {
+    height: 200px;
+  }
+  .brief-plot > strong {
+    font-size: 14px;
+  }
+  .brief-column {
+    font-size: 12px;
+  }
+  .brief-options {
+    font-size: 13px;
+  }
+  .brief-options th,
+  .brief-options td {
+    padding-right: 6px;
+  }
+  .brief-evidence li > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .brief-waterfall figcaption {
+    font-size: 12px;
+  }
+  .brief-paper > section {
+    padding: 26px 0;
+  }
+}
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+  .brief-toolbar,
+  .brief-export-error,
+  .brief-controls,
+  .brief-audit button {
+    display: none !important;
+  }
+  .brief-app {
+    font-size: 10pt;
+    line-height: 1.5;
+  }
+  .brief-paper {
+    max-width: none;
+    padding: 0;
+  }
+  .brief-app h1 {
+    font-size: 27pt;
+    margin: 18px 0;
+  }
+  .brief-app h2 {
+    font-size: 17pt;
+  }
+  .brief-deck {
+    font-size: 12pt;
+    margin-bottom: 20px !important;
+  }
+  .brief-paper > section {
+    padding: 18px 0;
+  }
+  .brief-response {
+    margin: 0;
+    padding: 18px 0 !important;
+    background: white;
+  }
+  .brief-waterfall {
+    break-inside: avoid;
+  }
+  .brief-options,
+  .brief-evidence li,
+  .brief-outcome {
+    break-inside: avoid;
+  }
+  .brief-plot {
+    height: 150px;
+  }
+  .brief-plot > strong {
+    font-size: 12pt;
+  }
+  .brief-bar {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .brief-request textarea {
+    border: 0;
+    min-height: 220px;
+    font-size: 9pt;
+    padding: 0;
+    resize: none;
+  }
+  .brief-source {
+    font-size: 9pt;
+  }
+  .brief-options {
+    font-size: 9pt;
+  }
+  .brief-app a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .brief-finding {
+    font-size: 9pt;
+  }
+  .brief-evidence p {
+    font-size: 10pt;
+  }
+  .brief-app footer {
+    font-size: 9pt;
+  }
+}
