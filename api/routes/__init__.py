@@ -208,3 +208,4 @@ def audit(connection: Database) -> list[AuditEvent]:
 
 
 from . import intake as _intake  # noqa: E402, F401
+from . import admin as _admin  # noqa: E402, F401
