@@ -14,6 +14,12 @@ from .rates import read_rate
 def check_decision(
     connection: Connection, decision_id: str, change: ChangeEvent, version: int
 ) -> DecisionCheck:
+    return evaluate_decision(connection, decision_id, change, version)[0]
+
+
+def evaluate_decision(
+    connection: Connection, decision_id: str, change: ChangeEvent, version: int
+) -> tuple[DecisionCheck, str]:
     decision = connection.execute(
         "SELECT subject, chosen_option FROM decisions WHERE decision_id = %s AND type = 'supplier_award'",
         (decision_id,),
@@ -91,4 +97,4 @@ def check_decision(
         incumbent_before_annual_usd=incumbent_before,
         alternative_with_proof_delta_usd=cost_with_proof[best] - full_cost[chosen_supplier],
         alternative_without_proof_delta_usd=full_cost[best] - full_cost[chosen_supplier],
-    )
+    ), best
