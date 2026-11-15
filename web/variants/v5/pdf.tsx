@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   },
   paragraph: { marginBottom: 10 },
   source: { fontSize: 9, color: "#1f5135", marginBottom: 12 },
+  findingSource: { fontSize: 9, color: "#1f5135", marginTop: 3 },
   row: {
     flexDirection: "row",
     paddingVertical: 8,
@@ -95,7 +96,7 @@ export async function downloadBrief(data: WorkspaceData) {
         <Text style={styles.masthead}>
           Keystone / MeridianFlow procurement / {change.id}
         </Text>
-        <Text style={styles.title}>The casing award needs another review</Text>
+        <Text style={styles.title}>The casing award needs review</Text>
         <Text style={styles.paragraph}>
           The tariff assumption behind the award has changed. The alternative’s
           advantage depends on evidence that still needs to be supplied.
@@ -204,10 +205,12 @@ export async function downloadBrief(data: WorkspaceData) {
               {requirement.label} — {words(requirement.status)}
             </Text>
             {requirement.reason && <Text>{requirement.reason}</Text>}
-            {requirement.citations?.map((citation, index) => (
+            {[...new Map(requirement.citations?.map((citation) => [
+              `${citation.doc_id}:${citation.page}`, citation,
+            ])).values()].map((citation) => (
               <Link
-                key={index}
-                style={styles.source}
+                key={`${citation.doc_id}:${citation.page}`}
+                style={styles.findingSource}
                 src={absoluteSource(citation)}
               >
                 {citation.doc_id}, page {citation.page}
