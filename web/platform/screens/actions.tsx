@@ -5,7 +5,7 @@ import type { Action, SendActionResponse, WorkspaceData } from "@/lib/contracts"
 import { actionTitle, money } from "@/lib/format";
 import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
 import { supplierName } from "../names";
-import { EmptyWorkspace } from "../shell";
+import { EmptyWorkspace, PageHead } from "../shell";
 
 export function Actions({ data }: { data: WorkspaceData | null }) {
   const submissions = useSubmissions(data?.audit ?? []);
@@ -13,8 +13,9 @@ export function Actions({ data }: { data: WorkspaceData | null }) {
   const current = new Set(data.actions.map(action => action.id));
   const done = submissions.filter(item => !current.has(item.actionId));
   return <div className="d-grid gap-4">
-    <div><h1 className="mb-1">Actions</h1>
-      <p className="text-soft mb-0">Requests drafted from the evidence gaps, ranked by dollars at stake. Edit before you submit.</p></div>
+    <PageHead eyebrow="Supplier requests" title="Actions">
+      Requests drafted from the evidence gaps, ranked by dollars at stake. Edit before you submit.
+    </PageHead>
     {[...data.actions].sort((a, b) => a.rank - b.rank).map(action =>
       <ActionCard key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)}
         supplier={supplierName(data.evidence.supplier_id)} />)}
@@ -39,7 +40,7 @@ function ActionCard({ action, saved, supplier }: { action: Action; saved?: Submi
   return <article className="card">
     <div className="card-header d-flex justify-content-between align-items-start gap-3 flex-wrap">
       <span>{actionTitle(action)}</span>
-      <span className="badge rounded-pill text-bg-primary">{money(action.usd_at_stake)} a year at stake</span>
+      <span className="chip chip-accent">{money(action.usd_at_stake)} a year at stake</span>
     </div>
     <div className="card-body d-grid gap-3">
       {action.why && <p className="mb-0">{action.why}</p>}
@@ -50,7 +51,7 @@ function ActionCard({ action, saved, supplier }: { action: Action; saved?: Submi
       </label>
       {error && <div className="alert alert-danger mb-0" role="alert">{error}</div>}
       {accepted ? <Approval result={accepted} /> : <div className="d-flex align-items-center gap-3 flex-wrap">
-        <button className="btn btn-primary d-inline-flex gap-2 align-items-center" disabled={busy || !draft.trim()} onClick={submit}>
+        <button className="btn btn-primary" disabled={busy || !draft.trim()} onClick={submit}>
           <Send aria-hidden="true" className="lucide" />{busy ? "Submitting…" : "Submit for approval"}</button>
         <span className="small text-soft">Creates a draft decision; the approvers review it before anything is sent.</span>
       </div>}

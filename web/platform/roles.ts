@@ -1,6 +1,10 @@
-// Who is using Keystone. Every role sees the same platform and the same
-// screens; the role decides the landing page, the order of the menu, and the
-// two specialist views (Lineage for analysts, the Brief for approvers).
+// Who is using Keystone. Everyone shares one platform and one look; each role
+// gets only the pages its job needs, in the order it works.
+//
+//   Sourcing manager  decides supplier awards      Home, Decisions, Exposure, Actions
+//   Trade compliance  proves duty claims           Home, Intake, Evidence, Duty bill
+//   Analyst           traces every number          Home, Lineage, Exposure, Audit log
+//   Approver          signs off the change         Brief, Audit log
 
 export type PageId =
   | "home" | "intake" | "exposure" | "decisions" | "evidence" | "actions"
@@ -16,28 +20,31 @@ export interface Role {
   focus: string;
   home: PageId;
   pages: PageId[];
+  /** Same page, named for how this role uses it. */
+  labels?: Partial<Record<PageId, string>>;
 }
 
 export const ROLES: Role[] = [
   {
     id: "sourcing", label: "Sourcing manager", person: "Maya Chen", initials: "MC",
     focus: "Keep supplier decisions right when trade rules change.",
-    home: "home", pages: ["home", "intake", "exposure", "decisions", "evidence", "actions", "audit"],
+    home: "home", pages: ["home", "decisions", "exposure", "actions"],
   },
   {
     id: "compliance", label: "Trade compliance", person: "Priya Raman", initials: "PR",
     focus: "Make sure every duty claim is backed by documents.",
-    home: "home", pages: ["home", "intake", "evidence", "exposure", "actions", "audit"],
+    home: "home", pages: ["home", "intake", "evidence", "exposure"],
+    labels: { exposure: "Duty bill" },
   },
   {
     id: "analyst", label: "Analyst", person: "Sam Okafor", initials: "SO",
     focus: "Trace every number back to the rows and rules behind it.",
-    home: "home", pages: ["home", "exposure", "lineage", "decisions", "audit"],
+    home: "home", pages: ["home", "lineage", "exposure", "audit"],
   },
   {
     id: "approver", label: "Approver", person: "Elena Park", initials: "EP",
     focus: "Decide on supplier changes with the full case in one place.",
-    home: "brief", pages: ["brief", "decisions", "evidence", "audit"],
+    home: "brief", pages: ["brief", "audit"],
   },
 ];
 
@@ -57,6 +64,10 @@ export const DEFAULT_ROLE: RoleId = "sourcing";
 
 export function roleById(id: string | null | undefined): Role {
   return ROLES.find(role => role.id === id) ?? ROLES.find(role => role.id === DEFAULT_ROLE)!;
+}
+
+export function pageLabel(role: Role, page: PageId): string {
+  return role.labels?.[page] ?? PAGES[page].label;
 }
 
 /** Which role owns a page that the current role does not see. */

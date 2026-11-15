@@ -1,22 +1,21 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import type { Citation, WorkspaceData } from "@/lib/contracts";
 import { SourceViewer } from "@/variants/v1/source-viewer";
 import type { Role } from "../roles";
 import { supplierName, SUPPLIERS } from "../names";
-import { EmptyWorkspace } from "../shell";
+import { EmptyWorkspace, PageHead } from "../shell";
 
-const STATUS: Record<string, { label: string; tone: string }> = {
-  checked: { label: "Proven", tone: "text-bg-success" },
-  needs_review: { label: "Unreadable", tone: "text-bg-warning" },
-  mismatch: { label: "Doesn't match", tone: "text-bg-danger" },
-  missing: { label: "Missing", tone: "text-bg-secondary" },
+const STATUS: Record<string, { label: string; chip: string }> = {
+  checked: { label: "Proven", chip: "chip-good" },
+  needs_review: { label: "Unreadable", chip: "chip-warn" },
+  mismatch: { label: "Doesn't match", chip: "chip-bad" },
+  missing: { label: "Missing", chip: "chip-neutral" },
 };
-const PASSPORT: Record<string, { label: string; tone: string }> = {
-  verified: { label: "All proven", tone: "text-bg-success" },
-  needs_review: { label: "Not proven yet", tone: "text-bg-warning" },
-  missing: { label: "Documents missing", tone: "text-bg-secondary" },
+const PASSPORT: Record<string, { label: string; chip: string }> = {
+  verified: { label: "All proven", chip: "chip-good" },
+  needs_review: { label: "Not proven yet", chip: "chip-warn" },
+  missing: { label: "Documents missing", chip: "chip-neutral" },
 };
 /** What each requirement checks, said plainly. */
 const MEANING: Record<string, string> = {
@@ -37,39 +36,37 @@ export function Evidence({ data, role }: { data: WorkspaceData | null; role: Rol
   const citation: Citation | null = current?.citations?.[0] ?? null;
   const heats = [...new Set(evidence.items.map(item => item.batch_id).filter(Boolean))];
   const country = SUPPLIERS[evidence.supplier_id]?.country;
-  const passport = PASSPORT[evidence.status] ?? { label: evidence.status, tone: "text-bg-light" };
+  const passport = PASSPORT[evidence.status] ?? { label: evidence.status, chip: "chip-neutral" };
+  const open = rows.filter(row => row.status !== "checked").length;
 
-  return <div className="d-grid gap-4">
-    <div className="d-flex justify-content-between align-items-end flex-wrap gap-2">
-      <div><h1 className="mb-1">Evidence</h1>
-        <p className="text-soft mb-0">{supplierName(evidence.supplier_id)}{country ? ` (${country})` : ""}, part <span className="code">{evidence.part_no}</span>{heats.length ? `, heats ${heats.join(" and ")}` : ""}.</p></div>
-      <span className={`badge fs-6 ${passport.tone}`}>{passport.label}</span>
-    </div>
-    <div className="row g-4">
-      <div className="col-lg-5">
-        <div className="card h-100">
-          <div className="card-header">What the lower rate needs</div>
-          <div className="list-group list-group-flush">
-            {rows.map(row => {
-              const tag = STATUS[row.status] ?? { label: row.status, tone: "text-bg-light" };
-              const hasSource = !!row.citations?.length;
-              return <div key={row.id} className={`list-group-item py-3 ${selected === row.id ? "bg-primary-subtle" : ""}`}>
-                <div className="d-flex justify-content-between gap-2">
-                  <strong>{row.label}</strong><span className={`badge ${tag.tone}`}>{tag.label}</span>
-                </div>
-                <div className="small text-soft">{MEANING[row.id] ?? ""}</div>
-                {row.status !== "checked" && row.reason && <div className="small mt-1">{row.reason}</div>}
-                {hasSource && <button className="btn btn-link btn-sm px-0" onClick={() => setSelected(row.id)} aria-pressed={selected === row.id}>
-                  Show on the document</button>}
-              </div>;
-            })}
-          </div>
-          {role.pages.includes("actions") && evidence.status !== "verified" && <div className="card-footer bg-white">
-            <Link href="/actions" className="btn btn-primary btn-sm">Ask the supplier for what&apos;s missing</Link>
-          </div>}
-        </div>
+  return <div>
+    <PageHead eyebrow="Evidence passport" title={supplierName(evidence.supplier_id)}
+      actions={<span className={`chip ${passport.chip} fs-6 px-3 py-1`}>{passport.label}</span>}>
+      {country ? `${country}. ` : ""}Part <span className="code">{evidence.part_no}</span>{heats.length ? `, heats ${heats.join(" and ")}` : ""}.
+      {" "}The lower UK rate applies only when every requirement below is proven.
+    </PageHead>
+    <div className="ks-split">
+      <section className="card" aria-labelledby="needs">
+        <div className="card-header d-flex justify-content-between"><span id="needs">What the lower rate needs</span><span className="text-soft small">{rows.length - open} of {rows.length} proven</span></div>
+        <div>{rows.map(row => {
+          const tag = STATUS[row.status] ?? { label: row.status, chip: "chip-neutral" };
+          const hasSource = !!row.citations?.length;
+          return <button key={row.id} type="button" className="ks-row" aria-pressed={selected === row.id}
+            disabled={!hasSource} onClick={() => setSelected(row.id)} title={hasSource ? "Show on the document" : undefined}>
+            <span className="d-flex justify-content-between gap-2"><span className="v">{row.label}</span><span className={`chip ${tag.chip}`}>{tag.label}</span></span>
+            <span className="d-block k mt-1">{MEANING[row.id] ?? ""}</span>
+            {row.status !== "checked" && row.reason && <span className="d-block small mt-1" style={{ color: "var(--warn)" }}>{row.reason}</span>}
+          </button>;
+        })}</div>
+        {evidence.status !== "verified" && <div className="card-footer small text-soft">
+          {role.pages.includes("actions") ? "Use Actions to ask the supplier for what's missing."
+            : "The sourcing manager sends the supplier the request for what's missing."}
+        </div>}
+      </section>
+      <div className="ks-pin">
+        <p className="small text-soft mb-2">{citation ? `Showing: ${current?.label}. Select a requirement to see where it's read.` : "Select a requirement to see where it's read."}</p>
+        <div className="legacy"><SourceViewer citation={citation} /></div>
       </div>
-      <div className="col-lg-7"><div className="legacy h-100"><SourceViewer citation={citation} /></div></div>
     </div>
   </div>;
 }
