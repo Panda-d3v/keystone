@@ -52,6 +52,7 @@ Current slides are in [`docs/pitch/`](docs/pitch/).
 - [Pitch slides (PDF)](docs/pitch/keystone-pitch-slides.pdf)
 - [Investor pitch (PowerPoint)](docs/pitch/keystone-investor-pitch.pptx)
 - [Pitch script](docs/pitch/pitch.md)
+- [Earlier slide design](docs/pitch/old/)
 
 ## Shared documents
 
