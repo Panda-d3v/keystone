@@ -101,16 +101,16 @@ export function DocumentUpload({
           }}
         />
       </div>
-      {file && <div className="stack">
+      {file && <div className={styles.confirmation}>
         <label><input type="checkbox" checked={confirmLink} disabled={busy}
           onChange={event => setConfirmLink(event.currentTarget.checked)} /> Confirm supplier and part</label>
-        {confirmLink && <>
-          <p className="muted small">Use the IDs from your quote or order. Details the scan cannot support still need review.</p>
+        {confirmLink && <div className={styles.fields}>
+          <p className={styles.hint}>Use the IDs from your quote or order. Details the scan cannot support still need review.</p>
           <label className="stack">Supplier ID<input value={supplierId} disabled={busy} required
             onChange={event => setSupplierId(event.currentTarget.value)} /></label>
           <label className="stack">Part number<input value={partNo} disabled={busy} required
             onChange={event => setPartNo(event.currentTarget.value)} /></label>
-        </>}
+        </div>}
       </div>}
       <div className={styles.actions}>
         <button className={styles.submit} type="submit"

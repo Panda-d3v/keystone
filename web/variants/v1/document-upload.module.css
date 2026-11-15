@@ -102,3 +102,24 @@
     margin-bottom: .625rem;
   }
 }
+
+.confirmation,
+.fields {
+  display: grid;
+  gap: .75rem;
+}
+
+.fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.fields > p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.fields input {
+  display: block;
+  width: 100%;
+  margin-top: .375rem;
+}
