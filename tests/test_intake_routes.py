@@ -104,7 +104,7 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
                 if manual_link:
                     expected_events.insert(4, "evidence_association_confirmed")
                 assert [event["type"] for event in client.get("/audit").json()] == expected_events
-                assert llm.stats.model_calls == 3
+                assert llm.stats.model_calls == 5
 
                 replay = LLMClient(cache_dir=tmp_path, replay=True)
                 monkeypatch.setattr("api.agents.llm._default_client", replay)
@@ -114,7 +114,7 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
                 assert client.post("/intake", data=fields, files={
                     "file": (scan_name, scan, "image/jpeg"),
                 }).raise_for_status().json()["evidence_doc_ids"] == ids["evidence_doc_ids"]
-                assert replay.stats.cache_hits == 3 and replay.stats.model_calls == 0
+                assert replay.stats.cache_hits == 5 and replay.stats.model_calls == 0
                 assert len(client.get("/audit").json()) == len(expected_events)
                 actions = client.get("/actions").raise_for_status().json()
                 assert len(actions) == 1 and actions[0]["usd_at_stake"] == 49690
