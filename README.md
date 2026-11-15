@@ -36,6 +36,14 @@ Use Python 3.12+ and Node 22. Run `python3.12 -m venv .venv`, `.venv/bin/pip ins
 
 T15 should export an `APIRouter` named `router` from `api.routes`; the bootstrap registers it automatically. A missing routes package is allowed during scaffold development; broken route imports fail visibly. `/health` is liveness; `/ready` checks the Postgres connection. Configure browser requests with `NEXT_PUBLIC_API_BASE_URL` and API CORS with `WEB_ORIGINS`.
 
+## Business proposal
+
+The Keystone business proposal is in [`docs/business/`](docs/business/). It covers the product, target customers, market, go-to-market strategy, pricing, development roadmap and financial outlook.
+
+- [Word document](docs/business/keystone-business-proposal.docx)
+- [PDF](docs/business/keystone-business-proposal.pdf)
+- [Markdown source](docs/business/keystone-business-proposal.md)
+
 ## Shared documents
 
 See [task breakdown](docs/reference/keystone-task-breakdown.pdf), [technical design](docs/reference/keystone-technical-design.pdf), and [demo pack](docs/reference/keystone-demo-pack.zip). Original files are preserved without modification.
