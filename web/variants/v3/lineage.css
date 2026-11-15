@@ -2,6 +2,404 @@
 @import "@fontsource/work-sans/500.css";
 @import "@fontsource/work-sans/600.css";
 @import "@fontsource/ibm-plex-mono/400.css";
-.lineage-app{--accent:#2b5fd9;--text:#243246;color:var(--text);background:#fff;min-height:100vh;font-family:"Work Sans",sans-serif;font-size:14px}
-.lineage-app .code{font-family:"IBM Plex Mono",monospace;font-size:12px}.lineage-top{display:flex;align-items:center;gap:24px;padding:18px 32px;border-bottom:1px solid #d3dae3}.lineage-top>.row{margin-left:auto}.lineage-app main{max-width:1600px;margin:auto;padding:0 32px}.lineage-tabs{display:flex;gap:28px;border-bottom:1px solid #d3dae3;overflow:auto}.lineage-tabs a{padding:18px 0;white-space:nowrap;text-decoration:none;color:inherit;border-bottom:3px solid transparent}.lineage-tabs a[aria-current]{color:var(--accent);border-color:var(--accent)}.lineage-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px 0 24px}.lineage-app h1{font-size:32px;line-height:1.2;margin:8px 0}.lineage-app h2{font-size:20px}.lineage-app h3{font-size:16px}.lineage-app p{line-height:1.6}.lineage-total{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:#edf2fc!important;border:1px solid #bccdef!important;padding:18px 24px!important;min-width:290px}.lineage-total strong{font-size:34px;line-height:1.1;color:var(--accent)}.lineage-toolbar{display:flex;gap:24px;align-items:center;padding:14px 0;border-top:1px solid #d3dae3}.lineage-toolbar label{display:flex;align-items:center;gap:10px;white-space:nowrap}.lineage-toolbar p{color:#607086;font-size:12px;flex:1}.lineage-app select,.lineage-app input{border:1px solid #b9c4d2;background:white;padding:9px;max-width:100%;border-radius:3px}.lineage-app button{border:1px solid #bcc6d2;border-radius:3px;padding:8px 12px;background:#fff;color:inherit;font-family:inherit;cursor:pointer}.lineage-app button:focus-visible,.lineage-app a:focus-visible,.lineage-app select:focus-visible{outline:3px solid #2b5fd9;outline-offset:3px}.lineage-app button svg{width:16px;height:16px}.lineage-app button:disabled{opacity:.6;cursor:default}.lineage-app .primary{background:var(--accent);color:#fff;border-color:var(--accent);align-self:flex-start}.lineage-canvas{height:500px;background:#eef1f4;border:1px solid #d3dae3}.lineage-node{width:165px;min-height:112px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;border-color:#acbbcc!important;border-radius:4px!important;padding:15px!important;box-shadow:none!important}.lineage-node span{font-size:12px;color:#526276}.lineage-node strong{font-weight:600;font-size:14px;line-height:1.4;overflow-wrap:anywhere}.lineage-node small{font-size:10px;color:#526276}.lineage-node.bulletin,.lineage-node.change{background:#dde6f2}.lineage-node.rate,.lineage-node.assumption{background:#e4dff2}.lineage-node.decision{background:#efe1dc}.lineage-node.part,.lineage-node.purchase_order,.lineage-node.product{background:#dfe4e8}.lineage-node.selected{outline:2px solid #2b5fd9;outline-offset:3px}.lineage-drawer{border:1px solid #bdcadd;border-top:3px solid var(--accent);padding:22px;margin-top:16px}.lineage-source-list{padding:0;list-style:none;max-height:250px;overflow:auto}.lineage-source-list li{display:flex;align-items:center;gap:20px;padding:12px 0;border-bottom:1px solid #dce2e9}.lineage-source-list li>span:first-child{min-width:220px}.lineage-source-list strong{margin-left:auto}.lineage-app details{margin:16px 0;overflow-wrap:anywhere}.lineage-app summary{cursor:pointer}.lineage-app details li{margin:8px 0}.lineage-panel{padding:28px 0}.lineage-table{overflow:auto;max-width:100%}.lineage-table table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}.lineage-table th{font-weight:500;background:#eef1f4;white-space:nowrap}.lineage-table td,.lineage-table th{padding:12px 14px;border-bottom:1px solid #d3dae3;vertical-align:top}.lineage-table td:last-child{min-width:220px}.lineage-table .money{text-align:right;white-space:nowrap}.lineage-costs{display:flex;gap:32px}.lineage-costs dt{color:#607086}.lineage-costs dd{margin:8px 0;font-size:22px}.lineage-app textarea{width:100%;min-height:240px;line-height:1.6;padding:16px;font:inherit;border:1px solid #b9c4d2;resize:vertical}.lineage-app blockquote{margin:12px 0;padding:12px 20px;border-left:3px solid #b7c9e8;line-height:1.7}.lineage-app footer{padding:24px 0;border-top:1px solid #d3dae3;color:#607086;font-size:12px}.lineage-app .brand{display:flex;align-items:center;gap:8px;font-weight:600;text-decoration:none;color:inherit}.lineage-app .brand svg{width:22px}.lineage-app .row{display:flex;align-items:center;gap:12px}.lineage-app .spread{justify-content:space-between}.lineage-app .stack{display:flex;flex-direction:column;gap:16px}.lineage-app .status{font-size:12px;background:#eef1f4;padding:5px 8px}.lineage-app a{color:var(--accent)}
-@media(max-width:700px){.lineage-top{padding:16px;flex-wrap:wrap;gap:12px}.lineage-top>.row{width:100%;margin:0;flex-wrap:wrap}.lineage-app main{padding:0 16px}.lineage-tabs{gap:22px}.lineage-heading{flex-direction:column;align-items:stretch}.lineage-total{min-width:0}.lineage-toolbar{flex-wrap:wrap;gap:8px}.lineage-toolbar label{width:100%;display:flex;flex-direction:column;align-items:stretch}.lineage-toolbar p{flex-basis:100%}.lineage-canvas{height:auto}.lineage-mobile-path{margin:0;padding:24px;list-style:none;display:flex;flex-direction:column;align-items:center;gap:24px}.lineage-mobile-path li{position:relative;width:100%}.lineage-mobile-path .lineage-node{width:100%}.lineage-source-list li{align-items:flex-start;flex-direction:column;gap:8px}.lineage-source-list li>span:first-child{min-width:0;overflow-wrap:anywhere}.lineage-source-list strong{margin:0}.lineage-drawer{padding:16px;min-width:0}.lineage-costs{flex-direction:column;gap:12px}.lineage-panel{min-width:0}.lineage-app .row{flex-wrap:wrap}}
+.lineage-app {
+  --accent: #2b5fd9;
+  --text: #243246;
+  color: var(--text);
+  background: #fff;
+  min-height: 100vh;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+}
+.lineage-app .code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+.lineage-top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 32px;
+  border-bottom: 1px solid #d3dae3;
+}
+.lineage-top > .row {
+  margin-left: auto;
+}
+.lineage-app main {
+  max-width: 1600px;
+  margin: auto;
+  padding: 0 32px;
+}
+.lineage-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid #d3dae3;
+  overflow: auto;
+}
+.lineage-tabs a {
+  padding: 18px 0;
+  white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 3px solid transparent;
+}
+.lineage-tabs a[aria-current] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.lineage-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 30px 0 24px;
+}
+.lineage-app h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 8px 0;
+}
+.lineage-app h2 {
+  font-size: 20px;
+}
+.lineage-app h3 {
+  font-size: 16px;
+}
+.lineage-app p {
+  line-height: 1.6;
+}
+.lineage-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  background: #edf2fc !important;
+  border: 1px solid #bccdef !important;
+  padding: 18px 24px !important;
+  min-width: 290px;
+}
+.lineage-total strong {
+  font-size: 34px;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.lineage-toolbar {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid #d3dae3;
+}
+.lineage-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.lineage-toolbar p {
+  color: #607086;
+  font-size: 12px;
+  flex: 1;
+}
+.lineage-app select,
+.lineage-app input {
+  border: 1px solid #b9c4d2;
+  background: white;
+  padding: 9px;
+  max-width: 100%;
+  border-radius: 3px;
+}
+.lineage-app button {
+  border: 1px solid #bcc6d2;
+  border-radius: 3px;
+  padding: 8px 12px;
+  background: #fff;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+.lineage-app button:focus-visible,
+.lineage-app a:focus-visible,
+.lineage-app select:focus-visible {
+  outline: 3px solid #2b5fd9;
+  outline-offset: 3px;
+}
+.lineage-app button svg {
+  width: 16px;
+  height: 16px;
+}
+.lineage-app button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.lineage-app .primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  align-self: flex-start;
+}
+.lineage-canvas {
+  height: 500px;
+  background: #eef1f4;
+  border: 1px solid #d3dae3;
+}
+.lineage-node {
+  width: 165px;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  border-color: #acbbcc !important;
+  border-radius: 4px !important;
+  padding: 15px !important;
+  box-shadow: none !important;
+}
+.lineage-node span {
+  font-size: 12px;
+  color: #526276;
+}
+.lineage-node strong {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.lineage-node small {
+  font-size: 10px;
+  color: #526276;
+}
+.lineage-node.bulletin,
+.lineage-node.change {
+  background: #dde6f2;
+}
+.lineage-node.rate,
+.lineage-node.assumption {
+  background: #e4dff2;
+}
+.lineage-node.decision {
+  background: #efe1dc;
+}
+.lineage-node.part,
+.lineage-node.purchase_order,
+.lineage-node.product {
+  background: #dfe4e8;
+}
+.lineage-node.selected {
+  outline: 2px solid #2b5fd9;
+  outline-offset: 3px;
+}
+.lineage-drawer {
+  border: 1px solid #bdcadd;
+  border-top: 3px solid var(--accent);
+  padding: 22px;
+  margin-top: 16px;
+}
+.lineage-source-list {
+  padding: 0;
+  list-style: none;
+  max-height: 250px;
+  overflow: auto;
+}
+.lineage-source-list li {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #dce2e9;
+}
+.lineage-source-list li > span:first-child {
+  min-width: 220px;
+}
+.lineage-source-list strong {
+  margin-left: auto;
+}
+.lineage-app details {
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.lineage-app summary {
+  cursor: pointer;
+}
+.lineage-app details li {
+  margin: 8px 0;
+}
+.lineage-panel {
+  padding: 28px 0;
+}
+.lineage-table {
+  overflow: auto;
+  max-width: 100%;
+}
+.lineage-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+.lineage-table th {
+  font-weight: 500;
+  background: #eef1f4;
+  white-space: nowrap;
+}
+.lineage-table td,
+.lineage-table th {
+  padding: 12px 14px;
+  border-bottom: 1px solid #d3dae3;
+  vertical-align: top;
+}
+.lineage-table td:last-child {
+  min-width: 220px;
+}
+.lineage-table .money {
+  text-align: right;
+  white-space: nowrap;
+}
+.lineage-costs {
+  display: flex;
+  gap: 32px;
+}
+.lineage-costs dt {
+  color: #607086;
+}
+.lineage-costs dd {
+  margin: 8px 0;
+  font-size: 22px;
+}
+.lineage-app textarea {
+  width: 100%;
+  min-height: 240px;
+  line-height: 1.6;
+  padding: 16px;
+  font: inherit;
+  border: 1px solid #b9c4d2;
+  resize: vertical;
+}
+.lineage-app blockquote {
+  margin: 12px 0;
+  padding: 12px 20px;
+  border-left: 3px solid #b7c9e8;
+  line-height: 1.7;
+}
+.lineage-app footer {
+  padding: 24px 0;
+  border-top: 1px solid #d3dae3;
+  color: #607086;
+  font-size: 12px;
+}
+.lineage-app .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+}
+.lineage-app .brand svg {
+  width: 22px;
+}
+.lineage-app .row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lineage-app .spread {
+  justify-content: space-between;
+}
+.lineage-app .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lineage-app .status {
+  font-size: 12px;
+  background: #eef1f4;
+  padding: 5px 8px;
+}
+.lineage-app a {
+  color: var(--accent);
+}
+@media (max-width: 700px) {
+  .lineage-top {
+    padding: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .lineage-top > .row {
+    width: 100%;
+    margin: 0;
+    flex-wrap: wrap;
+  }
+  .lineage-app main {
+    padding: 0 16px;
+  }
+  .lineage-tabs {
+    gap: 22px;
+  }
+  .lineage-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lineage-total {
+    min-width: 0;
+  }
+  .lineage-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lineage-toolbar label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lineage-toolbar p {
+    flex-basis: 100%;
+  }
+  .lineage-canvas {
+    height: auto;
+  }
+  .lineage-mobile-path {
+    margin: 0;
+    padding: 24px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .lineage-mobile-path li {
+    position: relative;
+    width: 100%;
+  }
+  .lineage-mobile-path .lineage-node {
+    width: 100%;
+  }
+  .lineage-source-list li {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lineage-source-list li > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .lineage-source-list strong {
+    margin: 0;
+  }
+  .lineage-drawer {
+    padding: 16px;
+    min-width: 0;
+  }
+  .lineage-costs {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lineage-panel {
+    min-width: 0;
+  }
+  .lineage-app .row {
+    flex-wrap: wrap;
+  }
+}
