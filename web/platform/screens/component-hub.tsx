@@ -62,13 +62,13 @@ export function ComponentHub({ data, role }: { data: WorkspaceData; role: Role }
         <p>{change.measure} · {percent(change.old_rate)} → {percent(change.new_rate)}</p>
       </div>
       <div className="d-flex gap-2 flex-wrap">
-        <label>Component<select className="form-select" value={selectedPart ?? ""} onChange={event => { setPart(event.target.value); setSource(null); }}>
+        <div><label htmlFor="hub-part">Component</label><select id="hub-part" className="form-select" value={selectedPart ?? ""} onChange={event => { setPart(event.target.value); setSource(null); }}>
           {!parts.length && <option value="">No affected order lines</option>}
           {parts.map(value => <option key={value}>{value}</option>)}
-        </select></label>
-        <label>Tariff update<select className="form-select" value={id} onChange={event => selectChange(event.target.value)}>
+        </select></div>
+        <div><label htmlFor="hub-update">Tariff update</label><select id="hub-update" className="form-select" value={id} onChange={event => selectChange(event.target.value)}>
           {data.changes.map(item => <option key={item.id} value={item.id}>{item.id}</option>)}
-        </select></label>
+        </select></div>
       </div>
     </header>
     {failure ? <p role="alert">{failure}</p> : !exposure ? <p role="status">Loading affected orders…</p> :
