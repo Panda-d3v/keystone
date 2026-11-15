@@ -214,7 +214,7 @@ The five-year SOM scenario is 79 active subscription customers, based on acquisi
 
 ### 6.1 Go-to-market strategy
 
-PERLab is the first strategic route: funded sponsorship, domain participation and access to an industrial client. The first commercial evidence should come from an actual review and budget decision.
+PERLab is the first strategic route: funded sponsorship, domain participation and access to an industrial client. The first step is to secure a PERLab sponsor and an industrial company willing to participate in a paid trial.
 
 The second route is founder-led sales to U.S. industrial importers. The go-to-market funnel is a qualified discovery meeting, a paid one- or two-month trial, an annual subscription and expansion to additional categories or sites. The trial is the initial customer-acquisition offer; the subscription establishes recurring revenue. Import-heavy brands provide a second segment for comparison.
 
@@ -311,24 +311,24 @@ Client mapping, review and support are more likely to determine early costs than
 
 ### 7.3 Five-year financial outlook and unit economics
 
-The customer-revenue forecast combines trial services and annual subscriptions. PERLab sponsorship, partner licensing and acquisition proceeds are excluded from revenue. The model records every delivered trial, including trials that do not convert; standard onboarding is included in trial revenue and is not counted again. Amounts below are USD thousands. Years begin at commercial launch.
+The customer-revenue forecast combines trial services and annual subscriptions. PERLab sponsorship, partner licensing and acquisition proceeds are excluded from revenue. The model records every delivered trial, including trials that do not convert; standard onboarding is included in trial revenue and is not counted again. The customer assumptions table labels counts, percentages and financial amounts separately. All P&L amounts are in thousands of U.S. dollars (USD thousands). Years begin at commercial launch.
 
 | Commercial assumption | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| One-month trials at $5,000 | 4 | 9 | 16 | 25 | 33 |
-| Two-month trials at $10,000 | 2 | 5 | 8 | 13 | 17 |
-| Total trial customers | 6 | 14 | 24 | 38 | 50 |
-| New subscription customers | 3 | 8 | 15 | 25 | 35 |
-| Trial-to-subscription conversion | 50% | 57% | 63% | 66% | 70% |
-| Opening subscription customers | 0 | 3 | 11 | 25 | 48 |
-| Lost subscription customers | 0 | 0 | 1 | 2 | 4 |
-| Closing subscription customers | 3 | 11 | 25 | 48 | 79 |
-| Blended annual contract value | 24 | 24 | 27 | 30 | 33 |
-| Exit annual recurring revenue | 72 | 264 | 675 | 1,440 | 2,607 |
+| One-month trials at $5,000 (companies) | 4 | 9 | 16 | 25 | 33 |
+| Two-month trials at $10,000 (companies) | 2 | 5 | 8 | 13 | 17 |
+| Total trial customers (companies) | 6 | 14 | 24 | 38 | 50 |
+| New subscription customers (companies) | 3 | 8 | 15 | 25 | 35 |
+| Trial-to-subscription conversion (%) | 50% | 57% | 63% | 66% | 70% |
+| Opening subscription customers (companies) | 0 | 3 | 11 | 25 | 48 |
+| Lost subscription customers (companies) | 0 | 0 | 1 | 2 | 4 |
+| Closing subscription customers (companies) | 3 | 11 | 25 | 48 | 79 |
+| Blended annual contract value (USD thousands/customer/year) | 24 | 24 | 27 | 30 | 33 |
+| Exit annual recurring revenue (USD thousands/year) | 72 | 264 | 675 | 1,440 | 2,607 |
 
 Annual contract value (ACV) starts at the $24,000 medium-company tier. The later averages reflect a mixed portfolio: a 12.5%, 25% and 37.5% share at the $48,000 enterprise entry price produces blended ACVs of $27,000, $30,000 and $33,000. These are portfolio-weight assumptions rather than automatic price increases. The forecast does not rely on selling the $96,000 package.
 
-| P&L item | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
+| P&L item (USD thousands) | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Subscription revenue | 36.0 | 168.0 | 486.0 | 1,095.0 | 2,095.5 |
 | Paid trial revenue | 40.0 | 95.0 | 160.0 | 255.0 | 335.0 |
