@@ -52,6 +52,8 @@ export interface UploadResult {
   evidence_doc_ids: string[];
   review_doc_ids: string[];
   document_reviews?: { doc_id: string; summary: string; review: string[] }[];
+  documents?: { kind: string }[];
+
 }
 
 export function uploadDocument(

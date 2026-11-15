@@ -58,7 +58,7 @@ export function DocumentUpload({
         setFile(null);
         setConfirmLink(false);
         onUploaded();
-      } else if (hasChange && result.review_doc_ids.length) {
+      } else if (result.documents?.some(document => document.kind === "supplier_document")) {
         setConfirmLink(true);
       }
     } catch (error) {
@@ -92,7 +92,7 @@ export function DocumentUpload({
           }}
         />
       </label>
-      {hasChange && file && <div className="stack">
+      {file && <div className="stack">
         <label><input type="checkbox" checked={confirmLink} disabled={busy}
           onChange={event => setConfirmLink(event.currentTarget.checked)} /> Confirm supplier and part</label>
         {confirmLink && <>
