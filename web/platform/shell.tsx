@@ -2,18 +2,20 @@
 import { useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Layers } from "lucide-react";
-import { useWorkspace } from "@/lib/use-workspace";
+import { Layers, RotateCcw } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
+import { COMPANY } from "./catalog";
 import { ROLES, roleById, type Role, type RoleId, type StepId } from "./roles";
+import { usePlatformData, type OutcomeKind, type Outcome } from "./store";
+import { Dropdown } from "./ui";
 
 const STORAGE_KEY = "keystone.role";
 
 export interface PlatformContext {
   role: Role;
   data: WorkspaceData | null;
-  reload: () => void;
-  useFixtures: boolean;
+  outcomes: Outcome[];
+  record: (actionId: string, kind: OutcomeKind, draftEmail?: string) => Promise<Outcome>;
 }
 
 export function rememberRole(id: RoleId) {
@@ -37,7 +39,7 @@ export function PageHead({ title, children, actions }: { title: string; children
 export function Shell({ roleId, stepId, children }: {
   roleId: RoleId; stepId: StepId; children: (ctx: PlatformContext) => ReactNode;
 }) {
-  const { data, error, loading, reload, useFixtures } = useWorkspace();
+  const { data, outcomes, record, reset } = usePlatformData();
   const router = useRouter();
   const role = roleById(roleId);
   useEffect(() => rememberRole(role.id), [role.id]);
@@ -47,14 +49,13 @@ export function Shell({ roleId, stepId, children }: {
       <Link href={role.steps[0].path} className="ks-brand">
         <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span>Keystone
       </Link>
-      <span className="ks-workspace">MeridianFlow</span>
+      <span className="ks-workspace">{COMPANY.name}</span>
       <div className="ms-auto ks-role">
-        <span className="ks-avatar d-none d-sm-inline-flex" aria-hidden="true">{role.initials}</span>
-        <label htmlFor="ks-role" className="visually-hidden">Viewing as</label>
-        <select id="ks-role" className="form-select form-select-sm" value={role.id}
-          onChange={event => router.push(roleById(event.target.value).steps[0].path)}>
-          {ROLES.map(item => <option key={item.id} value={item.id}>{item.person}, {item.label}</option>)}
-        </select>
+        <Dropdown label="Viewing as" value={role.id} align="end" className="ks-role-dd"
+          options={ROLES.map(item => ({ value: item.id, label: item.person, sub: item.label,
+            icon: <span className="ks-avatar" aria-hidden="true">{item.initials}</span> }))}
+          onChange={id => router.push(roleById(id).steps[0].path)}
+          footer={<button type="button" className="ks-dd-action" onClick={reset}><RotateCcw aria-hidden="true" className="lucide" />Reset demo decisions</button>} />
       </div>
     </header>
 
@@ -66,13 +67,7 @@ export function Shell({ roleId, stepId, children }: {
         </Link>)}
       </nav>
 
-      <main>
-        {error ? <div className="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
-          <span>{error}</span><button className="btn btn-sm btn-outline-secondary" onClick={reload}>Try again</button>
-        </div> : loading && !data ? <p className="text-soft" role="status">Loading…</p>
-          : children({ role, data, reload, useFixtures })}
-      </main>
-      <p className="ks-footnote ks-no-print">Illustrative MeridianFlow scenario. Section 232 layer only; not a duty determination.</p>
+      <main>{children({ role, data, outcomes, record })}</main>
     </div>
   </div>;
 }

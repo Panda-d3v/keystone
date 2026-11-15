@@ -1,37 +1,44 @@
 "use client";
+// Sourcing: supplier requests drafted from the gaps. Maya submits them; the
+// approver approves or declines on the Decision brief.
 import { useState } from "react";
 import { Send } from "lucide-react";
-import type { Action, SendActionResponse, WorkspaceData } from "@/lib/contracts";
+import type { Action, WorkspaceData } from "@/lib/contracts";
 import { actionTitle, money } from "@/lib/format";
-import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
+import { ACTION_SUPPLIERS } from "../catalog";
 import { supplierName } from "../names";
-import { EmptyWorkspace, PageHead } from "../shell";
+import { EmptyWorkspace, PageHead, type PlatformContext } from "../shell";
 
-export function Actions({ data }: { data: WorkspaceData | null }) {
-  const submissions = useSubmissions(data?.audit ?? []);
+const when = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(new Date(iso));
+
+export function Actions({ data, outcomes, record }: { data: WorkspaceData | null } & Pick<PlatformContext, "outcomes" | "record">) {
   if (!data) return <><PageHead title="Supplier requests" /><EmptyWorkspace /></>;
-  const current = new Set(data.actions.map(action => action.id));
-  const done = submissions.filter(item => !current.has(item.actionId));
+  const decided = outcomes.filter(o => o.kind !== "submitted");
   return <div className="d-grid gap-4">
-    <PageHead title="Supplier requests">Drafted from the evidence gaps, largest saving first. Edit the email before submitting.</PageHead>
+    <PageHead title="Supplier requests">Drafted from the evidence gaps and the cost impact, largest saving first. Edit the email, then submit it for approval.</PageHead>
     {[...data.actions].sort((a, b) => a.rank - b.rank).map(action =>
-      <ActionCard key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)}
-        supplier={supplierName(data.evidence.supplier_id)} />)}
-    {done.map(item => <Approval key={item.actionId} result={item.response} />)}
-    {!data.actions.length && !done.length && <div className="card"><div className="card-body text-soft">Nothing needs a request right now.</div></div>}
+      <ActionCard key={action.id} action={action} submitted={outcomes.find(o => o.actionId === action.id && o.kind === "submitted")} record={record} />)}
+    {decided.length > 0 && <section className="card">
+      <div className="card-header">Decided</div>
+      <ul className="ks-list">{decided.map(o => <li key={o.event.id}>
+        <span><span className="d-block fw-medium">{o.actionId}, {supplierName(ACTION_SUPPLIERS[o.actionId] ?? "")}</span>
+          <span className="meta">{o.kind === "approved" ? "Approved and sent" : "Declined"} by Elena Park, {when(o.event.occurred_at)}</span></span>
+        <span className={`chip ${o.kind === "approved" ? "chip-good" : "chip-neutral"}`}>{o.kind === "approved" ? "Sent" : "Declined"}</span>
+      </li>)}</ul>
+    </section>}
+    {!data.actions.length && !decided.length && <div className="card"><div className="card-body text-soft">Nothing needs a request right now.</div></div>}
   </div>;
 }
 
-function ActionCard({ action, saved, supplier }: { action: Action; saved?: Submission; supplier: string }) {
-  const [draft, setDraft] = useState(action.draft_email);
+function ActionCard({ action, submitted, record }: { action: Action; submitted?: PlatformContext["outcomes"][number] } & Pick<PlatformContext, "record">) {
+  const [draft, setDraft] = useState(submitted?.draftEmail ?? action.draft_email);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [result, setResult] = useState<SendActionResponse | undefined>(saved?.response);
-  const accepted = result ?? saved?.response;
+  const supplier = supplierName(ACTION_SUPPLIERS[action.id] ?? "");
   async function submit() {
-    if (busy || accepted) return;
+    if (busy || submitted) return;
     setBusy(true); setError("");
-    try { setResult(await submitAction(action.id, draft)); }
+    try { await record(action.id, "submitted", draft); }
     catch (err) { setError(err instanceof Error ? err.message : "The request could not be submitted."); }
     finally { setBusy(false); }
   }
@@ -44,22 +51,17 @@ function ActionCard({ action, saved, supplier }: { action: Action; saved?: Submi
       {action.why && <p className="mb-0">{action.why}</p>}
       <label className="form-label mb-0">
         <span className="small text-soft d-block mb-1">Email to {supplier}</span>
-        <textarea className="form-control" rows={10} value={accepted ? saved?.draftEmail ?? draft : draft}
-          disabled={busy || !!accepted} onChange={event => setDraft(event.target.value)} aria-label={`Supplier request ${action.id}`} />
+        <textarea className="form-control" rows={9} value={draft} disabled={busy || !!submitted}
+          onChange={event => setDraft(event.target.value)} aria-label={`Supplier request ${action.id}`} />
       </label>
       {error && <div className="alert alert-danger mb-0" role="alert">{error}</div>}
-      {accepted ? <Approval result={accepted} /> : <div className="d-flex align-items-center gap-3 flex-wrap">
+      {submitted ? <div className="alert alert-info mb-0" role="status">
+        <strong>Submitted {when(submitted.event.occurred_at)}.</strong> Waiting for Elena Park to approve. Recorded in the audit log as <span className="code">{submitted.event.id}</span>.
+      </div> : <div className="d-flex align-items-center gap-3 flex-wrap">
         <button className="btn btn-primary" disabled={busy || !draft.trim()} onClick={submit}>
           <Send aria-hidden="true" className="lucide" />{busy ? "Submitting…" : "Submit for approval"}</button>
-        <span className="small text-soft">Creates a draft decision; the approvers review it before anything is sent.</span>
+        <span className="small text-soft">Nothing goes to the supplier until the approver signs off.</span>
       </div>}
     </div>
   </article>;
-}
-
-function Approval({ result }: { result: SendActionResponse }) {
-  return <div className="alert alert-success mb-0" role="status">
-    <strong>Submitted.</strong> Draft decision <span className="code">{result.decision_id}</span> is waiting for{" "}
-    {result.pending_approvals.map(item => item.name).join(" and ")}. Recorded in the audit log as <span className="code">{result.audit_event.id}</span>.
-  </div>;
 }

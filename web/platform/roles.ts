@@ -4,7 +4,7 @@
 export type RoleId = "sourcing" | "compliance" | "analyst" | "approver";
 
 export type StepId =
-  | "sourcing-overview" | "sourcing-decisions" | "sourcing-cost" | "sourcing-requests"
+  | "sourcing-overview" | "sourcing-parts" | "sourcing-decisions" | "sourcing-cost" | "sourcing-requests"
   | "compliance-overview" | "compliance-documents" | "compliance-evidence" | "compliance-duty"
   | "analyst-overview" | "analyst-lineage" | "analyst-calculations" | "analyst-audit"
   | "approver-brief" | "approver-history";
@@ -30,6 +30,7 @@ export const ROLES: Role[] = [
     id: "sourcing", label: "Sourcing manager", person: "Maya Chen", initials: "MC",
     steps: [
       step("sourcing-overview", "Overview", "/sourcing"),
+      step("sourcing-parts", "Parts", "/sourcing/parts"),
       step("sourcing-decisions", "Supplier decisions", "/sourcing/decisions"),
       step("sourcing-cost", "Cost impact", "/sourcing/cost-impact"),
       step("sourcing-requests", "Supplier requests", "/sourcing/requests"),

@@ -1,12 +1,13 @@
 "use client";
 // Analyst: does every number reconcile, and where does it come from.
 import { useEffect, useMemo, useState } from "react";
+import { PartPicker } from "./parts";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { verifyAudit } from "@/lib/audit";
 import { date, money, percent } from "@/lib/format";
-import { partName } from "../catalog";
+import { COMPANY, partName } from "../catalog";
 import { supplierName } from "../names";
 import { EmptyWorkspace, PageHead } from "../shell";
 
@@ -47,7 +48,7 @@ export function AnalystOverview({ data }: { data: WorkspaceData | null }) {
         <div className="card-header">Sources</div>
         <ul className="ks-list">
           {docs.map(d => <li key={d.doc_id}><span className="text-truncate" style={{ maxWidth: "22rem" }}>{d.filename}</span><span className="meta">{d.kind === "bulletin" ? "Bulletin" : d.kind === "supplier_document" ? "Supplier document" : "Unsorted"}</span></li>)}
-          <li><span>MeridianFlow ERP extract: parts, purchase orders, bills of materials</span><span className="meta">Seed data</span></li>
+          <li><span>{COMPANY.name} ERP extract: parts, purchase orders, bills of materials</span><span className="meta">ERP</span></li>
         </ul>
       </section>
     </div>
@@ -60,13 +61,9 @@ export function AnalystOverview({ data }: { data: WorkspaceData | null }) {
 }
 
 export function Calculations({ data }: { data: WorkspaceData | null }) {
-  const [query, setQuery] = useState("");
-  const rows = useMemo(() => {
-    if (!data) return [];
-    const q = query.trim().toLowerCase();
-    return [...data.exposure.lines].sort((a, b) => b.added_duty_usd - a.added_duty_usd)
-      .filter(l => !q || `${l.po_id} ${l.part_no} ${partName(l.part_no)} ${supplierName(l.supplier_id)}`.toLowerCase().includes(q));
-  }, [data, query]);
+  const [part, setPart] = useState("");
+  const rows = useMemo(() => data ? [...data.exposure.lines].sort((a, b) => b.added_duty_usd - a.added_duty_usd)
+    .filter(l => !part || l.part_no === part) : [], [data, part]);
   if (!data) return <><PageHead title="Calculations" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   const { sum, matches } = reconcile(data);
@@ -78,7 +75,7 @@ export function Calculations({ data }: { data: WorkspaceData | null }) {
       <div className="fw-medium">Formula</div>
       <div className="ks-math rounded p-3">
         added duty = customs value × (new rate − old rate){change ? ` = customs value × (${percent(change.new_rate)} − ${percent(change.old_rate)})` : ""}<br />
-        applies to lines whose part is in the bulletin&apos;s HTS scope and that enter on or after {change ? date(change.effective_date) : "the effective date"}; one metals duty per line
+        applies to lines whose part is in the bulletin&apos;s HTS scope and that enter on or after {change ? date(change.effective_date) : "the effective date"}; parts made from US-fabricated wafers are not covered
       </div>
       <div className="d-flex justify-content-between flex-wrap gap-2 small">
         <span className="text-soft">Sum of {data.exposure.open_po_lines} lines: <span className="money fw-medium text-body">{money(sum, 2)}</span>, reported total {money(data.exposure.added_duty_usd)}</span>
@@ -89,7 +86,7 @@ export function Calculations({ data }: { data: WorkspaceData | null }) {
     <section className="card">
       <div className="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span>Order lines</span>
-        <input className="form-control form-control-sm w-auto" aria-label="Filter lines" placeholder="Order, part or supplier" value={query} onChange={e => setQuery(e.target.value)} />
+        <PartPicker data={data} value={part} onChange={setPart} all="All covered parts" only="covered" />
       </div>
       <div className="table-responsive"><table className="table align-middle">
         <thead><tr><th>Order line</th><th>Part</th><th>Inputs and formula</th><th className="money">Added duty</th></tr></thead>

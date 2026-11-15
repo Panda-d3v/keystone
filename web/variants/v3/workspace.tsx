@@ -148,14 +148,21 @@ export function LineageContent({
   data,
   graph,
   showPanel = true,
+  part: controlledPart,
+  fixed = false,
 }: {
   screen: Screen;
   data: WorkspaceData;
   graph: ExposureLineage;
   /** The unified platform shows only the graph and its drawer. */
   showPanel?: boolean;
+  /** Part filter owned by the caller ("part:ID" or ""); hides the built-in picker. */
+  part?: string;
+  /** Fit the graph once and turn off zoom and panning. */
+  fixed?: boolean;
 }) {
-  const [part, setPart] = useState("");
+  const [ownPart, setPart] = useState("");
+  const part = controlledPart ?? ownPart;
   const [selected, setSelected] = useState("");
   const [mobile, setMobile] = useState(false);
   const [flow, setFlow] = useState<ReactFlowInstance<TraceNode>>();
@@ -215,7 +222,7 @@ export function LineageContent({
           </span>
         </button>
       </div>
-      <div className="lineage-toolbar">
+      {controlledPart === undefined && <div className="lineage-toolbar">
         <label>
           Trace a part
           <select
@@ -238,7 +245,7 @@ export function LineageContent({
           </select>
         </label>
         <p>Grouped by record type. Select a node to inspect its source rows.</p>
-        {!mobile && (
+        {!mobile && !fixed && (
           <div className="row">
             <button aria-label="Zoom in" onClick={() => flow?.zoomIn()}>
               <ZoomIn />
@@ -254,8 +261,8 @@ export function LineageContent({
             </button>
           </div>
         )}
-      </div>
-      <div className="lineage-canvas" aria-label="Exposure lineage graph">
+      </div>}
+      <div className={`lineage-canvas ${fixed ? "fixed" : ""}`} aria-label="Exposure lineage graph">
         {mobile ? (
           <ol className="lineage-mobile-path">
             {view.groups.map((group) => (
@@ -279,6 +286,11 @@ export function LineageContent({
             fitViewOptions={{ padding: 0.15, maxZoom: 1.05 }}
             minZoom={0.2}
             maxZoom={2.5}
+            zoomOnScroll={!fixed}
+            zoomOnPinch={!fixed}
+            zoomOnDoubleClick={!fixed}
+            panOnDrag={!fixed}
+            preventScrolling={!fixed}
             nodesDraggable={false}
             nodesConnectable={false}
             attributionPosition="bottom-left"

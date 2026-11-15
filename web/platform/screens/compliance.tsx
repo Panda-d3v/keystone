@@ -1,11 +1,12 @@
 "use client";
 // Trade compliance: what arrived, whether the proof holds, and the duty bill.
-import { Fragment, useMemo } from "react";
+import { Fragment, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { date, money, percent } from "@/lib/format";
-import { PARTS, partName } from "../catalog";
+import { HEADINGS, ORDERS, PARTS, partName } from "../catalog";
+import { PartPicker } from "./parts";
 import { hts, supplierName } from "../names";
 import { EmptyWorkspace, PageHead } from "../shell";
 
@@ -13,16 +14,11 @@ const STATUS: Record<string, [string, string]> = {
   checked: ["Proven", "chip-good"], needs_review: ["Unreadable", "chip-warn"],
   mismatch: ["Doesn't match", "chip-bad"], missing: ["Missing", "chip-neutral"],
 };
-const HEADINGS: Record<string, string> = {
-  "841391": "Parts of pumps for liquids",
-  "848130": "Check (non-return) valves",
-  "848180": "Other taps, cocks and valves",
-  "848330": "Bearing housings; plain shaft bearings",
-};
 
-function byHeading(data: WorkspaceData) {
+function byHeading(data: WorkspaceData, part = "") {
   const groups = new Map<string, { heading: string; lines: WorkspaceData["exposure"]["lines"]; old: number; next: number; added: number }>();
   for (const line of data.exposure.lines) {
+    if (part && line.part_no !== part) continue;
     const heading = (PARTS[line.part_no]?.hts10 ?? "").slice(0, 6) || "other";
     const g = groups.get(heading) ?? { heading, lines: [], old: 0, next: 0, added: 0 };
     g.lines.push(line); g.old += line.old_duty_usd ?? 0; g.next += line.new_duty_usd ?? 0; g.added += line.added_duty_usd;
@@ -45,7 +41,7 @@ export function ComplianceOverview({ data }: { data: WorkspaceData | null }) {
     <section className="ks-kpis" aria-label="Status">
       <div className="ks-kpi"><div className="label">Documents received</div><div className="value">{docs.length}</div></div>
       <div className="ks-kpi"><div className="label">Need a person</div><div className={`value ${toCheck.length ? "accent" : ""}`}>{toCheck.length}</div></div>
-      <div className="ks-kpi"><div className="label">UK requirements proven</div><div className="value">{proven} of {rows.length}</div></div>
+      <div className="ks-kpi"><div className="label">US-origin proof</div><div className="value">{proven} of {rows.length}</div><div className="sub">requirements proven</div></div>
       <div className="ks-kpi"><div className="label">Added duty, entry lines</div><div className="value">{money(data.exposure.added_duty_usd)}</div></div>
     </section>
 
@@ -60,7 +56,7 @@ export function ComplianceOverview({ data }: { data: WorkspaceData | null }) {
 
       <section className="card">
         <div className="card-header d-flex justify-content-between"><span>{supplierName(data.evidence.supplier_id)}, {data.evidence.part_no}</span>
-          <span className={`chip ${data.evidence.status === "verified" ? "chip-good" : "chip-warn"}`}>{data.evidence.status === "verified" ? "UK rate supported" : "UK rate not supported"}</span></div>
+          <span className={`chip ${data.evidence.status === "verified" ? "chip-good" : "chip-warn"}`}>{data.evidence.status === "verified" ? "0% rate supported" : "0% rate not supported"}</span></div>
         <ul className="ks-list">{rows.map(r => {
           const [label, chip] = STATUS[r.status] ?? [r.status, "chip-neutral"];
           return <li key={r.id}><span>{r.label}</span><span className={`chip ${chip}`}>{label}</span></li>;
@@ -84,14 +80,18 @@ export function ComplianceOverview({ data }: { data: WorkspaceData | null }) {
   </div>;
 }
 
+const port = (line: { po_id: string; line_no: number }) =>
+  ORDERS.find(o => o.po_id === line.po_id && o.line_no === line.line_no)?.port ?? "";
+
 export function DutyBill({ data }: { data: WorkspaceData | null }) {
-  const groups = useMemo(() => (data ? byHeading(data) : []), [data]);
+  const [part, setPart] = useState("");
+  const groups = useMemo(() => (data ? byHeading(data, part) : []), [data, part]);
   if (!data) return <><PageHead title="Duty bill" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   let entry = 0;
   return <div className="d-grid gap-4">
-    <PageHead title="Duty bill">
-      {change ? `Section 232 duty per entry line at ${percent(change.old_rate)} and ${percent(change.new_rate)}, on the full customs value, for entries from ${date(change.effective_date)}.` : "Duty per entry line."}
+    <PageHead title="Duty bill" actions={<PartPicker data={data} value={part} onChange={setPart} all="All covered parts" only="covered" />}>
+      {change ? `Section 232 duty per entry line at ${percent(change.old_rate)} and ${percent(change.new_rate)} of the full customs value, for goods entered from ${date(change.effective_date)}.` : "Duty per entry line."}
     </PageHead>
     <section className="card">
       <div className="table-responsive"><table className="table align-middle">
@@ -106,7 +106,7 @@ export function DutyBill({ data }: { data: WorkspaceData | null }) {
             entry += 1;
             return <tr key={`${line.po_id}-${line.line_no}`}>
               <td className="text-soft">{entry}</td>
-              <td><span className="d-block">{partName(line.part_no)}</span><span className="sub code">{line.po_id} / {line.line_no}, HTS {hts(PARTS[line.part_no]?.hts10 ?? "")}</span></td>
+              <td><span className="d-block">{partName(line.part_no)}</span><span className="sub"><span className="code">{line.po_id} / {line.line_no}</span>, HTS {hts(PARTS[line.part_no]?.hts10 ?? "")}, {port(line)}</span></td>
               <td>{supplierName(line.supplier_id)}</td>
               <td className="text-nowrap">{date(line.est_entry_date)}</td>
               <td className="money">{money(line.customs_value_usd)}</td>
@@ -117,8 +117,8 @@ export function DutyBill({ data }: { data: WorkspaceData | null }) {
           })}
         </Fragment>)}</tbody>
         <tfoot><tr>
-          <td colSpan={7} className="fw-medium">Total added duty, {data.exposure.open_po_lines} entry lines</td>
-          <td className="money fw-medium" style={{ color: "var(--accent-ink)" }}>+{money(data.exposure.added_duty_usd)}</td>
+          <td colSpan={7} className="fw-medium">Total added duty, {groups.reduce((n, g) => n + g.lines.length, 0)} entry lines</td>
+          <td className="money fw-medium" style={{ color: "var(--accent-ink)" }}>+{money(groups.reduce((t, g) => t + g.added, 0))}</td>
         </tr></tfoot>
       </table></div>
     </section>

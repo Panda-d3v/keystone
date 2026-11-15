@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { actionTitle, date, money } from "@/lib/format";
-import { partName, SUPPLIER_DIRECTORY, COUNTRIES } from "../catalog";
-import { supplierName } from "../names";
+import { AWARD, PARTS, PRODUCTS, partName } from "../catalog";
+import { supplierName, supplierPlace } from "../names";
 import { changeHeadline, decisionStory } from "../story";
 import { EmptyWorkspace, PageHead } from "../shell";
 
@@ -20,14 +20,18 @@ function bySupplier(data: WorkspaceData) {
   return [...groups.values()].sort((a, b) => b.added - a.added);
 }
 
-const country = (id: string) => COUNTRIES[SUPPLIER_DIRECTORY[id]?.country] ?? SUPPLIER_DIRECTORY[id]?.country ?? "";
+const country = supplierPlace;
 
 export function SourcingOverview({ data }: { data: WorkspaceData | null }) {
   if (!data) return <><PageHead title="Overview" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   const decision = data.decisions[0];
   const story = decision ? decisionStory(decision, change, data.evidence) : null;
-  const suppliers = bySupplier(data).slice(0, 4);
+  const change0 = data.changes[0];
+  const byPart = Object.values(PARTS)
+    .filter(p => change0?.hts_scope.includes(p.hts10.slice(0, 6)))
+    .map(p => ({ part: p, yearly: p.annual_qty * p.unit_price_usd * ((change0?.new_rate ?? 0) - (change0?.old_rate ?? 0)) }))
+    .sort((a, b) => b.yearly - a.yearly).slice(0, 5);
   const requests = [...data.actions].sort((a, b) => a.rank - b.rank);
 
   return <div className="d-grid gap-4">
@@ -44,22 +48,22 @@ export function SourcingOverview({ data }: { data: WorkspaceData | null }) {
       {story && decision && <section className="card">
         <div className="card-header d-flex justify-content-between"><span>Award at risk</span><span className="chip chip-bad">Needs review</span></div>
         <div className="card-body d-grid gap-3">
-          <div><div className="fw-medium">{story.title}</div><div className="text-soft small">{story.incumbent}, awarded {date("2026-04-20")}</div></div>
+          <div><div className="fw-medium">{story.title}</div><div className="text-soft small">{story.incumbent}, awarded {date(AWARD.decided_on)}</div></div>
           <div className="d-flex justify-content-between"><span className="text-soft">Annual cost, now</span><span className="money fw-medium">{money(decision.incumbent_annual_usd)}</span></div>
           {story.increase != null && <div className="d-flex justify-content-between"><span className="text-soft">Increase</span><span className="money fw-medium" style={{ color: "var(--accent-ink)" }}>+{money(story.increase)}</span></div>}
-          <div className="d-flex justify-content-between"><span className="text-soft">{story.alternative}, with proof</span><span className="money fw-medium" style={{ color: "var(--good)" }}>{money(decision.alternative_with_proof_annual_usd)}</span></div>
+          <div className="d-flex justify-content-between"><span className="text-soft">{story.alternative}, with US fab proof</span><span className="money fw-medium" style={{ color: "var(--good)" }}>{money(decision.alternative_with_proof_annual_usd)}</span></div>
           <Link className="link-arrow" href="/sourcing/decisions">Review the award <ArrowRight aria-hidden="true" className="lucide" /></Link>
         </div>
       </section>}
 
       <section className="card">
-        <div className="card-header">Largest increases by supplier</div>
-        <ul className="ks-list">{suppliers.map(g => <li key={g.supplier}>
-          <span><span className="d-block fw-medium">{supplierName(g.supplier)}</span>
-            <span className="meta">{country(g.supplier)}, {g.lines.length} order line{g.lines.length === 1 ? "" : "s"}</span></span>
-          <span className="money fw-medium">+{money(g.added)}</span>
-        </li>)}</ul>
-        <div className="card-footer"><Link className="link-arrow" href="/sourcing/cost-impact">All suppliers <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
+        <div className="card-header">Largest increases by part</div>
+        <div className="ks-list">{byPart.map(({ part, yearly }) => <Link key={part.part_no} href={`/sourcing/parts?part=${part.part_no}`}>
+          <span><span className="d-block fw-medium">{part.description}</span>
+            <span className="meta">{part.part_no}, {supplierName(part.supplier_id)}</span></span>
+          <span className="text-end"><span className="d-block money fw-medium">+{money(yearly)}</span><span className="meta">a year</span></span>
+        </Link>)}</div>
+        <div className="card-footer"><Link className="link-arrow" href="/sourcing/parts">All parts <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
       </section>
     </div>
 
@@ -87,7 +91,7 @@ export function CostImpact({ data }: { data: WorkspaceData | null }) {
 
     <section className="ks-kpis three" aria-label="Totals">
       <div className="ks-kpi"><div className="label">Added duty, open orders</div><div className="value accent">{money(exposure.added_duty_usd)}</div><div className="sub">{exposure.open_po_lines} order lines, {groups.length} suppliers</div></div>
-      <div className="ks-kpi"><div className="label">Per year at current builds</div><div className="value">{money(exposure.annualized_added_duty_usd)}</div><div className="sub">{exposure.affected_parts} parts in 3 pump models</div></div>
+      <div className="ks-kpi"><div className="label">Per year at current builds</div><div className="value">{money(exposure.annualized_added_duty_usd)}</div><div className="sub">{exposure.affected_parts} parts in {PRODUCTS.length} phone models</div></div>
       {top && <div className="ks-kpi"><div className="label">Largest supplier impact</div><div className="value">{money(top.added)}</div><div className="sub">{supplierName(top.supplier)}</div></div>}
     </section>
 
@@ -107,7 +111,7 @@ export function CostImpact({ data }: { data: WorkspaceData | null }) {
               <td className="text-end text-soft">{isOpen ? <ChevronDown aria-hidden="true" className="lucide" /> : <ChevronRight aria-hidden="true" className="lucide" />}</td>
             </tr>
             {isOpen && g.lines.sort((a, b) => b.added_duty_usd - a.added_duty_usd).map(line => <tr key={`${line.po_id}-${line.line_no}`} style={{ background: "var(--canvas)" }}>
-              <td className="ps-4" colSpan={2}><span className="d-block">{partName(line.part_no)}</span><span className="sub code">{line.po_id} / {line.line_no}, part {line.part_no}</span></td>
+              <td className="ps-4" colSpan={2}><span className="d-block">{partName(line.part_no)}</span><span className="sub code">{line.po_id} / {line.line_no}, {line.part_no}</span></td>
               <td className="money text-soft">{date(line.est_entry_date)}</td>
               <td className="money">{money(line.customs_value_usd)}</td>
               <td className="money">+{money(line.added_duty_usd, 2)}</td>

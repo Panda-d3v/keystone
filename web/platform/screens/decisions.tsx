@@ -34,9 +34,9 @@ export function Decisions({ data }: { data: WorkspaceData | null }) {
             <thead><tr><th>Option</th><th>Condition</th><th className="money">Annual landed cost</th><th className="money">Against today</th></tr></thead>
             <tbody>
               <tr><td>Stay with {s.incumbent}</td><td>At the new rate</td><td className="money">{money(d.incumbent_annual_usd)}</td><td className="money text-soft">–</td></tr>
-              <tr><td>Switch to {s.alternative}</td><td>With melt-and-pour proof</td><td className="money">{money(d.alternative_with_proof_annual_usd)}</td>
+              <tr><td>Switch to {s.alternative}</td><td>With US fab proof</td><td className="money">{money(d.alternative_with_proof_annual_usd)}</td>
                 <td className="money fw-medium" style={{ color: s.withProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(s.withProof)}</td></tr>
-              <tr><td>Switch to {s.alternative}</td><td>Without proof</td><td className="money">{money(d.alternative_without_proof_annual_usd)}</td>
+              <tr><td>Switch to {s.alternative}</td><td>Without US fab proof</td><td className="money">{money(d.alternative_without_proof_annual_usd)}</td>
                 <td className="money fw-medium" style={{ color: s.withoutProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(s.withoutProof)}</td></tr>
             </tbody>
           </table></div>

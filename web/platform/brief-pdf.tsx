@@ -5,9 +5,9 @@ import React from "react";
 import { Document, Font, Link, Page, StyleSheet, Text, View, pdf } from "@react-pdf/renderer";
 import type { WorkspaceData } from "@/lib/contracts";
 import { actionTitle, money } from "@/lib/format";
-import { referenceUrl } from "@/lib/reference";
-import { readDeclines, readSubmissions } from "@/lib/submissions";
-import { useFixtures } from "@/lib/data";
+import { COMPANY } from "./catalog";
+import { baseWorkspace, readOutcomes, sources } from "./store";
+import { ACTION_SUPPLIERS } from "./catalog";
 import { supplierName } from "./names";
 import { changeHeadline, decisionStory } from "./story";
 
@@ -87,12 +87,12 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
   const change = data.changes[0];
   const decision = data.decisions[0];
   const story = decision ? decisionStory(decision, change, data.evidence) : null;
-  const action = [...data.actions].sort((a, b) => a.rank - b.rank)[0];
-  const auditIds = new Set(data.audit.map(e => e.id));
-  const approved = browser && action ? readSubmissions().find(i => i.actionId === action.id && (useFixtures || auditIds.has(i.response.audit_event.id))) : undefined;
-  const declined = browser && action ? readDeclines().find(i => i.action_id === action.id && (useFixtures || auditIds.has(i.audit_event.id))) : undefined;
+  const action = [...baseWorkspace.actions].sort((a, b) => a.rank - b.rank)[0];
+  const outcomes = browser && action ? readOutcomes().filter(o => o.actionId === action.id) : [];
+  const approved = outcomes.find(o => o.kind === "approved");
+  const declined = outcomes.find(o => o.kind === "declined");
   const citation = change?.citations[0];
-  const sourceUrl = citation ? referenceUrl(citation) : undefined;
+  const sourceUrl = citation ? sources[citation.doc_id]?.original : undefined;
   const absolute = sourceUrl && browser ? new URL(sourceUrl, window.location.origin).href : sourceUrl;
   const max = story?.before != null && story.increase != null && decision
     ? Math.max(story.before + story.increase, decision.incumbent_annual_usd) : 1;
@@ -102,7 +102,7 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
     <Page size="A4" style={s.page}>
       <View style={s.band} fixed>
         <View style={s.brand}><View style={s.mark} /><Text style={s.brandText}>Keystone</Text></View>
-        <Text style={s.bandMeta}>MeridianFlow decision brief, {change?.id ?? ""}</Text>
+        <Text style={s.bandMeta}>{COMPANY.name} decision brief, {change?.id ?? ""}</Text>
       </View>
 
       <View style={s.body}>
@@ -114,7 +114,7 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
           {story.increase != null && <View style={[s.glanceCell, s.glanceFirst]}>
             <Text style={s.label}>Award cost since the change</Text>
             <Text style={[s.glanceValue, { color: C.accentInk }]}>+{money(story.increase)}/yr</Text></View>}
-          <View style={s.glanceCell}><Text style={s.label}>Switch, with proof</Text>
+          <View style={s.glanceCell}><Text style={s.label}>Switch, with US fab proof</Text>
             <Text style={[s.glanceValue, { color: tone(story.withProof) }]}>{signed(story.withProof)}/yr</Text></View>
           <View style={s.glanceCell}><Text style={s.label}>Switch, without proof</Text>
             <Text style={[s.glanceValue, { color: tone(story.withoutProof) }]}>{signed(story.withoutProof)}/yr</Text></View>
@@ -145,7 +145,7 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
           <View style={s.table}>
             <View style={s.th}><Text style={[s.thText, s.colOption]}>Option</Text><Text style={[s.thText, s.colMoney]}>Annual landed cost</Text><Text style={[s.thText, s.colMoney]}>Against today</Text></View>
             <View style={s.tr}><Text style={s.colOption}>Stay with {story.incumbent}</Text><Text style={s.colMoney}>{money(decision.incumbent_annual_usd)}</Text><Text style={[s.colMoney, { color: C.soft }]}>–</Text></View>
-            <View style={s.tr}><Text style={s.colOption}>Switch to {story.alternative}, with proof</Text><Text style={s.colMoney}>{money(decision.alternative_with_proof_annual_usd)}</Text><Text style={[s.colMoney, { color: tone(story.withProof), fontWeight: 500 }]}>{signed(story.withProof)}</Text></View>
+            <View style={s.tr}><Text style={s.colOption}>Switch to {story.alternative}, with US fab proof</Text><Text style={s.colMoney}>{money(decision.alternative_with_proof_annual_usd)}</Text><Text style={[s.colMoney, { color: tone(story.withProof), fontWeight: 500 }]}>{signed(story.withProof)}</Text></View>
             <View style={[s.tr, { borderBottomWidth: 0 }]}><Text style={s.colOption}>Switch to {story.alternative}, without proof</Text><Text style={s.colMoney}>{money(decision.alternative_without_proof_annual_usd)}</Text><Text style={[s.colMoney, { color: tone(story.withoutProof), fontWeight: 500 }]}>{signed(story.withoutProof)}</Text></View>
           </View>
         </View>}
@@ -173,16 +173,15 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
             <Text style={s.h2}>{actionTitle(action)}</Text>
             <Text style={[s.chip, { backgroundColor: C.accentSoft, color: C.accentInk, alignSelf: "flex-start", marginBottom: 6 }]}>{money(action.usd_at_stake)} a year at stake</Text>
             {action.why && <Text style={s.p}>{action.why}</Text>}
-            <Text style={[s.label, { marginTop: 8 }]}>Email to {supplierName(data.evidence.supplier_id)}</Text>
+            <Text style={[s.label, { marginTop: 8 }]}>Email to {supplierName(ACTION_SUPPLIERS[action.id] ?? "")}</Text>
             <Text style={s.email}>{approved?.draftEmail ?? action.draft_email}</Text>
-            {approved ? <Text style={[s.status, { backgroundColor: C.goodSoft, color: C.good }]}>Approved. Draft decision {approved.response.decision_id} is waiting for {approved.response.pending_approvals.map(p => p.name).join(" and ")}.</Text>
+            {approved ? <Text style={[s.status, { backgroundColor: C.goodSoft, color: C.good }]}>Approved and sent to {supplierName(ACTION_SUPPLIERS[action.id] ?? "")}. Recorded in the audit log as {approved.event.id}.</Text>
               : declined ? <Text style={[s.status, { backgroundColor: C.neutral, color: C.soft }]}>Declined. The request was removed from the queue and recorded in the audit log.</Text>
               : <Text style={[s.status, { backgroundColor: C.warnSoft, color: C.warn }]}>Awaiting your approval.</Text>}
           </View>
         </View>}
       </View>
 
-      <Text style={[s.footer, { left: 44, right: 44 }]} fixed>Illustrative MeridianFlow scenario. Section 232 layer only; not a duty determination.</Text>
     </Page>
   </Document>;
 }
