@@ -109,7 +109,7 @@ export default function LineageWorkspace({ screen }: { screen: Screen }) {
             <RefreshCw aria-hidden="true" />
             Refresh
           </button>
-          <Link href="/">Compare versions</Link>
+          <Link href="/versions">Compare versions</Link>
         </div>
       </header>
       <main>
@@ -143,14 +143,17 @@ export default function LineageWorkspace({ screen }: { screen: Screen }) {
     </div>
   );
 }
-function LineageContent({
+export function LineageContent({
   screen,
   data,
   graph,
+  showPanel = true,
 }: {
   screen: Screen;
   data: WorkspaceData;
   graph: ExposureLineage;
+  /** The unified platform shows only the graph and its drawer. */
+  showPanel?: boolean;
 }) {
   const [part, setPart] = useState("");
   const [selected, setSelected] = useState("");
@@ -337,7 +340,7 @@ function LineageContent({
           </details>
         </section>
       )}
-      <LineagePanel screen={screen} data={data} />
+      {showPanel && <LineagePanel screen={screen} data={data} />}
     </>
   );
 }

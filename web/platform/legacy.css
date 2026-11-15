@@ -1,0 +1,143 @@
+/* Generated from app/globals.css: the same rules scoped under .legacy so the
+   reused Lineage graph and Brief keep their look inside the Bootstrap platform.
+   Regenerate rather than hand-edit. */
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+
+:root {
+  --on-accent: #fff; --app: #f6f7f9; --panel: #fff; --raised: #eef1f5; --ink: #1b1f24; --muted: #57616e;
+  --line: #d7dce3; --accent: #2160c4; --accent-soft: #edf3ff; --good: #17603e; --bad: #a12b30;
+  --warn: #805412; --focus: #2160c4; --font: "IBM Plex Sans", sans-serif;
+  --text-xs: .75rem; --text-sm: .8125rem; --text: .875rem; --text-lg: 1.125rem;
+  --title: 1.625rem; --hero: 2.75rem; --metric: 1.875rem;
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem;
+  --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
+  --radius: .25rem; --rail: 13.5rem; --drawer: 24rem; --row: 2.5rem;
+  --icon: 1rem; --canvas: 75rem;
+}
+.legacy, .legacy * { box-sizing: border-box; }
+.legacy { margin: 0; background: var(--app); color: var(--ink); font: var(--text)/1.5 var(--font); }
+.legacy a { color: var(--accent); text-decoration: none; }
+.legacy a:hover { text-decoration: underline; }
+.legacy button, .legacy input, .legacy select, .legacy textarea { font: inherit; }
+.legacy button, .legacy .button { cursor: pointer; border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-2) var(--space-3); background: var(--panel); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); line-height: 1.4; text-decoration: none; }
+.legacy button:hover, .legacy .button:hover { background: var(--raised); text-decoration: none; }
+.legacy button:disabled { cursor: default; opacity: .5; }
+.legacy button.primary, .legacy .button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.legacy :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.legacy input, .legacy select, .legacy textarea { color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-2) var(--space-3); max-width: 100%; }
+.legacy textarea { width: 100%; min-height: 12rem; }
+.legacy svg { width: var(--icon); height: var(--icon); flex-shrink: 0; }
+.legacy h1, .legacy h2, .legacy h3, .legacy p { margin: 0; }
+.legacy h1 { font-size: var(--title); line-height: 1.25; font-weight: 600; }
+.legacy h2 { font-size: var(--text-lg); font-weight: 600; }
+.legacy h3 { font-size: var(--text); font-weight: 600; }
+.legacy p + p { margin-top: var(--space-3); }
+.legacy small, .legacy .small { font-size: var(--text-xs); }
+.legacy .muted { color: var(--muted); }
+.legacy .code { font-family: ui-monospace, monospace; font-size: var(--text-xs); overflow-wrap: anywhere; }
+.legacy .money { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.legacy .negative { color: var(--bad); }
+.legacy .positive { color: var(--good); }
+.legacy .stack { display: grid; gap: var(--space-4); }
+.legacy .row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.legacy .spread { justify-content: space-between; }
+.legacy .panel { background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.legacy .panel-header { padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.legacy .panel-body { padding: var(--space-5); }
+.legacy .notice { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: var(--space-3) var(--space-4); }
+.legacy .status { display: inline-flex; align-items: center; gap: var(--space-1); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-1) var(--space-2); font-size: var(--text-xs); font-weight: 500; white-space: nowrap; }
+.legacy .status.bad { color: var(--bad); }
+.legacy .status.good { color: var(--good); }
+.legacy .status.warn { color: var(--warn); }
+.legacy .received-list { list-style: none; margin: 0; padding: 0; }
+.legacy .received-item { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--line); display: grid; gap: var(--space-2); }
+.legacy .received-item:first-child { border-top: 0; }
+.legacy .received-item p { margin: 0; }
+.legacy .received-review { margin: 0; padding-left: var(--space-5); color: var(--warn); font-size: var(--text-sm); }
+.legacy .table-scroll { overflow-x: auto; max-width: 100%; }
+.legacy table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.legacy th, .legacy td { text-align: left; padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--line); height: var(--row); vertical-align: middle; }
+.legacy th { color: var(--muted); background: var(--app); font-weight: 500; white-space: nowrap; }
+.legacy th button { border: 0; padding: 0; background: transparent; color: inherit; }
+.legacy tr:last-child td { border-bottom: 0; }
+.legacy tbody tr:hover { background: var(--accent-soft); }
+.legacy .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; background: var(--panel); border: 1px solid var(--line); }
+.legacy .summary > div { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.legacy .summary > div:last-child { border: 0; }
+.legacy .summary dt { color: var(--muted); font-size: var(--text-sm); }
+.legacy .summary dd { margin: var(--space-2) 0 0; font-size: var(--metric); line-height: 1.25; font-weight: 500; font-variant-numeric: tabular-nums; }
+.legacy .key-value { display: grid; grid-template-columns: minmax(7rem, 1fr) 2fr; gap: var(--space-2) var(--space-5); margin: 0; }
+.legacy .key-value dt { color: var(--muted); }
+.legacy .key-value dd { margin: 0; overflow-wrap: anywhere; }
+.legacy .workspace[data-theme="dark"] { --app: #0b0f14; --panel: #11161d; --raised: #1a212b; --line: #394554; --ink: #edf1f7; --muted: #b1bdce; --accent: #82adff; --accent-soft: #182943; --on-accent: #0b0f14; --bad: #ff999f; --good: #6fd8a4; --warn: #f5c477; --focus: #82adff; background: var(--app); }
+.legacy .workspace { color: var(--ink); display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: 100vh; }
+.legacy .rail { background: var(--panel); border-right: 1px solid var(--line); padding: var(--space-5) var(--space-3); display: flex; flex-direction: column; gap: var(--space-6); }
+.legacy .brand { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-lg); color: var(--ink); font-weight: 600; padding-inline: var(--space-3); }
+.legacy .brand svg { color: var(--accent); width: var(--text-lg); height: var(--text-lg); }
+.legacy .rail nav { display: grid; gap: var(--space-1); }
+.legacy .rail nav a { display: flex; align-items: center; gap: var(--space-3); color: var(--muted); padding: var(--space-2) var(--space-3); border-radius: var(--radius); }
+.legacy .rail nav a[aria-current] { background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.legacy .rail-footer { margin-top: auto; display: grid; gap: var(--space-3); padding-inline: var(--space-3); }
+.legacy .workspace-body { min-width: 0; }
+.legacy .topbar { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-6); background: var(--panel); border-bottom: 1px solid var(--line); min-height: 4rem; }
+.legacy .main { max-width: 100rem; margin-inline: auto; padding: var(--space-5) var(--space-6); display: grid; gap: var(--space-5); }
+.legacy .breadcrumb { color: var(--muted); font-size: var(--text-xs); margin-bottom: var(--space-3); }
+.legacy .page-header { display: flex; justify-content: space-between; gap: var(--space-4); align-items: flex-start; }
+.legacy .page-header p { color: var(--muted); margin-top: var(--space-2); }
+.legacy .tabs { display: flex; gap: var(--space-5); border-bottom: 1px solid var(--line); overflow-x: auto; }
+.legacy .tabs a { padding: var(--space-3) var(--space-1); color: var(--muted); white-space: nowrap; border-bottom: 2px solid transparent; }
+.legacy .tabs a[aria-current] { color: var(--accent); border-color: var(--accent); }
+.legacy .scenario { padding: var(--space-3) var(--space-6); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--text-xs); margin-top: var(--space-6); }
+.legacy .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, var(--drawer)); gap: var(--space-4); align-items: flex-start; }
+.legacy .pagination { padding: var(--space-3) var(--space-4); border-top: 1px solid var(--line); }
+.legacy .picker { max-width: var(--canvas); margin-inline: auto; padding: var(--space-7) var(--space-6); }
+.legacy .picker h1 { font-size: var(--hero); max-width: 45rem; margin-block: var(--space-6) var(--space-4); }
+.legacy .picker-intro { max-width: 40rem; font-size: var(--text-lg); color: var(--muted); }
+.legacy .variant-list { margin-top: var(--space-7); border-top: 1px solid var(--line); }
+.legacy .variant-row { display: grid; grid-template-columns: 12rem minmax(0, 1fr) auto; gap: var(--space-6); align-items: center; padding: var(--space-5) 0; border-bottom: 1px solid var(--line); }
+.legacy .variant-row h2 { margin-bottom: var(--space-2); }
+.legacy .variant-preview { display: block; width: 100%; height: 7rem; object-fit: cover; object-position: top; border: 1px solid var(--line); }
+.legacy .placeholder { max-width: 50rem; margin: var(--space-7) auto; padding: var(--space-6); }
+@media (max-width: 1000px) {
+.legacy .split { grid-template-columns: 1fr; }
+.legacy .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.legacy .summary > div { border-bottom: 1px solid var(--line); }
+.legacy .summary > div:nth-child(even) { border-right: 0; }
+}
+@media (max-width: 700px) {
+.legacy .workspace { grid-template-columns: minmax(0, 1fr); }
+.legacy .rail { min-width: 0; padding: var(--space-3); gap: var(--space-3); border-right: 0; border-bottom: 1px solid var(--line); }
+.legacy .rail nav { display: flex; overflow-x: auto; }
+.legacy .rail nav a { white-space: nowrap; }
+.legacy .rail-footer { display: none; }
+.legacy .topbar { flex-wrap: wrap; }
+.legacy .topbar, .legacy .scenario { padding: var(--space-3) var(--space-4); }
+.legacy .main, .legacy .picker { padding: var(--space-4); }
+.legacy .page-header { flex-direction: column; }
+.legacy .summary dd { font-size: var(--title); }
+.legacy .summary > div { padding: var(--space-3); }
+.legacy .variant-row { grid-template-columns: minmax(0,1fr); gap: var(--space-3); }
+.legacy .variant-preview { max-width: 16rem; }
+.legacy .key-value { grid-template-columns: 1fr; }
+.legacy .picker h1 { font-size: var(--metric); }
+.legacy .topbar .muted { display: none; }
+}
+.legacy td.code { white-space: nowrap; }
+.legacy .document-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: var(--space-4); align-items: flex-start; }
+.legacy .field-list, .legacy .requirement-list { display: grid; }
+.legacy .source-field { display: grid; text-align: left; justify-content: stretch; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: var(--space-4) var(--space-5); }
+.legacy .source-field[aria-pressed="true"] { background: var(--accent-soft); box-shadow: inset 3px 0 var(--accent); }
+.legacy .source-field strong { font-weight: 500; }
+.legacy .source-scroll { overflow: auto; max-height: 48rem; border-top: 1px solid var(--line); }
+.legacy .source-page { position: relative; min-width: 100%; line-height: 0; }
+.legacy .source-page img { display: block; width: 100%; height: auto; }
+.legacy .source-highlight { position: absolute; border: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 18%, transparent); pointer-events: none; }
+.legacy .source-quote { margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--accent); font-size: var(--text-sm); line-height: 1.6; }
+.legacy .requirement { display: grid; gap: var(--space-2); padding: var(--space-4) var(--space-5); border-top: 1px solid var(--line); }
+.legacy .requirement button { justify-self: start; }
+.legacy .evidence-field { display: contents; }
+@media (max-width: 1000px) {
+.legacy .document-split { grid-template-columns: minmax(0, 1fr); }
+}
