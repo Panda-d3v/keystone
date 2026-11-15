@@ -1,61 +1,32 @@
 "use client";
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  ClipboardCheck, FileSearch, FileText, GitBranch, Home, Inbox, Layers, ListChecks,
-  ReceiptText, RefreshCw, Scale, ScrollText, TrendingUp,
-} from "lucide-react";
+import { Layers } from "lucide-react";
 import { useWorkspace } from "@/lib/use-workspace";
 import type { WorkspaceData } from "@/lib/contracts";
-import { DEFAULT_ROLE, PAGES, ROLES, ownerOf, pageLabel, roleById, type PageId, type Role, type RoleId } from "./roles";
+import { ROLES, roleById, type Role, type RoleId, type StepId } from "./roles";
 
-const ICONS: Record<PageId, typeof Home> = {
-  home: Home, intake: Inbox, exposure: TrendingUp, decisions: Scale, evidence: FileSearch,
-  actions: ListChecks, lineage: GitBranch, brief: FileText, audit: ScrollText,
-};
 const STORAGE_KEY = "keystone.role";
 
 export interface PlatformContext {
   role: Role;
-  setRole: (id: RoleId) => void;
   data: WorkspaceData | null;
   reload: () => void;
   useFixtures: boolean;
 }
-const Ctx = createContext<PlatformContext | null>(null);
-export function usePlatform(): PlatformContext {
-  const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("usePlatform must be used inside <Shell>");
-  return ctx;
+
+export function rememberRole(id: RoleId) {
+  try { window.localStorage.setItem(STORAGE_KEY, id); } catch { /* private mode */ }
+}
+export function rememberedRole(): RoleId {
+  try { return roleById(window.localStorage.getItem(STORAGE_KEY)).id; } catch { return roleById(null).id; }
 }
 
-/** Role chosen by ?as=, then the viewer's last choice, then the default. */
-function useRole(): [Role, (id: RoleId) => void] {
-  const [id, setId] = useState<RoleId>(DEFAULT_ROLE);
-  useEffect(() => {
-    const fromUrl = new URLSearchParams(window.location.search).get("as");
-    let stored: string | null = null;
-    try { stored = window.localStorage.getItem(STORAGE_KEY); } catch { /* private mode */ }
-    const chosen = roleById(fromUrl || stored).id;
-    setId(chosen);
-    // A role picked by link (e.g. a demo URL with ?as=approver) sticks for the next page too.
-    if (fromUrl) try { window.localStorage.setItem(STORAGE_KEY, chosen); } catch { /* private mode */ }
-  }, []);
-  const choose = useCallback((next: RoleId) => {
-    setId(next);
-    try { window.localStorage.setItem(STORAGE_KEY, next); } catch { /* private mode */ }
-  }, []);
-  return [roleById(id), choose];
-}
-
-/** The same header on every page: eyebrow, title, one line of context, actions. */
-export function PageHead({ eyebrow, title, children, actions }: {
-  eyebrow?: string; title: string; children?: ReactNode; actions?: ReactNode;
-}) {
+/** Title, one factual line, optional actions. Same on every page. */
+export function PageHead({ title, children, actions }: { title: string; children?: ReactNode; actions?: ReactNode }) {
   return <header className="ks-page-head">
     <div>
-      {eyebrow && <div className="eyebrow">{eyebrow}</div>}
       <h1 className="mb-0">{title}</h1>
       {children && <p>{children}</p>}
     </div>
@@ -63,91 +34,54 @@ export function PageHead({ eyebrow, title, children, actions }: {
   </header>;
 }
 
-export function Shell({ page, children }: { page: PageId; children: (ctx: PlatformContext) => ReactNode }) {
+export function Shell({ roleId, stepId, children }: {
+  roleId: RoleId; stepId: StepId; children: (ctx: PlatformContext) => ReactNode;
+}) {
   const { data, error, loading, reload, useFixtures } = useWorkspace();
-  const [role, setRole] = useRole();
   const router = useRouter();
-  // The approver's home is the Brief; everyone else starts on Home.
-  const shown: PageId = page === "home" ? role.home : page;
-  const allowed = role.pages.includes(shown);
+  const role = roleById(roleId);
+  useEffect(() => rememberRole(role.id), [role.id]);
 
-  function switchRole(next: RoleId) {
-    const nextRole = roleById(next);
-    setRole(next);
-    if (page !== "home" && !nextRole.pages.includes(page)) router.push(PAGES[nextRole.home].path);
-  }
-
-  const ctx: PlatformContext = { role, setRole: switchRole, data, reload, useFixtures };
-  return <Ctx.Provider value={ctx}>
-    <div className="ks ks-layout">
-      <aside className="ks-sidebar" aria-label="Keystone">
-        <Link href="/" className="ks-brand"><span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span>Keystone</Link>
-        <div className="label">{role.label}</div>
-        <nav className="ks-nav" aria-label="Main navigation">
-          {role.pages.map(id => {
-            const Icon = id === "exposure" && role.labels?.exposure ? ReceiptText : ICONS[id];
-            return <Link key={id} href={PAGES[id].path} className={id === shown ? "active" : ""}
-              aria-current={id === shown ? "page" : undefined}>
-              <Icon aria-hidden="true" className="lucide" />{pageLabel(role, id)}
-            </Link>;
-          })}
-        </nav>
-        <div className="ks-sidebar-foot">{role.focus}</div>
-      </aside>
-
-      <div className="ks-body">
-        <header className="ks-topbar">
-          <Link href="/" className="ks-brand ks-mobile-brand p-0" style={{ color: "var(--ink)" }}>
-            <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span></Link>
-          <div className="ks-crumbs"><span>MeridianFlow</span><span aria-hidden="true">/</span><strong>{pageLabel(role, shown)}</strong></div>
-          <div className="ms-auto d-flex align-items-center gap-2">
-            <span className={`chip ${useFixtures ? "chip-neutral" : "chip-good"} d-none d-sm-inline-flex`}>{useFixtures ? "Sample data" : "Live"}</span>
-            <button className="btn btn-quiet btn-sm" onClick={reload} aria-label="Refresh data">
-              <RefreshCw aria-hidden="true" className="lucide" /><span className="d-none d-md-inline">Refresh</span></button>
-            <div className="ks-role">
-              <span className="ks-avatar d-none d-sm-inline-flex" aria-hidden="true">{role.initials}</span>
-              <label htmlFor="ks-role" className="visually-hidden">Viewing as</label>
-              <select id="ks-role" className="form-select form-select-sm" value={role.id}
-                onChange={event => switchRole(event.target.value as RoleId)}>
-                {ROLES.map(item => <option key={item.id} value={item.id}>{item.person}, {item.label}</option>)}
-              </select>
-            </div>
-          </div>
-        </header>
-        <nav className="ks-mobile-nav" aria-label="Sections">
-          {role.pages.map(id => <Link key={id} href={PAGES[id].path} className={id === shown ? "active" : ""}
-            aria-current={id === shown ? "page" : undefined}>{pageLabel(role, id)}</Link>)}
-        </nav>
-
-        <main className="ks-main">
-          {error ? <div className="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
-            <span>{error}</span><button className="btn btn-sm btn-outline-secondary" onClick={reload}>Try again</button>
-          </div> : !allowed ? <RoleGate page={shown} onSwitch={switchRole} />
-            : loading && !data ? <p className="text-soft" role="status">Loading…</p>
-            : children(ctx)}
-          <p className="ks-footnote ks-no-print">Illustrative MeridianFlow scenario. Section 232 layer only; not a duty determination.</p>
-        </main>
+  return <div className="ks">
+    <header className="ks-topbar">
+      <Link href={role.steps[0].path} className="ks-brand">
+        <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span>Keystone
+      </Link>
+      <span className="ks-workspace">MeridianFlow</span>
+      <div className="ms-auto ks-role">
+        <span className="ks-avatar d-none d-sm-inline-flex" aria-hidden="true">{role.initials}</span>
+        <label htmlFor="ks-role" className="visually-hidden">Viewing as</label>
+        <select id="ks-role" className="form-select form-select-sm" value={role.id}
+          onChange={event => router.push(roleById(event.target.value).steps[0].path)}>
+          {ROLES.map(item => <option key={item.id} value={item.id}>{item.person}, {item.label}</option>)}
+        </select>
       </div>
-    </div>
-  </Ctx.Provider>;
-}
+    </header>
 
-function RoleGate({ page, onSwitch }: { page: PageId; onSwitch: (id: RoleId) => void }) {
-  const owner = ownerOf(page);
-  return <div className="card"><div className="card-body p-4">
-    <div className="eyebrow">Not in this view</div>
-    <h1 className="h3">{PAGES[page].label} belongs to the {owner?.label.toLowerCase()} view</h1>
-    <p className="text-soft">{PAGES[page].description}. Switch roles to open it.</p>
-    {owner && <button className="btn btn-primary" onClick={() => onSwitch(owner.id)}>View as {owner.person}, {owner.label}</button>}
-  </div></div>;
+    <div className="ks-frame">
+      <nav className="ks-steps ks-no-print" aria-label={`${role.label} steps`}>
+        {role.steps.map((s, index) => <Link key={s.id} href={s.path} className={s.id === stepId ? "active" : ""}
+          aria-current={s.id === stepId ? "step" : undefined}>
+          <span className="n">{index + 1}</span><span>{s.label}</span>
+        </Link>)}
+      </nav>
+
+      <main>
+        {error ? <div className="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+          <span>{error}</span><button className="btn btn-sm btn-outline-secondary" onClick={reload}>Try again</button>
+        </div> : loading && !data ? <p className="text-soft" role="status">Loading…</p>
+          : children({ role, data, reload, useFixtures })}
+      </main>
+      <p className="ks-footnote ks-no-print">Illustrative MeridianFlow scenario. Section 232 layer only; not a duty determination.</p>
+    </div>
+  </div>;
 }
 
 /** Shown when the API has no tariff change yet. */
-export function EmptyWorkspace() {
+export function EmptyWorkspace({ action }: { action?: ReactNode }) {
   return <div className="card"><div className="card-body p-4">
-    <ClipboardCheck aria-hidden="true" className="lucide mb-2" />
-    <h1 className="h3">No tariff changes yet</h1>
-    <p className="text-soft mb-3">Upload a bulletin or forward the email in Intake. Keystone reads it, finds the affected orders and checks your supplier decisions.</p>
-    <Link className="btn btn-primary" href="/intake">Go to Intake</Link>
+    <h2 className="mb-2">No tariff change on file</h2>
+    <p className="text-soft mb-0">Trade compliance uploads the bulletin under Documents. Figures appear here once it is read.</p>
+    {action && <div className="mt-3">{action}</div>}
   </div></div>;
 }

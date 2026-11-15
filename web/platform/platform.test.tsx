@@ -2,11 +2,11 @@ import React from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { PlatformPage } from "./page";
-import { PAGES, ROLES, roleById } from "./roles";
+import { ROLES, roleById, roleOfStep } from "./roles";
 import { hts } from "./names";
 
 const push = vi.fn();
-vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push, replace: push }) }));
 vi.mock("@/variants/v1/pdf-page", () => ({ default: () => <div aria-label="PDF page" /> }));
 
 function as(role: string) {
@@ -23,91 +23,87 @@ beforeEach(() => {
 });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
-it("gives every role one platform with its own menu and specialist view", () => {
-  for (const role of ROLES) {
-    expect(role.pages).toContain(role.home);
-    expect(role.pages.length).toBeLessThanOrEqual(4);  // each role sees only what its job needs
+it("gives each role its own steps, with no page shared between roles", () => {
+  const paths = ROLES.flatMap(role => role.steps.map(step => step.path));
+  expect(new Set(paths).size).toBe(paths.length);
+  for (const role of ROLES) for (const step of role.steps) {
+    expect(step.path.startsWith(`/${role.id}`)).toBe(true);
+    expect(roleOfStep(step.id).id).toBe(role.id);
   }
-  // No two roles share the same menu.
-  expect(new Set(ROLES.map(role => role.pages.join(","))).size).toBe(ROLES.length);
-  expect(roleById("sourcing").pages).toEqual(["home", "decisions", "exposure", "actions"]);
-  expect(roleById("compliance").pages).toEqual(["home", "intake", "evidence", "exposure"]);
-  expect(roleById("analyst").pages).toEqual(["home", "lineage", "exposure", "audit"]);
-  expect(roleById("approver").pages).toEqual(["brief", "audit"]);
-  expect(ROLES.filter(role => role.pages.includes("lineage")).map(role => role.id)).toEqual(["analyst"]);
-  expect(ROLES.filter(role => role.pages.includes("brief")).map(role => role.id)).toEqual(["approver"]);
+  expect(roleById("sourcing").steps.map(s => s.label)).toEqual(["Overview", "Supplier decisions", "Cost impact", "Supplier requests"]);
+  expect(roleById("compliance").steps.map(s => s.label)).toEqual(["Overview", "Documents", "Evidence", "Duty bill"]);
+  expect(roleById("analyst").steps.map(s => s.label)).toEqual(["Overview", "Lineage", "Calculations", "Audit log"]);
+  expect(roleById("approver").steps.map(s => s.label)).toEqual(["Decision brief", "Decision history"]);
   expect(roleById("nobody").id).toBe("sourcing");
-  expect(Object.values(PAGES).every(page => page.path.startsWith("/"))).toBe(true);
 });
 
-it("greets the person and lists their next steps", async () => {
-  render(<PlatformPage page="home" />);
-  expect(await screen.findByRole("heading", { name: /, Maya$/ })).toBeTruthy();
-  const steps = screen.getByText("Your next steps").closest(".card") as HTMLElement;
-  expect(within(steps).getByText("Review the pump casing award")).toBeTruthy();
-  expect(within(steps).getByText("It now costs $198,760 more a year.")).toBeTruthy();
-  expect(screen.getAllByText("$470,687").length).toBeGreaterThan(0);
+it("shows the step bar for the role and no live or refresh controls", async () => {
+  render(<PlatformPage step="sourcing-overview" />);
+  const nav = await screen.findByRole("navigation", { name: "Sourcing manager steps" });
+  expect(within(nav).getAllByRole("link").map(a => a.textContent)).toEqual(["1Overview", "2Supplier decisions", "3Cost impact", "4Supplier requests"]);
+  expect(within(nav).getByText("Overview").closest("a")?.getAttribute("aria-current")).toBe("step");
+  expect(screen.queryByText(/^Live$/)).toBeNull();
+  expect(screen.queryByRole("button", { name: /refresh/i })).toBeNull();
+  expect(window.localStorage.getItem("keystone.role")).toBe("sourcing");
 });
 
-it("switches roles from the top bar and changes the menu", async () => {
-  render(<PlatformPage page="home" />);
-  const nav = await screen.findByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).queryByText("Lineage")).toBeNull();
-  fireEvent.change(screen.getByLabelText("Viewing as"), { target: { value: "analyst" } });
-  expect(within(nav).getByText("Lineage")).toBeTruthy();
-  expect(await screen.findByText("Trace the $470,687")).toBeTruthy();
-  expect(window.localStorage.getItem("keystone.role")).toBe("analyst");
+it("switches role from the top bar to that role's first step", async () => {
+  render(<PlatformPage step="sourcing-overview" />);
+  fireEvent.change(await screen.findByLabelText("Viewing as"), { target: { value: "analyst" } });
+  expect(push).toHaveBeenCalledWith("/analyst");
 });
 
-it("explains when a page belongs to another role", async () => {
-  render(<PlatformPage page="lineage" />);
-  expect(await screen.findByRole("heading", { name: "Lineage belongs to the analyst view" })).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "View as Sam Okafor, Analyst" }));
-  expect(window.localStorage.getItem("keystone.role")).toBe("analyst");
+it("groups the sourcing manager's cost impact by supplier", async () => {
+  render(<PlatformPage step="sourcing-cost" />);
+  const table = await screen.findByRole("table");
+  const first = within(table).getAllByRole("row")[1];
+  const supplier = within(first).getByRole("button", { name: "Rajkot Sterling Castings" });
+  expect(within(first).getByText("India")).toBeTruthy();
+  const rows = within(table).getAllByRole("row").length;
+  fireEvent.click(supplier);
+  expect(supplier.getAttribute("aria-expanded")).toBe("true");
+  expect(within(table).getAllByRole("row").length).toBe(rows + 10);
 });
 
-it("lands the approver on the Brief", async () => {
-  as("approver");
-  render(<PlatformPage page="home" />);
-  expect(await screen.findByRole("button", { name: "Approve request" })).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getByText("Brief").closest("a")?.getAttribute("aria-current")).toBe("page");
+it("gives trade compliance the duty bill by HTS heading", async () => {
+  render(<PlatformPage step="compliance-duty" />);
+  expect(await screen.findByRole("heading", { name: "Duty bill" })).toBeTruthy();
+  expect(screen.getAllByText("8413.91").length).toBeGreaterThan(0);
+  expect(screen.getByText("Previous duty")).toBeTruthy();
+  expect(screen.getByText(/Total added duty/)).toBeTruthy();
+});
+
+it("lets the analyst reconcile every line", async () => {
+  render(<PlatformPage step="analyst-calculations" />);
+  expect(await screen.findByText("Reconciles")).toBeTruthy();
+  expect(screen.getByText("$307,200.00 × (50.00% − 25.00%) = $76,800.00")).toBeTruthy();
+});
+
+it("gives the approver the Brief with a PDF download", async () => {
+  render(<PlatformPage step="approver-brief" />);
+  expect(await screen.findByRole("heading", { name: /decision required$/ })).toBeTruthy();
+  expect(screen.getByRole("img", { name: /rose from \$993,800 by \$198,760 to \$1,192,560/ })).toBeTruthy();
+  expect(screen.getByRole("button", { name: /Download PDF/ })).toBeTruthy();
+  expect(screen.getByRole("button", { name: "Decline request" })).toBeTruthy();
+});
+
+it("shows the approver the decision history", async () => {
+  render(<PlatformPage step="approver-history" />);
+  expect(await screen.findByRole("heading", { name: "Decision history" })).toBeTruthy();
+  expect(screen.getByText(/awarded to Ningbo Haitai/)).toBeTruthy();
+  expect(screen.getByText("New rate takes effect")).toBeTruthy();
 });
 
 it("tells the decision story with names and the rule deltas", async () => {
-  render(<PlatformPage page="decisions" />);
+  render(<PlatformPage step="sourcing-decisions" />);
   expect(await screen.findByText(/5 pump casings were awarded to Ningbo Haitai Precision Casting \(China\)/)).toBeTruthy();
   expect(screen.getByText("−$49,690")).toBeTruthy();
   expect(screen.getByText("+$178,884")).toBeTruthy();
   expect(screen.getByText(/Switching to Sheffield Forge & Pattern saves \$49,690 a year, but only with melt-and-pour proof/)).toBeTruthy();
 });
 
-it("lists the largest added duty first, with supplier names", async () => {
-  render(<PlatformPage page="exposure" />);
-  const table = await screen.findByRole("table");
-  const first = within(table).getAllByRole("row")[1];
-  expect(within(first).getByText("PO-4504 / 1")).toBeTruthy();
-  expect(within(first).getByText("Ningbo Haitai Precision Casting")).toBeTruthy();
-  expect(within(table).queryByText("Previous duty")).toBeNull();
-  fireEvent.click(within(first).getByRole("button", { name: "PO-4504 / 1" }));
-  expect(within(table).getByText("$307,200.00 × (50.00% − 25.00%) = $76,800.00")).toBeTruthy();
-});
-
-it("shows trade compliance the duty bill", async () => {
-  as("compliance");
-  render(<PlatformPage page="exposure" />);
-  expect(await screen.findByRole("heading", { name: "Duty bill" })).toBeTruthy();
-  expect(screen.getByText("Duty by order line")).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getByText("Duty bill")).toBeTruthy();
-  expect(within(nav).queryByText("Decisions")).toBeNull();
-  expect(screen.getByText("Previous duty")).toBeTruthy();
-  expect(screen.getByText("New duty")).toBeTruthy();
-});
-
 it("names the supplier and heats on the evidence page", async () => {
-  as("compliance");
-  render(<PlatformPage page="evidence" />);
+  render(<PlatformPage step="compliance-evidence" />);
   expect(await screen.findByRole("heading", { name: "Sheffield Forge & Pattern" })).toBeTruthy();
   expect(screen.getByText(/United Kingdom\./)).toBeTruthy();
   expect(screen.getByText(/heats SF-24117 and SF-24121/)).toBeTruthy();
@@ -121,19 +117,8 @@ it("formats HTS codes for people", () => {
   expect(hts("not-a-code")).toBe("not-a-code");
 });
 
-it("gives the approver a native Brief with the waterfall and the decision", async () => {
-  as("approver");
-  render(<PlatformPage page="brief" />);
-  expect(await screen.findByRole("heading", { name: "The pump casing award needs your decision" })).toBeTruthy();
-  expect(screen.getByRole("img", { name: /rose from \$993,800 by \$198,760 to \$1,192,560/ })).toBeTruthy();
-  expect(screen.getByRole("button", { name: "Decline request" })).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getAllByRole("link").map(link => link.textContent)).toEqual(["Brief", "Audit log"]);
-});
-
 it("keeps the source document beside the fields on Intake", async () => {
-  as("compliance");
-  render(<PlatformPage page="intake" />);
+  render(<PlatformPage step="compliance-documents" />);
   const split = (await screen.findByText("What the bulletin says")).closest(".ks-split") as HTMLElement;
   expect(split).toBeTruthy();
   expect(split.querySelector(".ks-pin")).toBeTruthy();

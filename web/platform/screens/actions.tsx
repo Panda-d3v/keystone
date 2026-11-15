@@ -9,13 +9,11 @@ import { EmptyWorkspace, PageHead } from "../shell";
 
 export function Actions({ data }: { data: WorkspaceData | null }) {
   const submissions = useSubmissions(data?.audit ?? []);
-  if (!data) return <EmptyWorkspace />;
+  if (!data) return <><PageHead title="Supplier requests" /><EmptyWorkspace /></>;
   const current = new Set(data.actions.map(action => action.id));
   const done = submissions.filter(item => !current.has(item.actionId));
   return <div className="d-grid gap-4">
-    <PageHead eyebrow="Supplier requests" title="Actions">
-      Requests drafted from the evidence gaps, ranked by dollars at stake. Edit before you submit.
-    </PageHead>
+    <PageHead title="Supplier requests">Drafted from the evidence gaps, largest saving first. Edit the email before submitting.</PageHead>
     {[...data.actions].sort((a, b) => a.rank - b.rank).map(action =>
       <ActionCard key={action.id} action={action} saved={submissions.find(item => item.actionId === action.id)}
         supplier={supplierName(data.evidence.supplier_id)} />)}

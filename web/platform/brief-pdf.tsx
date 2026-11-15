@@ -102,13 +102,13 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
     <Page size="A4" style={s.page}>
       <View style={s.band} fixed>
         <View style={s.brand}><View style={s.mark} /><Text style={s.brandText}>Keystone</Text></View>
-        <Text style={s.bandMeta}>MERIDIANFLOW · DECISION BRIEF · {change?.id ?? ""}</Text>
+        <Text style={s.bandMeta}>MeridianFlow decision brief, {change?.id ?? ""}</Text>
       </View>
 
       <View style={s.body}>
-        <Text style={s.eyebrow}>Decision brief · {change?.id ?? ""}</Text>
-        <Text style={s.title}>{story ? `The ${story.title.toLowerCase()} needs your decision` : "Decision brief"}</Text>
-        {story && <Text style={s.lede}>{story.broke} {story.verdict}</Text>}
+        <Text style={s.eyebrow}>Decision brief, change {change?.id ?? ""}</Text>
+        <Text style={s.title}>{story ? `${story.title}: decision required` : "Decision brief"}</Text>
+        {story && <Text style={s.lede}>{`${story.lede} ${story.verdict}`.trim()}</Text>}
 
         {story && <View style={s.glance} wrap={false}>
           {story.increase != null && <View style={[s.glanceCell, s.glanceFirst]}>
@@ -121,14 +121,14 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
         </View>}
 
         {change && <View style={s.section} wrap={false}>
-          <Text style={s.eyebrow}>01 · What changed</Text>
+          <Text style={s.eyebrow}>What changed</Text>
           <Text style={s.h2}>{changeHeadline(change)}</Text>
-          <Text style={s.p}>It reaches {data.exposure.affected_parts} parts across {data.exposure.open_po_lines} open order lines: {money(data.exposure.added_duty_usd)} in added duty on those orders and {money(data.exposure.annualized_added_duty_usd)} a year at current build rates. Rules computed every figure.</Text>
+          <Text style={s.p}>It reaches {data.exposure.affected_parts} parts across {data.exposure.open_po_lines} open order lines: {money(data.exposure.added_duty_usd)} in added duty on those orders and {money(data.exposure.annualized_added_duty_usd)} a year at current build rates.</Text>
           {absolute && citation && <Link style={s.source} src={absolute}>Source: bulletin {citation.doc_id}, page {citation.page}</Link>}
         </View>}
 
         {story && decision && <View style={s.section} wrap={false}>
-          <Text style={s.eyebrow}>02 · The award&apos;s annual cost</Text>
+          <Text style={s.eyebrow}>Annual cost of the award</Text>
           <Text style={s.h2}>{story.happened}</Text>
           {story.before != null && story.increase != null && <View style={s.bridge}>
             <View style={s.bridgeRow}><Text style={s.bridgeStep}>Before the change</Text>
@@ -151,7 +151,7 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
         </View>}
 
         <View style={s.section} wrap={false}>
-          <Text style={s.eyebrow}>03 · What the supplier still has to prove</Text>
+          <Text style={s.eyebrow}>Outstanding supplier evidence</Text>
           <Text style={s.h2}>{supplierName(data.evidence.supplier_id)}, part {data.evidence.part_no}</Text>
           <View style={[s.table, { marginTop: 8 }]}>
             {(data.evidence.requirements ?? []).map((row, i, all) => {
@@ -168,7 +168,7 @@ export function BriefDocument({ data }: { data: WorkspaceData }) {
         </View>
 
         {action && <View style={s.section}>
-          <Text style={s.eyebrow}>04 · The decision</Text>
+          <Text style={s.eyebrow}>Decision</Text>
           <View style={s.request} wrap={false}>
             <Text style={s.h2}>{actionTitle(action)}</Text>
             <Text style={[s.chip, { backgroundColor: C.accentSoft, color: C.accentInk, alignSelf: "flex-start", marginBottom: 6 }]}>{money(action.usd_at_stake)} a year at stake</Text>

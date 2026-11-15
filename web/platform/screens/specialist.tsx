@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Check, Download, Printer, X } from "lucide-react";
 import type { Action, DeclineActionResponse, SendActionResponse, WorkspaceData } from "@/lib/contracts";
-import { actionTitle, money } from "@/lib/format";
+import { actionTitle, money, percent } from "@/lib/format";
 import { useLineage } from "@/lib/use-lineage";
 import { declineAction, submitAction, useDeclines, useSubmissions } from "@/lib/submissions";
 import { LineageContent } from "@/variants/v3/workspace";
@@ -15,9 +15,9 @@ import { EmptyWorkspace, PageHead } from "../shell";
 
 export function Lineage({ data }: { data: WorkspaceData | null }) {
   const lineage = useLineage(data?.changes[0]?.id || "CE-0007", data);
-  if (!data) return <EmptyWorkspace />;
+  if (!data) return <><PageHead title="Lineage" /><EmptyWorkspace /></>;
   return <div>
-    <PageHead eyebrow={`Change ${data.exposure.change_id}`} title="Lineage">
+    <PageHead title="Lineage">
       Select the {money(data.exposure.added_duty_usd)} total or any step to light up the path behind it:
       bulletin, rates, assumptions, decisions, parts, orders and products.
     </PageHead>
@@ -44,7 +44,7 @@ const REQUIREMENT_CHIP: Record<string, [string, string]> = {
 export function Brief({ data }: { data: WorkspaceData | null }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  if (!data) return <EmptyWorkspace />;
+  if (!data) return <><PageHead title="Decision brief" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   const decision = data.decisions[0];
   const story = decision ? decisionStory(decision, change, data.evidence) : null;
@@ -59,26 +59,25 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
   }
 
   return <div className="ks-brief">
-    <PageHead eyebrow={`Decision brief · ${change?.id ?? ""}`}
-      title={story ? `The ${story.title.toLowerCase()} needs your decision` : "Decision brief"}
+    <PageHead title={story ? `${story.title}: decision required` : "Decision brief"}
       actions={<>
         <button className="btn btn-quiet" onClick={exportPdf} disabled={busy}><Download aria-hidden="true" className="lucide" />{busy ? "Preparing…" : "Download PDF"}</button>
         <button className="btn btn-quiet" onClick={() => window.print()}><Printer aria-hidden="true" className="lucide" />Print</button>
       </>}>
-      {story ? `${story.broke} ${story.verdict}` : "No supplier decision is affected."}
+      {story ? `${story.lede} ${story.verdict}`.trim() : "No supplier decision is affected."}
     </PageHead>
     {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
     <div className="ks-brief-grid">
     <div>
     {change && <section aria-labelledby="b-changed">
-      <div className="eyebrow">01 · What changed</div>
+      <div className="eyebrow">What changed</div>
       <h2 id="b-changed">{changeHeadline(change)}</h2>
-      <p className="mb-0">It reaches {data.exposure.affected_parts} parts across {data.exposure.open_po_lines} open order lines: {money(data.exposure.added_duty_usd)} in added duty on those orders and {money(data.exposure.annualized_added_duty_usd)} a year at current build rates. Rules computed every figure.</p>
+      <p className="mb-0">It reaches {data.exposure.affected_parts} parts across {data.exposure.open_po_lines} open order lines: {money(data.exposure.added_duty_usd)} in added duty on those orders and {money(data.exposure.annualized_added_duty_usd)} a year at current build rates.</p>
     </section>}
 
     {story && decision && <section aria-labelledby="b-cost">
-      <div className="eyebrow">02 · The award&apos;s annual cost</div>
+      <div className="eyebrow">Annual cost of the award</div>
       <h2 id="b-cost">{story.happened}</h2>
       {story.before != null && story.increase != null && <Bridge before={story.before} increase={story.increase} after={decision.incumbent_annual_usd} supplier={story.incumbent} />}
       <div className="table-responsive border rounded mt-5"><table className="table align-middle">
@@ -94,7 +93,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
     </section>}
 
     <section aria-labelledby="b-proof">
-      <div className="eyebrow">03 · What the supplier still has to prove</div>
+      <div className="eyebrow">Outstanding supplier evidence</div>
       <h2 id="b-proof">{supplierName(data.evidence.supplier_id)}, part <span className="code">{data.evidence.part_no}</span></h2>
       <ul className="list-unstyled mb-0 border rounded bg-white">
         {(data.evidence.requirements ?? []).map(row => {
@@ -111,7 +110,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
 
     <aside className="ks-brief-aside" aria-label="Your decision">
       {story && decision && <div className="card"><div className="card-body">
-        <div className="eyebrow">At a glance</div>
+        <div className="eyebrow">Summary</div>
         <div className="ks-glance">
           {story.increase != null && <div><span>Award cost since the change</span><span className="amount" style={{ color: "var(--accent-ink)" }}>+{money(story.increase)}/yr</span></div>}
           <div><span>Switch to {story.alternative}, with proof</span><span className="amount" style={{ color: story.withProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(story.withProof)}/yr</span></div>
@@ -210,5 +209,34 @@ function DecisionRecorded({ audit }: { audit: WorkspaceData["audit"] }) {
       : `The supplier request ${last.entity_id} was declined on ${when} and removed from the queue.`}</p>
     <span className={`chip ${approved ? "chip-good" : "chip-neutral"} justify-self-start`}>Recorded in the audit log</span>
   </div></div>;
+}
+
+/** Approver: the decision's history, from the award to today. */
+export function DecisionHistory({ data }: { data: WorkspaceData | null }) {
+  if (!data) return <><PageHead title="Decision history" /><EmptyWorkspace /></>;
+  const change = data.changes[0];
+  const decision = data.decisions[0];
+  const story = decision ? decisionStory(decision, change, data.evidence) : null;
+  const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
+  const events: { when: string; what: string; detail: string }[] = [];
+  if (story) events.push({ when: "2026-04-20", what: `${story.title} awarded to ${story.incumbent}`, detail: "Priced on a 25% Section 232 duty on the full customs value." });
+  for (const e of data.audit) {
+    if (e.type === "change_extracted") events.push({ when: e.occurred_at, what: `Tariff change ${e.entity_id} recorded`, detail: change ? changeHeadline(change) : "" });
+    if (e.type === "evidence_refused") events.push({ when: e.occurred_at, what: "UK melt-and-pour proof refused", detail: "The certificate scan is unreadable where the melt location is printed." });
+    if (e.type === "action_drafted") events.push({ when: e.occurred_at, what: `Supplier request ${e.entity_id} drafted`, detail: "Asks the alternative supplier for the missing documents." });
+    if (e.type === "action_sent") events.push({ when: e.occurred_at, what: `Request ${e.entity_id} approved`, detail: "Waiting for the sourcing manager and trade compliance to sign off." });
+    if (e.type === "action_declined") events.push({ when: e.occurred_at, what: `Request ${e.entity_id} declined`, detail: "Removed from the queue." });
+  }
+  if (change) events.push({ when: change.effective_date, what: "New rate takes effect", detail: `${percent(change.new_rate)} on the full customs value.` });
+  events.sort((a, b) => a.when.localeCompare(b.when));
+  return <div className="d-grid gap-4">
+    <PageHead title="Decision history">{story ? story.title : "Supplier award"}, from the award to today.</PageHead>
+    <section className="card"><ul className="ks-list">
+      {events.map((e, i) => <li key={i} className="align-items-start">
+        <span className="d-flex gap-4"><span className="meta text-nowrap" style={{ width: "6.5rem" }}>{fmt(e.when)}</span>
+          <span><span className="d-block fw-medium">{e.what}</span><span className="meta">{e.detail}</span></span></span>
+      </li>)}
+    </ul></section>
+  </div>;
 }
 

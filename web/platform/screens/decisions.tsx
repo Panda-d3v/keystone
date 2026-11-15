@@ -2,19 +2,16 @@
 import Link from "next/link";
 import type { WorkspaceData } from "@/lib/contracts";
 import { money } from "@/lib/format";
-import type { Role } from "../roles";
 import { decisionStory } from "../story";
 import { EmptyWorkspace, PageHead } from "../shell";
 
 const signed = (value: number) => `${value < 0 ? "−" : "+"}${money(Math.abs(value))}`;
 
-export function Decisions({ data, role }: { data: WorkspaceData | null; role: Role }) {
-  if (!data) return <EmptyWorkspace />;
+export function Decisions({ data }: { data: WorkspaceData | null }) {
+  if (!data) return <><PageHead title="Supplier decisions" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   return <div className="d-grid gap-4">
-    <PageHead eyebrow="Supplier awards" title="Decisions">
-      Supplier choices whose reasons changed, and what each option costs now.
-    </PageHead>
+    <PageHead title="Supplier decisions">Awards priced on a rate that has since changed, with each option at the new rate.</PageHead>
     {!data.decisions.length && <div className="card"><div className="card-body">No decisions are affected.</div></div>}
     {data.decisions.map(d => {
       const s = decisionStory(d, change, data.evidence);
@@ -46,8 +43,8 @@ export function Decisions({ data, role }: { data: WorkspaceData | null; role: Ro
 
           <div className="alert alert-primary mb-0">{s.verdict}</div>
           <div className="d-flex gap-2 flex-wrap">
-            {role.pages.includes("actions") && <Link className="btn btn-primary" href="/actions">Request the missing documents</Link>}
-            {role.pages.includes("exposure") && <Link className="btn btn-outline-primary" href="/exposure">See the affected orders</Link>}
+            <Link className="btn btn-primary" href="/sourcing/requests">Request the missing documents</Link>
+            <Link className="btn btn-outline-secondary" href="/sourcing/cost-impact">See the affected orders</Link>
           </div>
         </div>
       </article>;

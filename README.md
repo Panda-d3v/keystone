@@ -44,14 +44,14 @@ Work on a dedicated branch, keep contract changes coordinated in #ai-builders, a
 
 ## The demo platform
 
-http://localhost:3000 is one Keystone platform for every role. Pick who you are in **Viewing as** at the top right:
+http://localhost:3000 is one Keystone platform. Pick who you are in **Viewing as** at the top right; each role gets its own steps in the step bar, and no page is shared between roles.
 
-| Role | Lands on | Menu |
-|---|---|---|
-| Sourcing manager (Maya Chen) | Home | Decisions, Exposure, Actions |
-| Trade compliance (Priya Raman) | Home | Intake, Evidence, Duty bill (old vs new duty per order line) |
-| Analyst (Sam Okafor) | Home | **Lineage** graph, Exposure, Audit log |
-| Approver (Elena Park) | **Brief** | Brief (waterfall, approve or decline, PDF), Audit log |
+| Role | Steps |
+|---|---|
+| Sourcing manager (Maya Chen), `/sourcing` | Overview, Supplier decisions, Cost impact (by supplier), Supplier requests |
+| Trade compliance (Priya Raman), `/compliance` | Overview, Documents (bulletin and supplier files), Evidence, Duty bill (by HTS heading) |
+| Analyst (Sam Okafor), `/analyst` | Overview (checks), **Lineage** graph, Calculations (per-line math), Audit log |
+| Approver (Elena Park), `/approver` | **Decision brief** (approve or decline, download as PDF), Decision history |
 
-Share a role directly with `?as=sourcing|compliance|analyst|approver`, e.g. http://localhost:3000/?as=approver. The five earlier design explorations are archived at http://localhost:3000/versions.
+`/` opens the role you used last. The five earlier design explorations are archived at http://localhost:3000/versions.
 

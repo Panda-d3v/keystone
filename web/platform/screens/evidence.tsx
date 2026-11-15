@@ -2,7 +2,6 @@
 import { useState } from "react";
 import type { Citation, WorkspaceData } from "@/lib/contracts";
 import { SourceViewer } from "@/variants/v1/source-viewer";
-import type { Role } from "../roles";
 import { supplierName, SUPPLIERS } from "../names";
 import { EmptyWorkspace, PageHead } from "../shell";
 
@@ -26,12 +25,12 @@ const MEANING: Record<string, string> = {
   "origin-declaration": "A signed origin declaration from the supplier.",
 };
 
-export function Evidence({ data, role }: { data: WorkspaceData | null; role: Role }) {
+export function Evidence({ data }: { data: WorkspaceData | null }) {
   const evidence = data?.evidence;
   const rows = evidence?.requirements ?? [];
   const first = rows.find(row => row.status !== "checked" && row.citations?.length) ?? rows.find(row => row.citations?.length);
   const [selected, setSelected] = useState<string | undefined>(first?.id);
-  if (!data || !evidence) return <EmptyWorkspace />;
+  if (!data || !evidence) return <><PageHead title="Evidence" /><EmptyWorkspace /></>;
   const current = rows.find(row => row.id === selected);
   const citation: Citation | null = current?.citations?.[0] ?? null;
   const heats = [...new Set(evidence.items.map(item => item.batch_id).filter(Boolean))];
@@ -40,10 +39,10 @@ export function Evidence({ data, role }: { data: WorkspaceData | null; role: Rol
   const open = rows.filter(row => row.status !== "checked").length;
 
   return <div>
-    <PageHead eyebrow="Evidence passport" title={supplierName(evidence.supplier_id)}
+    <PageHead title={supplierName(evidence.supplier_id)}
       actions={<span className={`chip ${passport.chip} fs-6 px-3 py-1`}>{passport.label}</span>}>
       {country ? `${country}. ` : ""}Part <span className="code">{evidence.part_no}</span>{heats.length ? `, heats ${heats.join(" and ")}` : ""}.
-      {" "}The lower UK rate applies only when every requirement below is proven.
+      {" "}The UK rate needs every requirement proven.
     </PageHead>
     <div className="ks-split">
       <section className="card" aria-labelledby="needs">
@@ -59,8 +58,7 @@ export function Evidence({ data, role }: { data: WorkspaceData | null; role: Rol
           </button>;
         })}</div>
         {evidence.status !== "verified" && <div className="card-footer small text-soft">
-          {role.pages.includes("actions") ? "Use Actions to ask the supplier for what's missing."
-            : "The sourcing manager sends the supplier the request for what's missing."}
+          The sourcing manager requests the missing documents from the supplier.
         </div>}
       </section>
       <div className="ks-pin">

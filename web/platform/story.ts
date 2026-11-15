@@ -14,6 +14,7 @@ export interface DecisionStory {
   title: string;
   happened: string;
   broke: string;
+  lede: string;
   incumbent: string;
   alternative: string;
   before?: number | null;
@@ -40,6 +41,9 @@ export function decisionStory(d: DecisionCheck, change: ChangeEvent | undefined,
     broke: d.status === "broken"
       ? `That assumption no longer holds: the duty is now ${rate}${change ? ` from ${date(change.effective_date)}` : ""}.`
       : "The award's assumptions still hold.",
+    lede: d.status === "broken" && change
+      ? `The award was priced at ${percent(change.old_rate)} duty; from ${date(change.effective_date)} it is ${rate}.`
+      : "",
     incumbent,
     alternative,
     before: d.incumbent_before_annual_usd,

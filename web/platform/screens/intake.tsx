@@ -40,11 +40,11 @@ export function Intake({ data, useFixtures, reload }: { data: WorkspaceData | nu
   else if (selected && VIEWABLE.test(selected.media_type)) citation = { doc_id: selected.doc_id, page: 1, bbox: [0, 0, 0, 0] };
 
   return <div>
-    <PageHead eyebrow="Documents" title="Intake"
+    <PageHead title="Documents"
       actions={!useFixtures && <button className="btn btn-primary" onClick={() => setUploading(!uploading)} aria-expanded={uploading}>
         {uploading ? <X aria-hidden="true" className="lucide" /> : <Upload aria-hidden="true" className="lucide" />}
         {uploading ? "Close" : "Upload a document"}</button>}>
-      What arrived, what it says, and what a person still needs to check.
+      Bulletins and supplier certificates received, and what each one says.
     </PageHead>
 
     {uploading && <div className="legacy mb-4"><DocumentUpload onUploaded={() => { reload(); setUploading(false); }} hasChange={!!change} /></div>}
