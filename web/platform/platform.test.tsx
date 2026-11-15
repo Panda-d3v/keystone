@@ -26,8 +26,14 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 it("gives every role one platform with its own menu and specialist view", () => {
   for (const role of ROLES) {
     expect(role.pages).toContain(role.home);
-    expect(role.pages).toContain("audit");
+    expect(role.pages.length).toBeLessThanOrEqual(4);  // each role sees only what its job needs
   }
+  // No two roles share the same menu.
+  expect(new Set(ROLES.map(role => role.pages.join(","))).size).toBe(ROLES.length);
+  expect(roleById("sourcing").pages).toEqual(["home", "decisions", "exposure", "actions"]);
+  expect(roleById("compliance").pages).toEqual(["home", "intake", "evidence", "exposure"]);
+  expect(roleById("analyst").pages).toEqual(["home", "lineage", "exposure", "audit"]);
+  expect(roleById("approver").pages).toEqual(["brief", "audit"]);
   expect(ROLES.filter(role => role.pages.includes("lineage")).map(role => role.id)).toEqual(["analyst"]);
   expect(ROLES.filter(role => role.pages.includes("brief")).map(role => role.id)).toEqual(["approver"]);
   expect(roleById("nobody").id).toBe("sourcing");
@@ -55,7 +61,7 @@ it("switches roles from the top bar and changes the menu", async () => {
 
 it("explains when a page belongs to another role", async () => {
   render(<PlatformPage page="lineage" />);
-  expect(await screen.findByRole("heading", { name: "Lineage is in the analyst view" })).toBeTruthy();
+  expect(await screen.findByRole("heading", { name: "Lineage belongs to the analyst view" })).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: "View as Sam Okafor, Analyst" }));
   expect(window.localStorage.getItem("keystone.role")).toBe("analyst");
 });
@@ -90,14 +96,20 @@ it("lists the largest added duty first, with supplier names", async () => {
 it("shows trade compliance the duty bill", async () => {
   as("compliance");
   render(<PlatformPage page="exposure" />);
-  expect(await screen.findByText("Duty bill by order line")).toBeTruthy();
+  expect(await screen.findByRole("heading", { name: "Duty bill" })).toBeTruthy();
+  expect(screen.getByText("Duty by order line")).toBeTruthy();
+  const nav = screen.getByRole("navigation", { name: "Main navigation" });
+  expect(within(nav).getByText("Duty bill")).toBeTruthy();
+  expect(within(nav).queryByText("Decisions")).toBeNull();
   expect(screen.getByText("Previous duty")).toBeTruthy();
   expect(screen.getByText("New duty")).toBeTruthy();
 });
 
 it("names the supplier and heats on the evidence page", async () => {
+  as("compliance");
   render(<PlatformPage page="evidence" />);
-  expect(await screen.findByText(/Sheffield Forge & Pattern \(United Kingdom\)/)).toBeTruthy();
+  expect(await screen.findByRole("heading", { name: "Sheffield Forge & Pattern" })).toBeTruthy();
+  expect(screen.getByText(/United Kingdom\./)).toBeTruthy();
   expect(screen.getByText(/heats SF-24117 and SF-24121/)).toBeTruthy();
   expect(screen.getByText("Unreadable")).toBeTruthy();
   expect(screen.getByText("Missing")).toBeTruthy();
@@ -107,4 +119,24 @@ it("formats HTS codes for people", () => {
   expect(hts("841391")).toBe("8413.91");
   expect(hts("8413919095")).toBe("8413.91.9095");
   expect(hts("not-a-code")).toBe("not-a-code");
+});
+
+it("gives the approver a native Brief with the waterfall and the decision", async () => {
+  as("approver");
+  render(<PlatformPage page="brief" />);
+  expect(await screen.findByRole("heading", { name: "The pump casing award needs your decision" })).toBeTruthy();
+  expect(screen.getByRole("img", { name: /rose from \$993,800 by \$198,760 to \$1,192,560/ })).toBeTruthy();
+  expect(screen.getByRole("button", { name: "Decline request" })).toBeTruthy();
+  const nav = screen.getByRole("navigation", { name: "Main navigation" });
+  expect(within(nav).getAllByRole("link").map(link => link.textContent)).toEqual(["Brief", "Audit log"]);
+});
+
+it("keeps the source document beside the fields on Intake", async () => {
+  as("compliance");
+  render(<PlatformPage page="intake" />);
+  const split = (await screen.findByText("What the bulletin says")).closest(".ks-split") as HTMLElement;
+  expect(split).toBeTruthy();
+  expect(split.querySelector(".ks-pin")).toBeTruthy();
+  fireEvent.click(within(split).getByRole("button", { name: /Affected HTS headings/ }));
+  expect(within(split).getByRole("button", { name: /Affected HTS headings/ }).getAttribute("aria-pressed")).toBe("true");
 });

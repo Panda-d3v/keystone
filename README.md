@@ -46,12 +46,12 @@ Work on a dedicated branch, keep contract changes coordinated in #ai-builders, a
 
 http://localhost:3000 is one Keystone platform for every role. Pick who you are in **Viewing as** at the top right:
 
-| Role | Lands on | Sees |
+| Role | Lands on | Menu |
 |---|---|---|
-| Sourcing manager (Maya Chen) | Home | Intake, Exposure, Decisions, Evidence, Actions, Audit log |
-| Trade compliance (Priya Raman) | Home | Intake, Evidence, Exposure with the old vs new duty bill, Actions, Audit log |
-| Analyst (Sam Okafor) | Home | Exposure, **Lineage** graph, Decisions, Audit log |
-| Approver (Elena Park) | **Brief** | Brief (PDF export, approve or decline), Decisions, Evidence, Audit log |
+| Sourcing manager (Maya Chen) | Home | Decisions, Exposure, Actions |
+| Trade compliance (Priya Raman) | Home | Intake, Evidence, Duty bill (old vs new duty per order line) |
+| Analyst (Sam Okafor) | Home | **Lineage** graph, Exposure, Audit log |
+| Approver (Elena Park) | **Brief** | Brief (waterfall, approve or decline, PDF), Audit log |
 
 Share a role directly with `?as=sourcing|compliance|analyst|approver`, e.g. http://localhost:3000/?as=approver. The five earlier design explorations are archived at http://localhost:3000/versions.
 

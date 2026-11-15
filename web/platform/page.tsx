@@ -22,7 +22,7 @@ export function PlatformPage({ page }: { page: PageId }) {
       case "evidence": return <Evidence data={data} role={role} />;
       case "actions": return <Actions data={data} />;
       case "lineage": return <Lineage data={data} />;
-      case "brief": return <Brief data={data} reload={reload} />;
+      case "brief": return <Brief data={data} />;
       case "audit": return <Audit data={data} />;
     }
   }}</Shell>;

@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Bell } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
-import { money } from "@/lib/format";
-import { actionTitle } from "@/lib/format";
+import { actionTitle, money } from "@/lib/format";
 import type { Role } from "../roles";
 import { changeHeadline, decisionStory, openChecks } from "../story";
-import { EmptyWorkspace } from "../shell";
+import { EmptyWorkspace, PageHead } from "../shell";
 
 interface Step { href: string; title: string; detail: string }
 
@@ -18,7 +17,7 @@ export function Home({ data, role }: { data: WorkspaceData | null; role: Role })
     setGreeting(hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening");
   }, []);
   const first = role.person.split(" ")[0];
-  if (!data) return <><h1 className="mb-4">{greeting}, {first}</h1><EmptyWorkspace /></>;
+  if (!data) return <><PageHead eyebrow={role.label} title={`${greeting}, ${first}`} /><EmptyWorkspace /></>;
 
   const change = data.changes[0];
   const decision = data.decisions[0];
@@ -49,47 +48,39 @@ export function Home({ data, role }: { data: WorkspaceData | null; role: Role })
   };
 
   return <div className="d-grid gap-4">
-    <div>
-      <h1 className="mb-1">{greeting}, {first}</h1>
-      <p className="text-soft mb-0">{role.label}. {role.focus}</p>
-    </div>
+    <PageHead eyebrow={role.label} title={`${greeting}, ${first}`}>{role.focus}</PageHead>
 
-    {change && <div className="ks-hero p-4 d-flex gap-3 align-items-start">
-      <span className="ks-avatar" aria-hidden="true"><Bell className="lucide" /></span>
-      <div>
-        <p className="small text-soft mb-1">New tariff bulletin {change.citations[0]?.doc_id ?? ""}</p>
-        <h2 className="mb-2">{changeHeadline(change)}</h2>
-        <p className="mb-0">
-          {data.exposure.affected_parts} parts and {data.exposure.open_po_lines} open order lines are affected
-          {broken ? `, and ${broken} supplier decision no longer holds` : ""}.
-        </p>
-      </div>
-    </div>}
+    {change && <section className="ks-hero" aria-label="What changed">
+      <div className="eyebrow">New tariff bulletin {change.citations[0]?.doc_id ?? ""}</div>
+      <h2>{changeHeadline(change)}</h2>
+      <p className="mb-0">
+        {data.exposure.affected_parts} parts and {data.exposure.open_po_lines} open order lines are affected
+        {broken ? `, and ${broken} supplier decision no longer holds` : ""}.
+      </p>
+    </section>}
 
-    <div className="row g-3">
+    <section className="ks-kpis" aria-label="Headline numbers">
       {[
-        { label: "Added duty on open orders", value: money(data.exposure.added_duty_usd) },
-        { label: "Added duty per year at current builds", value: money(data.exposure.annualized_added_duty_usd) },
+        { label: "Added duty, open orders", value: money(data.exposure.added_duty_usd), accent: true },
+        { label: "Added duty per year", value: money(data.exposure.annualized_added_duty_usd) },
         { label: "Order lines affected", value: String(data.exposure.open_po_lines) },
         { label: "Decisions to revisit", value: String(broken) },
-      ].map(kpi => <div className="col-6 col-xl-3" key={kpi.label}>
-        <div className="card h-100 ks-kpi"><div className="card-body">
-          <div className="value">{kpi.value}</div><div className="label">{kpi.label}</div>
-        </div></div>
+      ].map(kpi => <div className="ks-kpi" key={kpi.label}>
+        <div className="label">{kpi.label}</div>
+        <div className={`value ${kpi.accent ? "accent" : ""}`}>{kpi.value}</div>
       </div>)}
-    </div>
+    </section>
 
-    <div className="card">
-      <div className="card-header">Your next steps</div>
-      <div className="list-group list-group-flush">
-        {steps[role.id].map((step, index) => <Link key={step.href} href={step.href}
-          className="list-group-item list-group-item-action ks-step d-flex align-items-center gap-3 py-3">
-          <span className="badge rounded-pill text-bg-primary">{index + 1}</span>
-          <span className="flex-grow-1"><strong className="d-block">{step.title}</strong>
+    <section className="card" aria-labelledby="next-steps">
+      <div className="card-header" id="next-steps">Your next steps</div>
+      <div>
+        {steps[role.id].map((step, index) => <Link key={step.href} href={step.href} className="ks-step">
+          <span className="ks-step-num">0{index + 1}</span>
+          <span className="flex-grow-1"><span className="d-block fw-medium">{step.title}</span>
             <span className="text-soft small">{step.detail}</span></span>
           <ArrowRight aria-hidden="true" className="lucide text-soft" />
         </Link>)}
       </div>
-    </div>
+    </section>
   </div>;
 }
