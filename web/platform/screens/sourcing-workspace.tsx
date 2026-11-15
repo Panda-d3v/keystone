@@ -51,7 +51,7 @@ export function SourcingWorkspace({ data, page, part, onPart }: {
   const award = awards?.find(item => item.decision_id === awardId) ?? awards?.[0];
   const addedDuty = lines.reduce((total, line) => total + line.added_duty_usd, 0);
 
-  return <div className="d-grid gap-4">
+  return <div className="ks-sourcing-workspace d-grid gap-4">
     <header>
       <h1 className="mb-1">
         {selectedPart ? <select className="ks-component-title" aria-label="Component" value={selectedPart}

@@ -389,3 +389,5 @@
   .ks .ks-sourcing-steps a:nth-child(3) { z-index: 2; }
   .ks .ks-sourcing-steps a:nth-child(4) { z-index: 1; }
 }
+
+.ks-sourcing-workspace { grid-template-columns: minmax(0, 1fr); }
