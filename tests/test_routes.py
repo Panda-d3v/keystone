@@ -58,6 +58,7 @@ def test_live_routes_against_demo_contracts():
                 decision = DecisionCheck.model_validate(client.get("/decisions").json()[0])
                 assert decision.status == "broken"
                 assert decision.incumbent_before_annual_usd == 993800
+                assert decision.incumbent_delta_annual_usd == 198760
                 assert decision.alternative_with_proof_delta_usd == -49690
                 assert decision.alternative_without_proof_delta_usd == 178884
                 po = next(line for line in exposure.lines if line.po_id == "PO-4504")
