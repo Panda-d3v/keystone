@@ -7,6 +7,7 @@ import { screens, routeFor, type Screen } from "@/lib/routes";
 import { useWorkspace } from "@/lib/use-workspace";
 import { money, percent, date, words } from "@/lib/format";
 import type { WorkspaceData } from "@/lib/data";
+import { DocumentUpload } from "./document-upload";
 import { Intake } from "./intake";
 import { Evidence } from "./evidence";
 import { Actions, ApprovalResult } from "./actions";
@@ -15,7 +16,7 @@ import { useSubmissions } from "@/lib/submissions";
 const icons = [Inbox, ChartNoAxesCombined, GitBranch, FileCheck2, ListChecks, History];
 
 export default function ConsoleWorkspace({ screen }: {screen: Screen}) {
-  const { data, error, reload, useFixtures } = useWorkspace();
+  const { data, error, loading, reload, useFixtures } = useWorkspace();
   const [dark, setDark] = useState(false);
   const [query, setQuery] = useState("");
   const label = screens.find(s => s.id === screen)!.label;
@@ -26,9 +27,16 @@ export default function ConsoleWorkspace({ screen }: {screen: Screen}) {
     </aside>
     <div className="workspace-body"><header className="topbar"><div className="row"><strong>MeridianFlow</strong><span className="muted">Procurement workspace</span></div><div className="row"><span className="status">{useFixtures ? "Fixture data" : "Live API"}</span><button onClick={()=>setDark(!dark)}>{dark ? "Light theme" : "Dark theme"}</button><button onClick={reload}><RefreshCw aria-hidden="true"/>Refresh</button></div></header>
       <main id="main" className="main"><div><div className="breadcrumb">Workspace / {screen === "inbox" || screen === "audit" ? label : "Changes / CE-0007 / " + label}</div>
-        <div className="page-header"><div><h1>{screen === "exposure" ? "A tariff change. A clear cost." : label}</h1><p>{screen === "inbox" ? "Review incoming documents and the facts extracted from them." : screen === "audit" ? "Follow the record behind every change and action." : "Illustrative bulletin HTA-2026-118"}</p></div>{screen === "inbox" && <Link className="button primary" href={routeFor(1,"exposure")}>Run impact</Link>}</div></div>
+        <div className="page-header"><div><h1>{screen === "exposure" ? "A tariff change. A clear cost." : label}</h1><p>{screen === "inbox" ? "Review incoming documents and the facts extracted from them." : screen === "audit" ? "Follow the record behind every change and action." : "Illustrative bulletin HTA-2026-118"}</p></div>{screen === "inbox" && data && <Link className="button primary" href={routeFor(1,"exposure")}>Run impact</Link>}</div></div>
         {screen !== "inbox" && screen !== "audit" && <nav className="tabs" aria-label="Change sections">{screens.filter(s => s.id !== "inbox" && s.id !== "audit").map(s => <Link key={s.id} href={routeFor(1,s.id)} aria-current={s.id === screen ? "page" : undefined}>{s.label}</Link>)}</nav>}
-        {error ? <div role="alert" className="notice"><p>{error}</p><button onClick={reload}>Retry</button></div> : !data ? <p role="status">Loading workspace…</p> : <>
+        {screen === "inbox" && !useFixtures && <DocumentUpload onUploaded={reload} hasChange={!!data} />}
+        {error ? <div role="alert" className="notice"><p>{error}</p><button onClick={reload}>Retry</button></div> : !data ? loading
+          ? <p role="status">Loading workspace…</p>
+          : <section className="notice stack">
+            <h2>Start with a tariff bulletin</h2>
+            <p>Upload a bulletin from Intake to see affected orders and review your supplier options.</p>
+            {screen !== "inbox" && <Link href={routeFor(1, "inbox")}>Go to Intake</Link>}
+          </section> : <>
           {screen === "exposure" && <Exposure data={data} query={query} setQuery={setQuery}/>}
           {screen === "inbox" && <Intake data={data}/>}
           {screen === "decisions" && <Decisions data={data}/>}

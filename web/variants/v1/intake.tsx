@@ -2,6 +2,7 @@
 import { useState } from "react";
 import type { Citation, WorkspaceData } from "@/lib/contracts";
 import { date, percent, words } from "@/lib/format";
+import { useFixtures } from "@/lib/data";
 import sources from "@/lib/reference-sources.json";
 import { SourceViewer } from "./source-viewer";
 
@@ -19,7 +20,7 @@ export function Intake({ data }: { data: WorkspaceData }) {
   ];
   const citations: Citation[] = change.field_citations?.[field] || change.citations;
   return <div className="stack">
-    <section className="panel">
+    {useFixtures && <section className="panel">
       <div className="panel-header"><h2>Document queue</h2><span className="muted small">Provided demo documents</span></div>
       <div className="table-scroll"><table>
         <thead><tr><th>Document</th><th>Type</th><th>Source</th></tr></thead>
@@ -27,7 +28,7 @@ export function Intake({ data }: { data: WorkspaceData }) {
           <td>{source.title}</td><td>{source.kind}</td><td><a href={source.original} target="_blank" rel="noreferrer">Open original</a></td>
         </tr>)}</tbody>
       </table></div>
-    </section>
+    </section>}
     <div className="document-split">
       <section className="panel">
         <div className="panel-header"><h2>Extracted change</h2><span className="code">{change.id}</span></div>

@@ -78,3 +78,25 @@ it("submits an edited request and keeps the returned draft approval state", asyn
   render(<ConsoleWorkspace screen="actions"/>);
   await waitFor(() => expect((screen.getByRole("textbox", { name: "Supplier request ACT-0001" }) as HTMLTextAreaElement).value).toBe("Please provide the missing origin declaration and a legible mill certificate."));
 });
+
+it("uploads a bulletin and explains the next step", async () => {
+  const { DocumentUpload } = await import("./document-upload");
+  const reload = vi.fn();
+  const request = vi.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({
+      change_ids: ["CE-0007"], evidence_doc_ids: [], review_doc_ids: [],
+    }),
+  });
+  vi.stubGlobal("fetch", request);
+  render(<DocumentUpload hasChange={false} onUploaded={reload} />);
+  const file = new File(["Tariff bulletin"], "bulletin.pdf", { type: "application/pdf" });
+  fireEvent.change(screen.getByLabelText("Choose a bulletin or supplier certificate"), {
+    target: { files: [file] },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Upload document" }));
+  expect(await screen.findByText(/Bulletin processed. Select Run impact/)).toBeTruthy();
+  expect(request.mock.calls[0][0]).toMatch(/\/intake$/);
+  expect(request.mock.calls[0][1].body.get("file")).toBe(file);
+  expect(reload).toHaveBeenCalledOnce();
+});
