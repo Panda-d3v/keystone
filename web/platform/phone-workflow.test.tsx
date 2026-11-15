@@ -23,14 +23,14 @@ it("keeps decisions separate by component and carries them into the brief", () =
   expect(screen.getByText("Keep Samsung.")).toBeTruthy();
   expect(screen.getByText(/Switch to Memory supplier B.*evidence still needed/)).toBeTruthy();
   expect(screen.getByText(/\$1,800,000 in modeled first-year savings/)).toBeTruthy();
-  fireEvent.change(screen.getByLabelText("Tariff case"), { target: { value: "TC-102" } });
+  fireEvent.change(screen.getByLabelText("Tariff update"), { target: { value: "TC-102" } });
   expect(screen.getByText("Component decisions complete")).toBeTruthy();
 });
 
 
 it.each([
   ["sourcing", "Choose by component"],
-  ["compliance", "Review tariff"],
+  ["compliance", "Documents"],
   ["analyst", "Check costs"],
   ["approver", "Review brief"],
 ] as const)("starts the %s role on its own work", (role, label) => {

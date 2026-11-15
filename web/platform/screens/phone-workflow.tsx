@@ -12,7 +12,7 @@ const storageKey = "keystone.phone-decisions.v1";
 
 const roleWork = {
   sourcing: { start: "decisions", title: "Sourcing decisions", task: "Compare the incumbent and alternative for each part. Record which supplier to use." },
-  compliance: { start: "intake", title: "Tariff and origin review", task: "Confirm the effective date and affected parts, then check the origin documents for proposed switches." },
+  compliance: { start: "intake", title: "Documents and origin review", task: "Confirm the effective date and affected parts, then check the origin documents for proposed switches." },
   analyst: { start: "exposure", title: "Cost analysis", task: "Check the customs value, rate change, and annual volume behind each cost estimate." },
   approver: { start: "brief", title: "Approval review", task: "Review the savings, completed decisions, and evidence still needed before signing off." },
 } as const;
@@ -23,6 +23,7 @@ export function PhoneWorkflow({ page, role, onRole }: {
   onRole: (role: RoleId) => void;
 }) {
   const router = useRouter();
+  const [part, setPart] = useState("");
   const [caseId, setCaseId] = useState(phoneCases[0].id);
   const [choices, setChoices] = useState<Record<string, Choice>>({});
   const [saveError, setSaveError] = useState(false);
@@ -50,6 +51,7 @@ export function PhoneWorkflow({ page, role, onRole }: {
     const complete = choice === "keep" || (choice === "switch" && component.verified);
     return { component, choice, complete, ...costs(component, tariff) };
   });
+  const visibleEntries = part ? entries.filter(entry => entry.component.id === part) : entries;
   const complete = entries.filter(entry => entry.complete).length;
   const ready = complete === entries.length;
   const projected = entries.reduce((total, entry) =>
@@ -62,6 +64,14 @@ Duty: ${percent(tariff.previousRate)} to ${percent(tariff.rate)} of customs valu
 Scope: ${scope}
 `;
   const next = workflow[workflow.indexOf(step) + 1];
+
+  function selectCase(value: string) {
+    setCaseId(value);
+    setPart("");
+    const url = new URL(window.location.href);
+    url.searchParams.set("case", value);
+    window.history.replaceState(null, "", url);
+  }
 
   function choose(id: string, value: Choice) {
     const updated = { ...choices, [id]: value };
@@ -78,7 +88,6 @@ Scope: ${scope}
     <header className="ks-topbar ks-no-print">
       <Link href="/" className="ks-brand phone-brand"><span className="ks-brand-mark"><Layers aria-hidden="true" /></span>Keystone</Link>
       <div className="ms-auto d-flex align-items-center gap-2">
-        <span className="chip chip-neutral d-none d-sm-inline-flex">Sample data</span>
         <label className="visually-hidden" htmlFor="phone-role">Viewing as</label>
         <select className="form-select form-select-sm" id="phone-role" value={role.id}
           onChange={event => {
@@ -91,18 +100,33 @@ Scope: ${scope}
       </div>
     </header>
     <main className="ks-main phone-main">
+      <section className="card mb-4 ks-no-print" aria-labelledby="phone-updates">
+        <div className="card-header" id="phone-updates">Latest tariff updates</div>
+        <div className="list-group list-group-flush">
+          {phoneCases.map(item => <button key={item.id} type="button"
+            className="list-group-item list-group-item-action text-start"
+            aria-pressed={item.id === tariff.id} onClick={() => selectCase(item.id)}>
+            {item.title} <span className="small text-soft">· {item.product} · Effective {item.effective}</span>
+          </button>)}
+        </div>
+      </section>
       <header className="ks-page-head">
         <div><div className="eyebrow">Smartphone sourcing · {tariff.id}</div>
-          <h1>{tariff.title}</h1><p>{tariff.product} · {complete} of {entries.length} component decisions complete</p></div>
-        <div className="ks-no-print"><label htmlFor="phone-case" className="small fw-medium">Tariff case</label>
-          <select id="phone-case" className="form-select" value={tariff.id} onChange={event => {
-            setCaseId(event.target.value);
-            const url = new URL(window.location.href);
-            url.searchParams.set("case", event.target.value);
-            window.history.replaceState(null, "", url);
-          }}>
-            {phoneCases.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
-          </select></div>
+          <h1>{visibleEntries.length === 1 ? visibleEntries[0].component.name : tariff.title}</h1>
+          <p>{tariff.product} · {complete} of {entries.length} component decisions complete</p></div>
+        <div className="d-flex gap-2 flex-wrap ks-no-print">
+          <label htmlFor="phone-case" className="small fw-medium">Tariff update
+            <select id="phone-case" className="form-select" value={tariff.id} onChange={event => selectCase(event.target.value)}>
+              {phoneCases.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}
+            </select>
+          </label>
+          <label htmlFor="phone-part" className="small fw-medium">Component
+            <select id="phone-part" className="form-select" value={part} onChange={event => setPart(event.target.value)}>
+              <option value="">All components</option>
+              {tariff.components.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
+            </select>
+          </label>
+        </div>
       </header>
       <nav aria-label="Tariff workflow" className="phone-steps ks-no-print">
         {workflow.map((item, index) => {
@@ -134,7 +158,7 @@ Scope: ${scope}
         {step.id === "brief" && <p className="mb-0"><strong>{ready ? "Component decisions complete" : "Open items remain"}</strong> · {money(projected)} in modeled first-year savings from confirmed switches.</p>}
         {saveError && <p role="alert">The decision could not be saved in this browser.</p>}
         {step.id !== "intake" && <div className="phone-components">
-          {entries.map(({ component, choice, complete, addedDuty, keep, savings }) => (
+          {visibleEntries.map(({ component, choice, complete, addedDuty, keep, savings }) => (
             <article className="card" key={component.id}><div className="card-body d-grid gap-3">
               <div className="d-flex justify-content-between align-items-start gap-2">
                 <div><div className="eyebrow">{component.id}</div><h3 className="h5 mb-0">{component.name}</h3></div>

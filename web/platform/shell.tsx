@@ -89,7 +89,6 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
             <span className="ks-brand-mark"><Layers aria-hidden="true" className="lucide" /></span></Link>
           <div className="ks-crumbs"><span>MeridianFlow</span><span aria-hidden="true">/</span><strong>{pageLabel(role, shown)}</strong></div>
           <div className="ms-auto d-flex align-items-center gap-2">
-            <span className={`chip ${useFixtures ? "chip-neutral" : "chip-good"} d-none d-sm-inline-flex`}>{useFixtures ? "Sample data" : "Live"}</span>
             <button className="btn btn-quiet btn-sm" onClick={reload} aria-label="Refresh data">
               <RefreshCw aria-hidden="true" className="lucide" /><span className="d-none d-md-inline">Refresh</span></button>
             <div className="ks-role">

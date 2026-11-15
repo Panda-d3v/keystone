@@ -1,5 +1,5 @@
 export const workflow = [
-  { id: "intake", label: "Review tariff" },
+  { id: "intake", label: "Documents" },
   { id: "exposure", label: "Check costs" },
   { id: "decisions", label: "Choose by component" },
   { id: "actions", label: "Follow up" },

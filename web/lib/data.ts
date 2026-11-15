@@ -32,7 +32,7 @@ export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData
   const changes = await apiRequest<WorkspaceData["changes"]>("/changes", options);
   if (changes.length === 0) return null;
   const [exposure, decisions, evidence, actions, audit, documents] = await Promise.all([
-    apiRequest<WorkspaceData["exposure"]>("/changes/CE-0007/exposure", options),
+    apiRequest<WorkspaceData["exposure"]>(`/changes/${encodeURIComponent(changes[0].id)}/exposure`, options),
     apiRequest<WorkspaceData["decisions"]>("/decisions", options),
     apiRequest<WorkspaceData["evidence"]>("/evidence/S007/MF-8413-005", options),
     apiRequest<WorkspaceData["actions"]>("/actions", options),
