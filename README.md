@@ -8,6 +8,19 @@ Requirements: Docker with Compose v2. Run `make up` from a clean clone, then ope
 
 Copy `.env.example` to `.env` only to override local defaults. No API key is needed for the scaffold or fixture UI. Live document extraction requires `ANTHROPIC_API_KEY`; recorded agent outputs support `REPLAY=1`. Never commit credentials.
 
+## Run the live procurement demo
+
+Use a fresh demo database. Start the stack with fixture mode off and configure the API for live extraction (`REPLAY=0` with an Anthropic key) or replay (`REPLAY=1` with populated cache).
+
+```sh
+NEXT_PUBLIC_USE_FIXTURES=false make up
+docker compose exec api python -m scripts.seed_demo
+```
+
+Open the Console’s **Intake** screen. Upload the tariff bulletin email from the demo pack, then choose **Run impact**. Upload the Sheffield certificate from Intake to review missing proof under **Evidence**. If the scan cannot be linked automatically, confirm the supplier and part from the quote. Unreadable fields will still be flagged for review. Open **Actions** to edit and submit the drafted request for approval. **Audit log** shows the recorded steps.
+
+To exercise these steps through the API on a separately seeded demo database, run `docker compose exec api python -m scripts.e2e --confirm-sheffield`. The runner submits a draft decision, so use a fresh demo database for each run.
+
 ## Local development
 
 Use Python 3.12+ and Node 22. Run `python3.12 -m venv .venv`, `.venv/bin/pip install -e '.[dev]'`, then `npm ci --prefix web`. Start Postgres with `docker compose up -d --wait db`, the API with `.venv/bin/uvicorn infra.app:app --reload`, and the web app with `npm run dev --prefix web`. Run `.venv/bin/pytest` and `npm run check --prefix web` before a PR.
