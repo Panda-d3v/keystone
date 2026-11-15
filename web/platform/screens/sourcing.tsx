@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
 import type { WorkspaceData } from "@/lib/contracts";
 import { actionTitle, date, money } from "@/lib/format";
-import { AWARD, PARTS, PRODUCTS, partName } from "../catalog";
+import { AWARD, PARTS, PRODUCTS, QUOTES, partName } from "../catalog";
 import { supplierName, supplierPlace } from "../names";
 import { changeHeadline, decisionStory } from "../story";
 import { EmptyWorkspace, PageHead } from "../shell";
@@ -66,6 +66,16 @@ export function SourcingOverview({ data }: { data: WorkspaceData | null }) {
         <div className="card-footer"><Link className="link-arrow" href="/sourcing/parts">All parts <ArrowRight aria-hidden="true" className="lucide" /></Link></div>
       </section>
     </div>
+
+    <section className="card">
+      <div className="card-header d-flex justify-content-between"><span>Cheaper quotes on file</span><span className="text-soft small">Landed cost, duty included</span></div>
+      <div className="ks-list">{[...QUOTES].filter(q => q.annual_saving_usd > 0).sort((a, b) => b.annual_saving_usd - a.annual_saving_usd).map(q =>
+        <Link key={`${q.supplier_id}-${q.part_no}`} href={`/sourcing/parts?part=${q.part_no}`}>
+          <span><span className="d-block fw-medium">{partName(q.part_no)} from {supplierName(q.supplier_id)}</span>
+            <span className="meta">{supplierPlace(q.supplier_id)}. {money(q.landed_unit_usd, 2)} landed against {money(q.current_landed_unit_usd, 2)} today. {q.duty_basis}.</span></span>
+          <span className="text-end"><span className="d-block money fw-medium" style={{ color: "var(--good)" }}>−{money(q.annual_saving_usd)}</span><span className="meta">a year</span></span>
+        </Link>)}</div>
+    </section>
 
     {requests.length > 0 && <section className="card">
       <div className="card-header">Requests waiting to be sent</div>

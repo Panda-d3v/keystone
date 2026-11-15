@@ -62,12 +62,23 @@ it("shows one part at a time with its duty, quotes and orders", async () => {
   render(<PlatformPage step="sourcing-parts" />);
   expect(await screen.findByRole("heading", { name: "LPDDR5X memory, 12 GB" })).toBeTruthy();
   expect(screen.getByText("Section 232 semiconductors, rate increase")).toBeTruthy();
-  expect(screen.getByText(/Quote Q-SRM-2611 at \$29.60, no duty with US fab proof/)).toBeTruthy();
+  expect(screen.getByText(/Quote Q-SRM-2611 at \$29.60. No duty with US fab proof./)).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: /^Part: / }));
   fireEvent.change(screen.getByLabelText("Search part"), { target: { value: "battery" } });
   fireEvent.click(screen.getByText("Lithium-ion battery, 4,000 mAh"));
   expect(screen.getByRole("heading", { name: "Lithium-ion battery, 4,000 mAh" })).toBeTruthy();
   expect(screen.getByText(/No tariff updates/)).toBeTruthy();
+  expect(screen.getByText(/Chennai, India. Quote CCW-Q-2026-118 at \$7.10. MFN duty 3.4%./)).toBeTruthy();
+  expect(screen.getByText("−$303,996 a year")).toBeTruthy();
+});
+
+it("lists cheaper international and US quotes on the sourcing overview", async () => {
+  render(<PlatformPage step="sourcing-overview" />);
+  const card = (await screen.findByText("Cheaper quotes on file")).closest(".card") as HTMLElement;
+  const rows = within(card).getAllByRole("link");
+  expect(rows[0].textContent).toContain("LPDDR5X memory, 12 GB from Snake River Memory");
+  expect(within(card).getByText(/from Taoyuan Memory Technology/)).toBeTruthy();
+  expect(within(card).getByText(/Kulim, Malaysia. \$3.31 landed against \$3.88 today. Section 232 at 25%./)).toBeTruthy();
 });
 
 it("groups the sourcing manager's cost impact by supplier", async () => {

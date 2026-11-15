@@ -38,8 +38,15 @@ SUPPLIERS = {
     "S110": ("Lone Star Silicon", "US", "Austin, Texas"),
     "S111": ("Bluegrass Cover Glass", "US", "Harrodsburg, Kentucky"),
     "S112": ("Haiphong Acoustics", "VN", "Hai Phong"),
+    "S113": ("Chennai Cell Works", "IN", "Chennai"),
+    "S114": ("Kulim Analog Devices", "MY", "Kulim"),
+    "S115": ("Monterrey Interconnect", "MX", "Monterrey"),
+    "S116": ("Pune Acoustic Systems", "IN", "Pune"),
+    "S117": ("Hai Duong Glass", "VN", "Hai Duong"),
+    "S118": ("Taoyuan Memory Technology", "TW", "Taoyuan"),
+    "S119": ("Noida Optics", "IN", "Noida"),
 }
-COUNTRIES = {"TW": "Taiwan", "KR": "South Korea", "MY": "Malaysia", "VN": "Vietnam",
+COUNTRIES = {"IN": "India", "TW": "Taiwan", "KR": "South Korea", "MY": "Malaysia", "VN": "Vietnam",
              "MX": "Mexico", "US": "United States"}
 
 PRODUCTS = [  # sku, name, list price, annual units
@@ -94,10 +101,33 @@ PORTS = {
     "ocean": ("2704", "Los Angeles, California"),
     "truck": ("2304", "Laredo, Texas"),
 }
-QUOTES = [  # alternative supplier quotes on file
+QUOTES = [  # alternative supplier quotes on file: US fabs, and cheaper parts from abroad
     ("S109", "LK-DR-08", 20.90, "Q-SRM-2611"),
     ("S109", "LK-DR-12", 29.60, "Q-SRM-2611"),
+    ("S118", "LK-DR-08", 17.60, "TMT-26-0418"),
+    ("S114", "LK-PM-01", 2.65, "KAD-Q-7731"),
+    ("S113", "LK-BT-40", 7.10, "CCW-Q-2026-118"),
+    ("S113", "LK-BT-46", 8.35, "CCW-Q-2026-118"),
+    ("S119", "LK-CM-12", 5.70, "NO-26-332"),
+    ("S115", "LK-UC-01", 0.34, "MI-Q-5520"),
+    ("S116", "LK-SP-01", 1.02, "PAS-26-091"),
+    ("S117", "LK-GL-61", 3.70, "HDG-Q-1187"),
+    ("S117", "LK-GL-67", 4.45, "HDG-Q-1187"),
 ]
+
+
+def duty_rate(supplier: str, part_hts: str, after_change: bool = True) -> tuple[float, str]:
+    """Duty a supplier's part carries at the border, and why."""
+    country, hs6 = SUPPLIERS[supplier][1], part_hts[:6]
+    if country == "US":
+        return 0.0, "Made in the US" if hs6 not in SCOPE else "No duty with US fab proof"
+    if country == "MX":
+        return 0.0, "USMCA qualifying, no duty"
+    if hs6 in SCOPE:
+        rate = NEW_RATE if after_change else OLD_RATE
+        return rate, f"Section 232 at {rate:.0%}"
+    rate = BASE_RATES.get(hs6, 0.0)
+    return rate, f"MFN duty {rate * 100:g}%" if rate else "Duty free"
 
 # ---------------------------------------------------------------- the change
 CHANGE_ID = "CE-0012"
@@ -325,7 +355,7 @@ def snake_river_quote() -> Doc:
     d.text(48, y, "Part", size=9, color=SOFT); d.text(200, y, "Description", size=9, color=SOFT)
     d.text(400, y, "Annual qty", size=9, color=SOFT); d.text(490, y, "Unit price", size=9, color=SOFT)
     d.rule(y + 8); y += 26
-    for supplier, part, price, _ in QUOTES:
+    for supplier, part, price, _ in [q for q in QUOTES if q[0] == "S109"]:
         info = next(p for p in PARTS if p[0] == part)
         d.text(48, y, part, size=10); d.text(200, y, info[1], size=10)
         d.text(400, y, f"{annual_qty(info[5]):,}", size=10); d.text(490, y, usd(price), size=10)
@@ -349,6 +379,20 @@ def audit_chain(rows: list[tuple[str, str, str, str]]) -> list[dict]:
         events.append({**payload, "occurred_at": when, "hash": digest})
         previous = digest
     return events
+
+
+def quote_rows(parts: dict) -> list[dict]:
+    rows = []
+    for supplier, part_no, price, reference in QUOTES:
+        part = parts[part_no]
+        rate, basis = duty_rate(supplier, part["hts10"])
+        current_rate, _ = duty_rate(part["supplier_id"], part["hts10"])
+        landed, current = price * (1 + rate), part["unit_price_usd"] * (1 + current_rate)
+        rows.append({"supplier_id": supplier, "part_no": part_no, "unit_price_usd": price, "reference": reference,
+                     "duty_rate": rate, "duty_basis": basis, "landed_unit_usd": round(landed, 4),
+                     "current_landed_unit_usd": round(current, 4),
+                     "annual_saving_usd": round((current - landed) * part["annual_qty"])})
+    return rows
 
 
 # ---------------------------------------------------------------- build
@@ -544,7 +588,7 @@ def main() -> None:
         "products": [{"sku": s, "name": n, "list_price_usd": p, "annual_units": u} for s, n, p, u in PRODUCTS],
         "parts": list(parts.values()),
         "orders": orders,
-        "quotes": [{"supplier_id": s, "part_no": p, "unit_price_usd": u, "reference": r} for s, p, u, r in QUOTES],
+        "quotes": quote_rows(parts),
         "headings": HEADINGS,
         "action_suppliers": {"ACT-0021": ALT_SUPPLIER, "ACT-0022": "S110"},
         "base_rates": {**BASE_RATES, **{h: OLD_RATE for h in SCOPE}},
