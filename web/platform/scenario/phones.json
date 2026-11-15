@@ -1522,6 +1522,878 @@
   ]
  },
  "catalog": {
+  "awards": [
+   {
+    "id": "D-2026-044",
+    "title": "LPDDR5X memory award",
+    "parts": [
+     "LK-DR-08",
+     "LK-DR-12"
+    ],
+    "part_label": "2 LPDDR5X memory parts",
+    "incumbent": "S102",
+    "awarded_on": "2026-04-14",
+    "alternative": "S109",
+    "before_annual_usd": 20583200.0,
+    "now_annual_usd": 23390000.0,
+    "switch_annual_usd": 20026000.0,
+    "status": "open",
+    "driver": "tariff",
+    "recommendation": "Switch to Snake River Memory once the US fab proof is on file.",
+    "checks": [
+     {
+      "label": "US fab proof from Snake River Memory",
+      "status": "needs_review"
+     },
+     {
+      "label": "Qualification lots SRM-2611-A and B",
+      "status": "checked"
+     }
+    ]
+   },
+   {
+    "id": "D-2026-047",
+    "title": "Power management IC award",
+    "parts": [
+     "LK-PM-01"
+    ],
+    "part_label": "the power management IC",
+    "incumbent": "S103",
+    "awarded_on": "2026-03-02",
+    "alternative": "S114",
+    "before_annual_usd": 2728000,
+    "now_annual_usd": 3100000,
+    "switch_annual_usd": 2650000,
+    "status": "open",
+    "driver": "tariff",
+    "recommendation": "Move LK-PM-01 to Kulim Analog Devices. Both parts pay 25%, and Kulim's price is lower.",
+    "checks": [
+     {
+      "label": "Kulim qualification report KAD-QR-0912",
+      "status": "checked"
+     },
+     {
+      "label": "Kulim origin and fab statement",
+      "status": "missing"
+     }
+    ]
+   },
+   {
+    "id": "D-2026-051",
+    "title": "Battery pack award",
+    "parts": [
+     "LK-BT-40",
+     "LK-BT-46"
+    ],
+    "part_label": "2 battery packs",
+    "incumbent": "S106",
+    "awarded_on": "2026-02-11",
+    "alternative": "S113",
+    "before_annual_usd": 7002248,
+    "now_annual_usd": 7002248,
+    "switch_annual_usd": 6364270,
+    "status": "review",
+    "driver": "cost",
+    "recommendation": "Decide after Chennai's qualification samples are tested.",
+    "next_step": "Qualification samples and UN 38.3 report due Jan 22, 2027. Brief to the approver in February 2027.",
+    "checks": [
+     {
+      "label": "Qualification samples",
+      "status": "missing"
+     },
+     {
+      "label": "UN 38.3 test summary",
+      "status": "missing"
+     }
+    ]
+   },
+   {
+    "id": "D-2026-038",
+    "title": "Application processor award",
+    "parts": [
+     "LK-AP-4N",
+     "LK-AP-3N"
+    ],
+    "part_label": "2 application processors",
+    "incumbent": "S101",
+    "awarded_on": "2026-01-20",
+    "alternative": null,
+    "before_annual_usd": 52448000,
+    "now_annual_usd": 59600000,
+    "switch_annual_usd": null,
+    "status": "decided",
+    "driver": "tariff",
+    "recommendation": "Keep Hsinchu Advanced Silicon. No qualified alternative before 2028.",
+    "outcome": {
+     "decision": "Kept with Hsinchu Advanced Silicon",
+     "by": "Elena Park",
+     "on": "2026-11-12",
+     "note": "The added duty is priced into the 2027 phone cost. Review again in the third quarter of 2027."
+    },
+    "checks": [
+     {
+      "label": "Alternative supplier qualified",
+      "status": "missing"
+     }
+    ]
+   },
+   {
+    "id": "D-2026-029",
+    "title": "Cover glass award",
+    "parts": [
+     "LK-GL-61",
+     "LK-GL-67"
+    ],
+    "part_label": "2 cover glass parts",
+    "incumbent": "S111",
+    "awarded_on": "2025-09-15",
+    "alternative": "S117",
+    "before_annual_usd": 3708000,
+    "now_annual_usd": 3708000,
+    "switch_annual_usd": 3202500,
+    "status": "decided",
+    "driver": "cost",
+    "recommendation": "Keep Bluegrass Cover Glass.",
+    "outcome": {
+     "decision": "Kept with Bluegrass Cover Glass",
+     "by": "Elena Park",
+     "on": "2026-09-30",
+     "note": "Hai Duong Glass is cheaper but failed the drop-test qualification in August 2026."
+    },
+    "checks": [
+     {
+      "label": "Hai Duong drop-test qualification",
+      "status": "mismatch"
+     }
+    ]
+   }
+  ],
+  "passports": [
+   {
+    "supplier_id": "S109",
+    "part_no": "LK-DR-12",
+    "status": "needs_review",
+    "missing_requirements": [
+     "Wafer fabricated in the US",
+     "Signed US origin declaration"
+    ],
+    "items": [
+     {
+      "supplier_id": "S109",
+      "part_no": "LK-DR-12",
+      "batch_id": "SRM-2611-A",
+      "doc_id": "SRM-CoC-11873",
+      "kind": "certificate_of_conformance",
+      "confidence": 0.86,
+      "fields": {
+       "supplier_name": "Snake River Memory, Inc.",
+       "supplier_name_confidence": 0.94,
+       "certificate_no": "SRM-CoC-11873",
+       "certificate_no_confidence": 0.9,
+       "part_no_confidence": 0.93,
+       "batch_id_confidence": 0.91,
+       "date_code": "2645",
+       "wafer_fab": null,
+       "wafer_fab_confidence": 0.38,
+       "assembly_site": "Boise, Idaho, USA",
+       "assembly_site_confidence": 0.9,
+       "country_of_origin": "United States",
+       "country_of_origin_confidence": 0.92
+      },
+      "bbox_refs": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.0615,
+         0.4091,
+         0.0836
+        ],
+        "quote": "Snake River Memory, Inc."
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.2753,
+         0.5838,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (SRM SR5X12G-85)"
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.3409,
+         0.5542,
+         0.3575
+        ],
+        "quote": "SRM-2611-A"
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4723,
+         0.4494,
+         0.4888
+        ],
+        "quote": "United States"
+       }
+      ],
+      "field_citations": {
+       "supplier_name": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.085,
+          0.0615,
+          0.4091,
+          0.0836
+         ],
+         "quote": "Snake River Memory, Inc."
+        }
+       ],
+       "certificate_no": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.085,
+          0.166,
+          0.4214,
+          0.1802
+         ],
+         "quote": "SRM-CoC-11873"
+        }
+       ],
+       "part_no": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.2753,
+          0.5838,
+          0.2919
+         ],
+         "quote": "LK-DR-12 (SRM SR5X12G-85)"
+        }
+       ],
+       "batch_id": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.3409,
+          0.5542,
+          0.3575
+         ],
+         "quote": "SRM-2611-A"
+        }
+       ],
+       "wafer_fab": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4066,
+          0.4866,
+          0.4232
+         ],
+         "quote": "Boise, Idaho, USA"
+        }
+       ],
+       "assembly_site": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4394,
+          0.4866,
+          0.456
+         ],
+         "quote": "Boise, Idaho, USA"
+        }
+       ],
+       "country_of_origin": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4723,
+          0.4494,
+          0.4888
+         ],
+         "quote": "United States"
+        }
+       ]
+      }
+     },
+     {
+      "supplier_id": "S109",
+      "part_no": "LK-DR-12",
+      "batch_id": "SRM-2611-B",
+      "doc_id": "SRM-CoC-11873",
+      "kind": "certificate_of_conformance",
+      "confidence": 0.86,
+      "fields": {
+       "supplier_name": "Snake River Memory, Inc.",
+       "supplier_name_confidence": 0.94,
+       "certificate_no": "SRM-CoC-11873",
+       "certificate_no_confidence": 0.9,
+       "part_no_confidence": 0.93,
+       "batch_id_confidence": 0.91,
+       "date_code": "2645",
+       "wafer_fab": null,
+       "wafer_fab_confidence": 0.38,
+       "assembly_site": "Boise, Idaho, USA",
+       "assembly_site_confidence": 0.9,
+       "country_of_origin": "United States",
+       "country_of_origin_confidence": 0.92
+      },
+      "bbox_refs": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.0615,
+         0.4091,
+         0.0836
+        ],
+        "quote": "Snake River Memory, Inc."
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.2753,
+         0.5838,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (SRM SR5X12G-85)"
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.3409,
+         0.5542,
+         0.3575
+        ],
+        "quote": "SRM-2611-B"
+       },
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4723,
+         0.4494,
+         0.4888
+        ],
+        "quote": "United States"
+       }
+      ],
+      "field_citations": {
+       "supplier_name": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.085,
+          0.0615,
+          0.4091,
+          0.0836
+         ],
+         "quote": "Snake River Memory, Inc."
+        }
+       ],
+       "certificate_no": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.085,
+          0.166,
+          0.4214,
+          0.1802
+         ],
+         "quote": "SRM-CoC-11873"
+        }
+       ],
+       "part_no": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.2753,
+          0.5838,
+          0.2919
+         ],
+         "quote": "LK-DR-12 (SRM SR5X12G-85)"
+        }
+       ],
+       "batch_id": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.3409,
+          0.5542,
+          0.3575
+         ],
+         "quote": "SRM-2611-B"
+        }
+       ],
+       "wafer_fab": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4066,
+          0.4866,
+          0.4232
+         ],
+         "quote": "Boise, Idaho, USA"
+        }
+       ],
+       "assembly_site": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4394,
+          0.4866,
+          0.456
+         ],
+         "quote": "Boise, Idaho, USA"
+        }
+       ],
+       "country_of_origin": [
+        {
+         "doc_id": "SRM-CoC-11873",
+         "page": 1,
+         "bbox": [
+          0.3464,
+          0.4723,
+          0.4494,
+          0.4888
+         ],
+         "quote": "United States"
+        }
+       ]
+      }
+     }
+    ],
+    "requirements": [
+     {
+      "id": "part-number",
+      "label": "Part number",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.2753,
+         0.5838,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (SRM SR5X12G-85)"
+       }
+      ]
+     },
+     {
+      "id": "lots",
+      "label": "Lots and date code",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.3409,
+         0.5542,
+         0.3575
+        ],
+        "quote": "SRM-2611-A, SRM-2611-B"
+       }
+      ]
+     },
+     {
+      "id": "wafer-fab",
+      "label": "Wafer fabricated in the US",
+      "status": "needs_review",
+      "reason": "The wafer fab line is unreadable on the scan (38% confidence, 85% needed).",
+      "citations": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4066,
+         0.4866,
+         0.4232
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ]
+     },
+     {
+      "id": "assembly-site",
+      "label": "Assembly and test site",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4394,
+         0.4866,
+         0.456
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ]
+     },
+     {
+      "id": "origin-declaration",
+      "label": "Signed US origin declaration",
+      "status": "missing",
+      "reason": "No signed origin declaration is on file for this part.",
+      "citations": []
+     }
+    ],
+    "purpose": "Proves the 0% rate for a switch to a US fab.",
+    "doc_title": "Snake River Memory certificate (scan)"
+   },
+   {
+    "supplier_id": "S102",
+    "part_no": "LK-DR-12",
+    "status": "verified",
+    "missing_requirements": [],
+    "items": [],
+    "purpose": "Confirms the current supplier's origin, so the 25% rate applies.",
+    "requirements": [
+     {
+      "id": "part-number",
+      "label": "Part number",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "HSC-CoC-26-10482",
+        "page": 1,
+        "bbox": [
+         0.3235,
+         0.2753,
+         0.5752,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (Hanul H58G66AK6Q)"
+       }
+      ]
+     },
+     {
+      "id": "lots",
+      "label": "Lot and date code",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "HSC-CoC-26-10482",
+        "page": 1,
+        "bbox": [
+         0.3235,
+         0.3409,
+         0.4733,
+         0.3575
+        ],
+        "quote": "HN2610-117 / 2643"
+       }
+      ]
+     },
+     {
+      "id": "wafer-fab-foreign",
+      "label": "Wafer fab named",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "HSC-CoC-26-10482",
+        "page": 1,
+        "bbox": [
+         0.3235,
+         0.4066,
+         0.5591,
+         0.4232
+        ],
+        "quote": "Icheon M16, Republic of Korea"
+       }
+      ]
+     },
+     {
+      "id": "assembly-site",
+      "label": "Assembly and test site",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "HSC-CoC-26-10482",
+        "page": 1,
+        "bbox": [
+         0.3235,
+         0.4394,
+         0.5429,
+         0.456
+        ],
+        "quote": "Cheongju, Republic of Korea"
+       }
+      ]
+     },
+     {
+      "id": "certificate-origin",
+      "label": "Country of origin",
+      "status": "checked",
+      "citations": [
+       {
+        "doc_id": "HSC-CoC-26-10482",
+        "page": 1,
+        "bbox": [
+         0.3235,
+         0.4723,
+         0.4599,
+         0.4888
+        ],
+        "quote": "Republic of Korea"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "supplier_id": "S114",
+    "part_no": "LK-PM-01",
+    "status": "missing",
+    "items": [],
+    "missing_requirements": [
+     "Part number",
+     "Wafer fab named",
+     "Country of origin"
+    ],
+    "purpose": "Needed before the first Kulim shipment if the power management IC award is approved.",
+    "requirements": [
+     {
+      "id": "part-number",
+      "label": "Part number",
+      "status": "missing",
+      "reason": "Requested after the award is approved.",
+      "citations": []
+     },
+     {
+      "id": "wafer-fab-foreign",
+      "label": "Wafer fab named",
+      "status": "missing",
+      "reason": "Requested after the award is approved.",
+      "citations": []
+     },
+     {
+      "id": "certificate-origin",
+      "label": "Country of origin",
+      "status": "missing",
+      "reason": "Requested after the award is approved.",
+      "citations": []
+     }
+    ]
+   },
+   {
+    "supplier_id": "S113",
+    "part_no": "LK-BT-46",
+    "status": "missing",
+    "items": [],
+    "missing_requirements": [
+     "UN 38.3 test summary",
+     "Country of origin"
+    ],
+    "purpose": "Needed before the first battery shipment from Chennai, planned for the second quarter of 2027.",
+    "requirements": [
+     {
+      "id": "part-number",
+      "label": "Part number",
+      "status": "checked",
+      "reason": null,
+      "citations": []
+     },
+     {
+      "id": "un383",
+      "label": "UN 38.3 test summary",
+      "status": "missing",
+      "reason": "Due with the qualification samples on Jan 22, 2027.",
+      "citations": []
+     },
+     {
+      "id": "certificate-origin",
+      "label": "Country of origin",
+      "status": "missing",
+      "reason": "Due with the qualification samples on Jan 22, 2027.",
+      "citations": []
+     }
+    ]
+   }
+  ],
+  "worklist": [
+   {
+    "id": "W-01",
+    "status": "open",
+    "title": "Snake River certificate is unreadable",
+    "kind": "Document",
+    "detail": "The wafer fab line on SRM-CoC-11873 is below the 85% confidence needed. Sourcing has a request ready for a clear copy.",
+    "supplier_id": "S109",
+    "part_no": "LK-DR-12",
+    "due": "2026-11-30",
+    "href": "/compliance/evidence?passport=S109-LK-DR-12"
+   },
+   {
+    "id": "W-02",
+    "status": "open",
+    "title": "Confirm the HTS code for UFS storage",
+    "kind": "Classification",
+    "detail": "Hanul's invoice shows 8542.32.0071; our parts master has 8523.51.0000. Both are covered at 25%, but the entry must match one code.",
+    "supplier_id": "S102",
+    "part_no": "LK-UF-256",
+    "due": "2026-12-15",
+    "href": "/compliance/duty-bill"
+   },
+   {
+    "id": "W-03",
+    "status": "open",
+    "title": "Origin conflict on the 5G transceiver",
+    "kind": "Origin",
+    "detail": "Penang RF invoice INV-PRF-26-4471 declares Malaysia; their fab statement names Hsinchu, Taiwan. For chips, origin is the fab country.",
+    "supplier_id": "S104",
+    "part_no": "LK-RF-5G",
+    "due": "2026-12-20",
+    "href": "/compliance/duty-bill"
+   },
+   {
+    "id": "W-04",
+    "status": "open",
+    "title": "Hanul origin declaration expires Dec 31",
+    "kind": "Certificate",
+    "detail": "Request the 2027 annual declaration so January entries of memory and storage are covered.",
+    "supplier_id": "S102",
+    "part_no": "LK-DR-12",
+    "due": "2026-12-31",
+    "href": "/compliance/evidence?passport=S102-LK-DR-12"
+   },
+   {
+    "id": "W-05",
+    "status": "open",
+    "title": "December air shipments must clear before Jan 1",
+    "kind": "Entry timing",
+    "detail": "Ten chip order lines are booked to enter at Dallas/Fort Worth between Dec 6 and Dec 21. Any that slip past Dec 31 pay 25% instead of 10%.",
+    "due": "2026-12-21",
+    "href": "/compliance/duty-bill"
+   },
+   {
+    "id": "L-01",
+    "status": "later",
+    "title": "Kulim Analog Devices origin and fab statement",
+    "kind": "Origin",
+    "detail": "Only needed if the power management IC award moves to Kulim. Phase 2, after the approver decides.",
+    "supplier_id": "S114",
+    "part_no": "LK-PM-01",
+    "due": "2027-01-15",
+    "href": "/compliance/evidence?passport=S114-LK-PM-01"
+   },
+   {
+    "id": "L-02",
+    "status": "later",
+    "title": "Chennai Cell Works battery documents",
+    "kind": "Certificate",
+    "detail": "UN 38.3 test summary and certificate of origin, due with the qualification samples.",
+    "supplier_id": "S113",
+    "part_no": "LK-BT-46",
+    "due": "2027-01-22",
+    "href": "/compliance/evidence?passport=S113-LK-BT-46"
+   },
+   {
+    "id": "L-03",
+    "status": "later",
+    "title": "Post-summary corrections for January entries",
+    "kind": "Filing",
+    "detail": "If any January entry was filed at the old 10% rate, correct it with Brazos Customs Brokerage before liquidation.",
+    "due": "2027-02-15",
+    "href": "/compliance/duty-bill"
+   },
+   {
+    "id": "L-04",
+    "status": "later",
+    "title": "Quarterly Section 232 reconciliation",
+    "kind": "Filing",
+    "detail": "Match entry summaries to the duty bill with the broker for the first quarter of 2027.",
+    "due": "2027-04-15",
+    "href": "/compliance/duty-bill"
+   },
+   {
+    "id": "D-01",
+    "status": "done",
+    "title": "Advisory CA-2026-311 read and confirmed",
+    "kind": "Document",
+    "detail": "All seven fields checked against the advisory by Priya Raman.",
+    "due": "2026-11-09",
+    "href": "/compliance/documents"
+   },
+   {
+    "id": "D-02",
+    "status": "done",
+    "title": "Hanul certificate checked",
+    "kind": "Certificate",
+    "detail": "HSC-CoC-26-10482: wafer fab Icheon, Korea. The 25% rate applies to LK-DR-12.",
+    "supplier_id": "S102",
+    "part_no": "LK-DR-12",
+    "due": "2026-10-28",
+    "href": "/compliance/evidence?passport=S102-LK-DR-12"
+   },
+   {
+    "id": "D-03",
+    "status": "done",
+    "title": "Snake River quotation filed",
+    "kind": "Document",
+    "detail": "Q-SRM-2611 states fab, assembly and test in Boise, Idaho.",
+    "supplier_id": "S109",
+    "due": "2026-11-06",
+    "href": "/compliance/documents"
+   },
+   {
+    "id": "D-04",
+    "status": "done",
+    "title": "Cover glass origin confirmed",
+    "kind": "Origin",
+    "detail": "Bluegrass Cover Glass makes both sizes in Harrodsburg, Kentucky. No import entry needed.",
+    "supplier_id": "S111",
+    "part_no": "LK-GL-61",
+    "due": "2026-09-30",
+    "href": "/compliance/documents"
+   }
+  ],
   "company": {
    "name": "Larkspur Mobile",
    "legal": "Larkspur Mobile, Inc.",
@@ -1599,6 +2471,48 @@
     "country": "Vietnam",
     "country_code": "VN",
     "city": "Hai Phong"
+   },
+   "S113": {
+    "name": "Chennai Cell Works",
+    "country": "India",
+    "country_code": "IN",
+    "city": "Chennai"
+   },
+   "S114": {
+    "name": "Kulim Analog Devices",
+    "country": "Malaysia",
+    "country_code": "MY",
+    "city": "Kulim"
+   },
+   "S115": {
+    "name": "Monterrey Interconnect",
+    "country": "Mexico",
+    "country_code": "MX",
+    "city": "Monterrey"
+   },
+   "S116": {
+    "name": "Pune Acoustic Systems",
+    "country": "India",
+    "country_code": "IN",
+    "city": "Pune"
+   },
+   "S117": {
+    "name": "Hai Duong Glass",
+    "country": "Vietnam",
+    "country_code": "VN",
+    "city": "Hai Duong"
+   },
+   "S118": {
+    "name": "Taoyuan Memory Technology",
+    "country": "Taiwan",
+    "country_code": "TW",
+    "city": "Taoyuan"
+   },
+   "S119": {
+    "name": "Noida Optics",
+    "country": "India",
+    "country_code": "IN",
+    "city": "Noida"
    }
   },
   "products": [
@@ -2732,13 +3646,122 @@
     "supplier_id": "S109",
     "part_no": "LK-DR-08",
     "unit_price_usd": 20.9,
-    "reference": "Q-SRM-2611"
+    "reference": "Q-SRM-2611",
+    "duty_rate": 0.0,
+    "duty_basis": "No duty with US fab proof",
+    "landed_unit_usd": 20.9,
+    "current_landed_unit_usd": 24.25,
+    "annual_saving_usd": 1407000
    },
    {
     "supplier_id": "S109",
     "part_no": "LK-DR-12",
     "unit_price_usd": 29.6,
-    "reference": "Q-SRM-2611"
+    "reference": "Q-SRM-2611",
+    "duty_rate": 0.0,
+    "duty_basis": "No duty with US fab proof",
+    "landed_unit_usd": 29.6,
+    "current_landed_unit_usd": 34.75,
+    "annual_saving_usd": 1957000
+   },
+   {
+    "supplier_id": "S118",
+    "part_no": "LK-DR-08",
+    "unit_price_usd": 17.6,
+    "reference": "TMT-26-0418",
+    "duty_rate": 0.25,
+    "duty_basis": "Section 232 at 25%",
+    "landed_unit_usd": 22.0,
+    "current_landed_unit_usd": 24.25,
+    "annual_saving_usd": 945000
+   },
+   {
+    "supplier_id": "S114",
+    "part_no": "LK-PM-01",
+    "unit_price_usd": 2.65,
+    "reference": "KAD-Q-7731",
+    "duty_rate": 0.25,
+    "duty_basis": "Section 232 at 25%",
+    "landed_unit_usd": 3.3125,
+    "current_landed_unit_usd": 3.875,
+    "annual_saving_usd": 450000
+   },
+   {
+    "supplier_id": "S113",
+    "part_no": "LK-BT-40",
+    "unit_price_usd": 7.1,
+    "reference": "CCW-Q-2026-118",
+    "duty_rate": 0.034,
+    "duty_basis": "MFN duty 3.4%",
+    "landed_unit_usd": 7.3414,
+    "current_landed_unit_usd": 8.0652,
+    "annual_saving_usd": 303996
+   },
+   {
+    "supplier_id": "S113",
+    "part_no": "LK-BT-46",
+    "unit_price_usd": 8.35,
+    "reference": "CCW-Q-2026-118",
+    "duty_rate": 0.034,
+    "duty_basis": "MFN duty 3.4%",
+    "landed_unit_usd": 8.6339,
+    "current_landed_unit_usd": 9.5128,
+    "annual_saving_usd": 333982
+   },
+   {
+    "supplier_id": "S119",
+    "part_no": "LK-CM-12",
+    "unit_price_usd": 5.7,
+    "reference": "NO-26-332",
+    "duty_rate": 0.0,
+    "duty_basis": "Duty free",
+    "landed_unit_usd": 5.7,
+    "current_landed_unit_usd": 6.5,
+    "annual_saving_usd": 304000
+   },
+   {
+    "supplier_id": "S115",
+    "part_no": "LK-UC-01",
+    "unit_price_usd": 0.34,
+    "reference": "MI-Q-5520",
+    "duty_rate": 0.0,
+    "duty_basis": "USMCA qualifying, no duty",
+    "landed_unit_usd": 0.34,
+    "current_landed_unit_usd": 0.4,
+    "annual_saving_usd": 48000
+   },
+   {
+    "supplier_id": "S116",
+    "part_no": "LK-SP-01",
+    "unit_price_usd": 1.02,
+    "reference": "PAS-26-091",
+    "duty_rate": 0.049,
+    "duty_basis": "MFN duty 4.9%",
+    "landed_unit_usd": 1.07,
+    "current_landed_unit_usd": 1.2588,
+    "annual_saving_usd": 151056
+   },
+   {
+    "supplier_id": "S117",
+    "part_no": "LK-GL-61",
+    "unit_price_usd": 3.7,
+    "reference": "HDG-Q-1187",
+    "duty_rate": 0.05,
+    "duty_basis": "MFN duty 5%",
+    "landed_unit_usd": 3.885,
+    "current_landed_unit_usd": 4.5,
+    "annual_saving_usd": 418200
+   },
+   {
+    "supplier_id": "S117",
+    "part_no": "LK-GL-67",
+    "unit_price_usd": 4.45,
+    "reference": "HDG-Q-1187",
+    "duty_rate": 0.05,
+    "duty_basis": "MFN duty 5%",
+    "landed_unit_usd": 4.6725,
+    "current_landed_unit_usd": 5.4,
+    "annual_saving_usd": 87300
    }
   ],
   "headings": {

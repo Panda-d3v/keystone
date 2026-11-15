@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Citation, WorkspaceData } from "@/lib/contracts";
-import { partName } from "../catalog";
+import { PASSPORTS, partName, passportId } from "../catalog";
 import { supplierName, SUPPLIERS } from "../names";
-import { DocViewer } from "../ui";
+import { DocViewer, Dropdown } from "../ui";
 import { EmptyWorkspace, PageHead } from "../shell";
 
 const STATUS: Record<string, { label: string; chip: string }> = {
@@ -13,9 +13,9 @@ const STATUS: Record<string, { label: string; chip: string }> = {
   missing: { label: "Missing", chip: "chip-neutral" },
 };
 const PASSPORT: Record<string, { label: string; chip: string }> = {
-  verified: { label: "All proven", chip: "chip-good" },
+  verified: { label: "Complete", chip: "chip-good" },
   needs_review: { label: "Not proven yet", chip: "chip-warn" },
-  missing: { label: "Documents missing", chip: "chip-neutral" },
+  missing: { label: "Not received yet", chip: "chip-neutral" },
 };
 /** What each requirement checks, said plainly. */
 const MEANING: Record<string, string> = {
@@ -24,14 +24,24 @@ const MEANING: Record<string, string> = {
   "wafer-fab": "For chips, origin is where the wafer was fabricated. A US fab keeps the part out of the duty.",
   "assembly-site": "Where the part was packaged and tested.",
   "origin-declaration": "A signed declaration from the supplier that names the wafer fab.",
+  "wafer-fab-foreign": "Where the wafer was fabricated. For chips, this is the country of origin.",
+  "certificate-origin": "The country of origin stated on the supplier's certificate.",
+  "un383": "Lithium battery transport test summary, needed for every shipment.",
 };
 
 export function Evidence({ data }: { data: WorkspaceData | null }) {
-  const evidence = data?.evidence;
+  const [key, setKey] = useState(passportId(PASSPORTS[0]));
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("passport");
+    if (wanted && PASSPORTS.some(p => passportId(p) === wanted)) setKey(wanted);
+  }, []);
+  const evidence = PASSPORTS.find(p => passportId(p) === key) ?? PASSPORTS[0];
   const rows = evidence?.requirements ?? [];
   const first = rows.find(row => row.status !== "checked" && row.citations?.length) ?? rows.find(row => row.citations?.length);
-  const [selected, setSelected] = useState<string | undefined>(first?.id);
-  if (!data || !evidence) return <><PageHead title="Evidence" /><EmptyWorkspace /></>;
+  const [picked, setSelected] = useState<string | undefined>(undefined);
+  const selected = rows.some(r => r.id === picked) ? picked : first?.id;
+  if (!data) return <><PageHead title="Evidence" /><EmptyWorkspace /></>;
+  const choose = (value: string) => { setKey(value); setSelected(undefined); window.history.replaceState(null, "", `?passport=${value}`); };
   const current = rows.find(row => row.id === selected);
   const citation: Citation | null = current?.citations?.[0] ?? null;
   const lots = [...new Set(evidence.items.map(item => item.batch_id).filter(Boolean))];
@@ -41,13 +51,17 @@ export function Evidence({ data }: { data: WorkspaceData | null }) {
 
   return <div>
     <PageHead title={supplierName(evidence.supplier_id)}
-      actions={<span className={`chip ${passport.chip} fs-6 px-3 py-1`}>{passport.label}</span>}>
+      actions={<>
+        <span className={`chip ${passport.chip} fs-6 px-3 py-1`}>{passport.label}</span>
+        <Dropdown label="Evidence file" value={key} onChange={choose} className="ks-part-dd" align="end"
+          options={PASSPORTS.map(p => ({ value: passportId(p), label: `${supplierName(p.supplier_id)}`, sub: `${partName(p.part_no)}, ${p.part_no}` }))} />
+      </>}>
       {partName(evidence.part_no)} (<span className="code">{evidence.part_no}</span>){lots.length ? `, lots ${lots.join(" and ")}` : ""}, from {SUPPLIERS[evidence.supplier_id]?.city}{country && country !== "United States" ? `, ${country}` : ""}.
-      {" "}The 0% rate needs every requirement proven.
+      {" "}{evidence.purpose}
     </PageHead>
     <div className="ks-split">
       <section className="card" aria-labelledby="needs">
-        <div className="card-header d-flex justify-content-between"><span id="needs">What the 0% rate needs</span><span className="text-soft small">{rows.length - open} of {rows.length} proven</span></div>
+        <div className="card-header d-flex justify-content-between"><span id="needs">Requirements</span><span className="text-soft small">{rows.length - open} of {rows.length} proven</span></div>
         <div>{rows.map(row => {
           const tag = STATUS[row.status] ?? { label: row.status, chip: "chip-neutral" };
           const hasSource = !!row.citations?.length;
@@ -63,7 +77,7 @@ export function Evidence({ data }: { data: WorkspaceData | null }) {
         </div>}
       </section>
       <div className="ks-pin">
-        <DocViewer citation={citation} />
+        {citation ? <DocViewer citation={citation} /> : <div className="card"><div className="card-body text-soft">No document on file for this supplier and part yet.</div></div>}
       </div>
     </div>
   </div>;

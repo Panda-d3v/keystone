@@ -38,8 +38,15 @@ SUPPLIERS = {
     "S110": ("Lone Star Silicon", "US", "Austin, Texas"),
     "S111": ("Bluegrass Cover Glass", "US", "Harrodsburg, Kentucky"),
     "S112": ("Haiphong Acoustics", "VN", "Hai Phong"),
+    "S113": ("Chennai Cell Works", "IN", "Chennai"),
+    "S114": ("Kulim Analog Devices", "MY", "Kulim"),
+    "S115": ("Monterrey Interconnect", "MX", "Monterrey"),
+    "S116": ("Pune Acoustic Systems", "IN", "Pune"),
+    "S117": ("Hai Duong Glass", "VN", "Hai Duong"),
+    "S118": ("Taoyuan Memory Technology", "TW", "Taoyuan"),
+    "S119": ("Noida Optics", "IN", "Noida"),
 }
-COUNTRIES = {"TW": "Taiwan", "KR": "South Korea", "MY": "Malaysia", "VN": "Vietnam",
+COUNTRIES = {"IN": "India", "TW": "Taiwan", "KR": "South Korea", "MY": "Malaysia", "VN": "Vietnam",
              "MX": "Mexico", "US": "United States"}
 
 PRODUCTS = [  # sku, name, list price, annual units
@@ -94,10 +101,33 @@ PORTS = {
     "ocean": ("2704", "Los Angeles, California"),
     "truck": ("2304", "Laredo, Texas"),
 }
-QUOTES = [  # alternative supplier quotes on file
+QUOTES = [  # alternative supplier quotes on file: US fabs, and cheaper parts from abroad
     ("S109", "LK-DR-08", 20.90, "Q-SRM-2611"),
     ("S109", "LK-DR-12", 29.60, "Q-SRM-2611"),
+    ("S118", "LK-DR-08", 17.60, "TMT-26-0418"),
+    ("S114", "LK-PM-01", 2.65, "KAD-Q-7731"),
+    ("S113", "LK-BT-40", 7.10, "CCW-Q-2026-118"),
+    ("S113", "LK-BT-46", 8.35, "CCW-Q-2026-118"),
+    ("S119", "LK-CM-12", 5.70, "NO-26-332"),
+    ("S115", "LK-UC-01", 0.34, "MI-Q-5520"),
+    ("S116", "LK-SP-01", 1.02, "PAS-26-091"),
+    ("S117", "LK-GL-61", 3.70, "HDG-Q-1187"),
+    ("S117", "LK-GL-67", 4.45, "HDG-Q-1187"),
 ]
+
+
+def duty_rate(supplier: str, part_hts: str, after_change: bool = True) -> tuple[float, str]:
+    """Duty a supplier's part carries at the border, and why."""
+    country, hs6 = SUPPLIERS[supplier][1], part_hts[:6]
+    if country == "US":
+        return 0.0, "Made in the US" if hs6 not in SCOPE else "No duty with US fab proof"
+    if country == "MX":
+        return 0.0, "USMCA qualifying, no duty"
+    if hs6 in SCOPE:
+        rate = NEW_RATE if after_change else OLD_RATE
+        return rate, f"Section 232 at {rate:.0%}"
+    rate = BASE_RATES.get(hs6, 0.0)
+    return rate, f"MFN duty {rate * 100:g}%" if rate else "Duty free"
 
 # ---------------------------------------------------------------- the change
 CHANGE_ID = "CE-0012"
@@ -272,7 +302,9 @@ def hanul_certificate() -> Doc:
         ("Wafer fab", "Icheon M16, Republic of Korea"), ("Assembly and test", "Cheongju, Republic of Korea"),
         ("Country of origin", "Republic of Korea"), ("HTSUS", "8542.32.0036"),
     ]:
-        d.field(y, label, value); y += 26
+        key = {"Part number": "part_no", "Lot / date code": "lots", "Wafer fab": "wafer_fab",
+               "Assembly and test": "assembly_site", "Country of origin": "country_of_origin"}.get(label)
+        d.field(y, label, value, key=key); y += 26
     d.para(48, y + 18, W - 96, "We certify that the goods listed above conform to the purchase order and to the "
            "applicable data sheet, and that the country of origin stated is the country where the wafers were fabricated.")
     d.text(48, y + 92, "Ji-woo Park, Quality Assurance Manager", size=10)
@@ -325,7 +357,7 @@ def snake_river_quote() -> Doc:
     d.text(48, y, "Part", size=9, color=SOFT); d.text(200, y, "Description", size=9, color=SOFT)
     d.text(400, y, "Annual qty", size=9, color=SOFT); d.text(490, y, "Unit price", size=9, color=SOFT)
     d.rule(y + 8); y += 26
-    for supplier, part, price, _ in QUOTES:
+    for supplier, part, price, _ in [q for q in QUOTES if q[0] == "S109"]:
         info = next(p for p in PARTS if p[0] == part)
         d.text(48, y, part, size=10); d.text(200, y, info[1], size=10)
         d.text(400, y, f"{annual_qty(info[5]):,}", size=10); d.text(490, y, usd(price), size=10)
@@ -349,6 +381,73 @@ def audit_chain(rows: list[tuple[str, str, str, str]]) -> list[dict]:
         events.append({**payload, "occurred_at": when, "hash": digest})
         previous = digest
     return events
+
+
+def build_awards(parts: dict, decision: dict) -> list[dict]:
+    """Supplier awards: annual volume x price x (1 + duty), as the decision rule."""
+    def cost(part_nos, supplier, price_of, change=True):
+        total = 0
+        for part_no in part_nos:
+            part = parts[part_no]
+            rate, _ = duty_rate(supplier, part["hts10"], after_change=change)
+            total += round(part["annual_qty"] * price_of(part_no) * (1 + rate))
+        return total
+    own = lambda part_no: parts[part_no]["unit_price_usd"]
+    quoted = lambda supplier: (lambda part_no: next(q[2] for q in QUOTES if q[0] == supplier and q[1] == part_no))
+
+    def award(id, title, part_nos, label, incumbent, awarded_on, alternative=None, **extra):
+        before, now = cost(part_nos, incumbent, own, False), cost(part_nos, incumbent, own)
+        switch = cost(part_nos, alternative, quoted(alternative)) if alternative else None
+        return {"id": id, "title": title, "parts": part_nos, "part_label": label, "incumbent": incumbent,
+                "awarded_on": awarded_on, "alternative": alternative, "before_annual_usd": before,
+                "now_annual_usd": now, "switch_annual_usd": switch, **extra}
+
+    return [
+        {"id": DECISION_ID, "title": AWARD["title"], "parts": AWARD["parts"], "part_label": AWARD["part_label"],
+         "incumbent": AWARD["incumbent"], "awarded_on": AWARD["decided_on"], "alternative": ALT_SUPPLIER,
+         "before_annual_usd": decision["incumbent_before_annual_usd"], "now_annual_usd": decision["incumbent_annual_usd"],
+         "switch_annual_usd": decision["alternative_with_proof_annual_usd"], "status": "open", "driver": "tariff",
+         "recommendation": "Switch to Snake River Memory once the US fab proof is on file.",
+         "checks": [{"label": "US fab proof from Snake River Memory", "status": "needs_review"},
+                    {"label": "Qualification lots SRM-2611-A and B", "status": "checked"}]},
+        award("D-2026-047", "Power management IC award", ["LK-PM-01"], "the power management IC", "S103", "2026-03-02",
+              "S114", status="open", driver="tariff",
+              recommendation="Move LK-PM-01 to Kulim Analog Devices. Both parts pay 25%, and Kulim's price is lower.",
+              checks=[{"label": "Kulim qualification report KAD-QR-0912", "status": "checked"},
+                      {"label": "Kulim origin and fab statement", "status": "missing"}]),
+        award("D-2026-051", "Battery pack award", ["LK-BT-40", "LK-BT-46"], "2 battery packs", "S106", "2026-02-11",
+              "S113", status="review", driver="cost",
+              recommendation="Decide after Chennai's qualification samples are tested.",
+              next_step="Qualification samples and UN 38.3 report due Jan 22, 2027. Brief to the approver in February 2027.",
+              checks=[{"label": "Qualification samples", "status": "missing"},
+                      {"label": "UN 38.3 test summary", "status": "missing"}]),
+        award("D-2026-038", "Application processor award", ["LK-AP-4N", "LK-AP-3N"], "2 application processors", "S101",
+              "2026-01-20", None, status="decided", driver="tariff",
+              recommendation="Keep Hsinchu Advanced Silicon. No qualified alternative before 2028.",
+              outcome={"decision": "Kept with Hsinchu Advanced Silicon", "by": "Elena Park", "on": "2026-11-12",
+                       "note": "The added duty is priced into the 2027 phone cost. Review again in the third quarter of 2027."},
+              checks=[{"label": "Alternative supplier qualified", "status": "missing"}]),
+        award("D-2026-029", "Cover glass award", ["LK-GL-61", "LK-GL-67"], "2 cover glass parts", "S111", "2025-09-15",
+              "S117", status="decided", driver="cost",
+              recommendation="Keep Bluegrass Cover Glass.",
+              outcome={"decision": "Kept with Bluegrass Cover Glass", "by": "Elena Park", "on": "2026-09-30",
+                       "note": "Hai Duong Glass is cheaper but failed the drop-test qualification in August 2026."},
+              checks=[{"label": "Hai Duong drop-test qualification", "status": "mismatch"}]),
+    ]
+
+
+def quote_rows(parts: dict) -> list[dict]:
+    rows = []
+    for supplier, part_no, price, reference in QUOTES:
+        part = parts[part_no]
+        rate, basis = duty_rate(supplier, part["hts10"])
+        current_rate, _ = duty_rate(part["supplier_id"], part["hts10"])
+        landed, current = price * (1 + rate), part["unit_price_usd"] * (1 + current_rate)
+        rows.append({"supplier_id": supplier, "part_no": part_no, "unit_price_usd": price, "reference": reference,
+                     "duty_rate": rate, "duty_basis": basis, "landed_unit_usd": round(landed, 4),
+                     "current_landed_unit_usd": round(current, 4),
+                     "annual_saving_usd": round((current - landed) * part["annual_qty"])})
+    return rows
 
 
 # ---------------------------------------------------------------- build
@@ -538,13 +637,86 @@ def main() -> None:
     lineage = {"change_id": CHANGE_ID, "added_duty_usd": exposure["added_duty_usd"],
                "affected_parts": exposure["affected_parts"], "nodes": nodes, "edges": edges}
 
+    awards = build_awards(parts, decision)
+    hc = hanul.cites
+    passports = [
+        {**evidence, "purpose": "Proves the 0% rate for a switch to a US fab.", "doc_title": "Snake River Memory certificate (scan)"},
+        {"supplier_id": "S102", "part_no": "LK-DR-12", "status": "verified", "missing_requirements": [], "items": [],
+         "purpose": "Confirms the current supplier's origin, so the 25% rate applies.",
+         "requirements": [
+             {"id": "part-number", "label": "Part number", "status": "checked", "citations": hc["part_no"]},
+             {"id": "lots", "label": "Lot and date code", "status": "checked", "citations": hc["lots"]},
+             {"id": "wafer-fab-foreign", "label": "Wafer fab named", "status": "checked", "citations": hc["wafer_fab"]},
+             {"id": "assembly-site", "label": "Assembly and test site", "status": "checked", "citations": hc["assembly_site"]},
+             {"id": "certificate-origin", "label": "Country of origin", "status": "checked", "citations": hc["country_of_origin"]},
+         ]},
+        {"supplier_id": "S114", "part_no": "LK-PM-01", "status": "missing", "items": [],
+         "missing_requirements": ["Part number", "Wafer fab named", "Country of origin"],
+         "purpose": "Needed before the first Kulim shipment if the power management IC award is approved.",
+         "requirements": [
+             {"id": "part-number", "label": "Part number", "status": "missing", "reason": "Requested after the award is approved.", "citations": []},
+             {"id": "wafer-fab-foreign", "label": "Wafer fab named", "status": "missing", "reason": "Requested after the award is approved.", "citations": []},
+             {"id": "certificate-origin", "label": "Country of origin", "status": "missing", "reason": "Requested after the award is approved.", "citations": []},
+         ]},
+        {"supplier_id": "S113", "part_no": "LK-BT-46", "status": "missing", "items": [],
+         "missing_requirements": ["UN 38.3 test summary", "Country of origin"],
+         "purpose": "Needed before the first battery shipment from Chennai, planned for the second quarter of 2027.",
+         "requirements": [
+             {"id": "part-number", "label": "Part number", "status": "checked", "reason": None, "citations": []},
+             {"id": "un383", "label": "UN 38.3 test summary", "status": "missing", "reason": "Due with the qualification samples on Jan 22, 2027.", "citations": []},
+             {"id": "certificate-origin", "label": "Country of origin", "status": "missing", "reason": "Due with the qualification samples on Jan 22, 2027.", "citations": []},
+         ]},
+    ]
+    worklist = [
+        {"id": "W-01", "status": "open", "title": "Snake River certificate is unreadable", "kind": "Document",
+         "detail": "The wafer fab line on SRM-CoC-11873 is below the 85% confidence needed. Sourcing has a request ready for a clear copy.",
+         "supplier_id": "S109", "part_no": "LK-DR-12", "due": "2026-11-30", "href": "/compliance/evidence?passport=S109-LK-DR-12"},
+        {"id": "W-02", "status": "open", "title": "Confirm the HTS code for UFS storage", "kind": "Classification",
+         "detail": "Hanul's invoice shows 8542.32.0071; our parts master has 8523.51.0000. Both are covered at 25%, but the entry must match one code.",
+         "supplier_id": "S102", "part_no": "LK-UF-256", "due": "2026-12-15", "href": "/compliance/duty-bill"},
+        {"id": "W-03", "status": "open", "title": "Origin conflict on the 5G transceiver", "kind": "Origin",
+         "detail": "Penang RF invoice INV-PRF-26-4471 declares Malaysia; their fab statement names Hsinchu, Taiwan. For chips, origin is the fab country.",
+         "supplier_id": "S104", "part_no": "LK-RF-5G", "due": "2026-12-20", "href": "/compliance/duty-bill"},
+        {"id": "W-04", "status": "open", "title": "Hanul origin declaration expires Dec 31", "kind": "Certificate",
+         "detail": "Request the 2027 annual declaration so January entries of memory and storage are covered.",
+         "supplier_id": "S102", "part_no": "LK-DR-12", "due": "2026-12-31", "href": "/compliance/evidence?passport=S102-LK-DR-12"},
+        {"id": "W-05", "status": "open", "title": "December air shipments must clear before Jan 1", "kind": "Entry timing",
+         "detail": "Ten chip order lines are booked to enter at Dallas/Fort Worth between Dec 6 and Dec 21. Any that slip past Dec 31 pay 25% instead of 10%.",
+         "due": "2026-12-21", "href": "/compliance/duty-bill"},
+        {"id": "L-01", "status": "later", "title": "Kulim Analog Devices origin and fab statement", "kind": "Origin",
+         "detail": "Only needed if the power management IC award moves to Kulim. Phase 2, after the approver decides.",
+         "supplier_id": "S114", "part_no": "LK-PM-01", "due": "2027-01-15", "href": "/compliance/evidence?passport=S114-LK-PM-01"},
+        {"id": "L-02", "status": "later", "title": "Chennai Cell Works battery documents", "kind": "Certificate",
+         "detail": "UN 38.3 test summary and certificate of origin, due with the qualification samples.",
+         "supplier_id": "S113", "part_no": "LK-BT-46", "due": "2027-01-22", "href": "/compliance/evidence?passport=S113-LK-BT-46"},
+        {"id": "L-03", "status": "later", "title": "Post-summary corrections for January entries", "kind": "Filing",
+         "detail": "If any January entry was filed at the old 10% rate, correct it with Brazos Customs Brokerage before liquidation.",
+         "due": "2027-02-15", "href": "/compliance/duty-bill"},
+        {"id": "L-04", "status": "later", "title": "Quarterly Section 232 reconciliation", "kind": "Filing",
+         "detail": "Match entry summaries to the duty bill with the broker for the first quarter of 2027.",
+         "due": "2027-04-15", "href": "/compliance/duty-bill"},
+        {"id": "D-01", "status": "done", "title": "Advisory CA-2026-311 read and confirmed", "kind": "Document",
+         "detail": "All seven fields checked against the advisory by Priya Raman.", "due": "2026-11-09", "href": "/compliance/documents"},
+        {"id": "D-02", "status": "done", "title": "Hanul certificate checked", "kind": "Certificate",
+         "detail": "HSC-CoC-26-10482: wafer fab Icheon, Korea. The 25% rate applies to LK-DR-12.",
+         "supplier_id": "S102", "part_no": "LK-DR-12", "due": "2026-10-28", "href": "/compliance/evidence?passport=S102-LK-DR-12"},
+        {"id": "D-03", "status": "done", "title": "Snake River quotation filed", "kind": "Document",
+         "detail": "Q-SRM-2611 states fab, assembly and test in Boise, Idaho.", "supplier_id": "S109", "due": "2026-11-06", "href": "/compliance/documents"},
+        {"id": "D-04", "status": "done", "title": "Cover glass origin confirmed", "kind": "Origin",
+         "detail": "Bluegrass Cover Glass makes both sizes in Harrodsburg, Kentucky. No import entry needed.",
+         "supplier_id": "S111", "part_no": "LK-GL-61", "due": "2026-09-30", "href": "/compliance/documents"},
+    ]
+
     catalog = {
+        "awards": awards,
+        "passports": passports,
+        "worklist": worklist,
         "company": COMPANY,
         "suppliers": {k: {"name": n, "country": COUNTRIES[c], "country_code": c, "city": city} for k, (n, c, city) in SUPPLIERS.items()},
         "products": [{"sku": s, "name": n, "list_price_usd": p, "annual_units": u} for s, n, p, u in PRODUCTS],
         "parts": list(parts.values()),
         "orders": orders,
-        "quotes": [{"supplier_id": s, "part_no": p, "unit_price_usd": u, "reference": r} for s, p, u, r in QUOTES],
+        "quotes": quote_rows(parts),
         "headings": HEADINGS,
         "action_suppliers": {"ACT-0021": ALT_SUPPLIER, "ACT-0022": "S110"},
         "base_rates": {**BASE_RATES, **{h: OLD_RATE for h in SCOPE}},

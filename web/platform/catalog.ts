@@ -28,3 +28,20 @@ export const ACTION_SUPPLIERS: Record<string, string> = catalog.action_suppliers
 
 export const partName = (partNo: string) => PARTS[partNo]?.description ?? partNo;
 export const productName = (sku: string) => PRODUCTS.find(product => product.sku === sku)?.name ?? sku;
+
+export interface Award {
+  id: string; title: string; parts: string[]; part_label: string; incumbent: string; awarded_on: string;
+  alternative: string | null; before_annual_usd: number; now_annual_usd: number; switch_annual_usd: number | null;
+  status: "open" | "review" | "decided"; driver: "tariff" | "cost"; recommendation: string;
+  checks: { label: string; status: string }[];
+  next_step?: string; outcome?: { decision: string; by: string; on: string; note: string };
+}
+export interface WorkItem {
+  id: string; status: "open" | "later" | "done"; title: string; kind: string; detail: string;
+  supplier_id?: string; part_no?: string; due: string; href: string;
+}
+export const AWARDS_LIST = catalog.awards as Award[];
+export const awardById = (id: string | null | undefined) => AWARDS_LIST.find(a => a.id === id);
+export const PASSPORTS = catalog.passports as (import("@/lib/contracts").EvidenceStatus & { purpose: string })[];
+export const passportId = (p: { supplier_id: string; part_no: string }) => `${p.supplier_id}-${p.part_no}`;
+export const WORKLIST = catalog.worklist as WorkItem[];

@@ -85,17 +85,15 @@ export function Parts({ data }: { data: WorkspaceData | null }) {
         <ul className="ks-list">
           <li className="align-items-start">
             <span><span className="d-block fw-medium">{supplierName(part.supplier_id)}</span>
-              <span className="meta">{supplierPlace(part.supplier_id)}. Current supplier.</span></span>
+              <span className="meta">{supplierPlace(part.supplier_id)}. Current supplier. {domestic ? "Made in the US." : change ? `Section 232 at ${percent(after)}.` : after ? `MFN duty ${percent(after)}.` : "Duty free."}</span></span>
             <span className="text-end"><span className="d-block money fw-medium">{money(part.unit_price_usd + dutyAfter, 2)}</span><span className="meta">landed per unit</span></span>
           </li>
-          {quotes.map(q => {
-            const us = SUPPLIERS[q.supplier_id]?.country_code === "US";
-            const landed = q.unit_price_usd * (us ? 1 : 1 + after);
-            const diff = (landed - (part.unit_price_usd + dutyAfter)) * part.annual_qty;
+          {[...quotes].sort((a, b) => a.landed_unit_usd - b.landed_unit_usd).map(q => {
+            const diff = -q.annual_saving_usd;
             return <li key={q.supplier_id} className="align-items-start">
               <span><span className="d-block fw-medium">{supplierName(q.supplier_id)}</span>
-                <span className="meta">{supplierPlace(q.supplier_id)}. Quote {q.reference} at {money(q.unit_price_usd, 2)}{us ? ", no duty with US fab proof" : ""}.</span></span>
-              <span className="text-end"><span className="d-block money fw-medium">{money(landed, 2)}</span>
+                <span className="meta">{supplierPlace(q.supplier_id)}. Quote {q.reference} at {money(q.unit_price_usd, 2)}. {q.duty_basis}.</span></span>
+              <span className="text-end"><span className="d-block money fw-medium">{money(q.landed_unit_usd, 2)}</span>
                 <span className="meta" style={{ color: diff < 0 ? "var(--good)" : "var(--bad)" }}>{diff < 0 ? "−" : "+"}{money(Math.abs(diff))} a year</span></span>
             </li>;
           })}
