@@ -53,7 +53,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
   async function exportPdf() {
     if (!data || busy) return;
     setBusy(true); setError("");
-    try { const { downloadBrief } = await import("@/variants/v5/pdf"); await downloadBrief(data); }
+    try { const { downloadBriefPdf } = await import("../brief-pdf"); await downloadBriefPdf(data); }
     catch (err) { setError(err instanceof Error ? err.message : "The PDF could not be generated."); }
     finally { setBusy(false); }
   }
@@ -81,7 +81,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
       <div className="eyebrow">02 · The award&apos;s annual cost</div>
       <h2 id="b-cost">{story.happened}</h2>
       {story.before != null && story.increase != null && <Bridge before={story.before} increase={story.increase} after={decision.incumbent_annual_usd} supplier={story.incumbent} />}
-      <div className="table-responsive border rounded mt-4"><table className="table align-middle">
+      <div className="table-responsive border rounded mt-5"><table className="table align-middle">
         <thead><tr><th>Option</th><th className="money">Annual landed cost</th><th className="money">Against today</th></tr></thead>
         <tbody>
           <tr><td>Stay with {story.incumbent}</td><td className="money">{money(decision.incumbent_annual_usd)}</td><td className="money text-soft">–</td></tr>
@@ -99,7 +99,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
       <ul className="list-unstyled mb-0 border rounded bg-white">
         {(data.evidence.requirements ?? []).map(row => {
           const [label, chip] = REQUIREMENT_CHIP[row.status] ?? [row.status, "chip-neutral"];
-          return <li key={row.id} className="d-flex justify-content-between gap-3 px-3 py-2 border-bottom">
+          return <li key={row.id} className="d-flex justify-content-between gap-3 px-3 py-3 border-bottom">
             <span>{row.label}{row.status !== "checked" && row.reason && <span className="d-block small text-soft">{row.reason}</span>}</span>
             <span className={`chip ${chip} align-self-start`}>{label}</span>
           </li>;
@@ -118,7 +118,8 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
           <div><span>Switch without proof</span><span className="amount" style={{ color: story.withoutProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(story.withoutProof)}/yr</span></div>
         </div>
       </div></div>}
-      {action && <Decide action={action} audit={data.audit} supplier={supplierName(data.evidence.supplier_id)} />}
+      {action ? <Decide action={action} audit={data.audit} supplier={supplierName(data.evidence.supplier_id)} />
+        : <DecisionRecorded audit={data.audit} />}
     </aside>
     </div>
   </div>;
@@ -170,16 +171,18 @@ function Decide({ action, audit, supplier }: { action: Action; audit: WorkspaceD
     finally { setBusy(false); }
   }
 
-  return <div className="card"><div className="card-body d-grid gap-3">
+  return <div className="card"><div className="card-body ks-decide d-grid">
     <div className="eyebrow mb-0">Your decision</div>
     <div className="d-flex justify-content-between gap-2 flex-wrap">
       <h2 className="mb-0 fs-6">{actionTitle(action)}</h2>
       <span className="chip chip-accent align-self-start">{money(action.usd_at_stake)} a year at stake</span>
     </div>
     {action.why && <p className="mb-0">{action.why}</p>}
-    <label className="d-block"><span className="label d-block mb-1">Email to {supplier}</span>
-      <textarea className="form-control" rows={7} value={done ? saved?.draftEmail ?? draft : draft}
-        disabled={busy || !!done || !!refused} onChange={event => setDraft(event.target.value)} /></label>
+    <details className="ks-email">
+      <summary>Review and edit the email to {supplier}</summary>
+      <textarea className="form-control mt-2" rows={10} aria-label={`Email to ${supplier}`} value={done ? saved?.draftEmail ?? draft : draft}
+        disabled={busy || !!done || !!refused} onChange={event => setDraft(event.target.value)} />
+    </details>
     {error && <div className="alert alert-danger mb-0" role="alert">{error}</div>}
     {done ? <div className="alert alert-success mb-0" role="status"><strong>Approved.</strong> Draft decision <span className="code">{done.decision_id}</span> is waiting for {done.pending_approvals.map(p => p.name).join(" and ")}.</div>
       : refused ? <div className="alert alert-light mb-0" role="status"><strong>Declined.</strong> The request was removed from the queue and recorded in the audit log.</div>
@@ -189,3 +192,23 @@ function Decide({ action, audit, supplier }: { action: Action; audit: WorkspaceD
       </div>}
   </div></div>;
 }
+
+/** After the request is approved or declined it leaves the open queue; the
+ *  audit trail still says what happened, so the approver sees the outcome. */
+function DecisionRecorded({ audit }: { audit: WorkspaceData["audit"] }) {
+  const last = [...audit].filter(e => e.type === "action_sent" || e.type === "action_declined")
+    .sort((a, b) => b.occurred_at.localeCompare(a.occurred_at))[0];
+  if (!last) return null;
+  const approved = last.type === "action_sent";
+  const when = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "UTC", timeZoneName: "short" })
+    .format(new Date(last.occurred_at));
+  return <div className="card"><div className="card-body ks-decide d-grid">
+    <div className="eyebrow mb-0">Your decision</div>
+    <h2 className="mb-0 fs-6">{approved ? "Request approved" : "Request declined"}</h2>
+    <p className="mb-0">{approved
+      ? `The supplier request ${last.entity_id} was approved on ${when} and is waiting for the sourcing manager and trade compliance to sign off.`
+      : `The supplier request ${last.entity_id} was declined on ${when} and removed from the queue.`}</p>
+    <span className={`chip ${approved ? "chip-good" : "chip-neutral"} justify-self-start`}>Recorded in the audit log</span>
+  </div></div>;
+}
+

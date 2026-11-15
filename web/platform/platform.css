@@ -179,22 +179,34 @@
 .ks-math { background: var(--canvas); font-family: var(--bs-font-monospace); font-size: .8125rem; color: var(--ink); }
 
 /* Brief */
-/* Brief: the story on the left, the decision pinned on the right. */
-.ks-brief-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem); gap: 2.5rem; align-items: start; }
-.ks-brief-aside { position: sticky; top: calc(var(--ks-topbar) + 1rem); display: grid; gap: 1rem; }
-.ks-brief section { padding: 1.5rem 0; border-top: 1px solid var(--rule); }
+/* Brief: the story on the left, the decision pinned on the right. Generous
+   spacing: this page is read, not scanned. */
+.ks-brief .ks-page-head { margin-bottom: 2.25rem; }
+.ks-brief .ks-page-head p { font-size: 1rem; line-height: 1.6; max-width: 42rem; }
+.ks-brief-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(19rem, 23rem); gap: 4rem; align-items: start; }
+.ks-brief-aside { position: sticky; top: calc(var(--ks-topbar) + 1.5rem); display: grid; gap: 1.25rem; }
+.ks-brief-aside .card-body { padding: 1.5rem; }
+.ks-brief section { padding: 2.25rem 0; border-top: 1px solid var(--rule); }
 .ks-brief section:first-of-type { border-top: 0; padding-top: 0; }
-.ks-glance { display: grid; gap: .75rem; }
-.ks-glance div { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.ks-brief section .eyebrow { margin-bottom: .75rem; }
+.ks-brief section h2 { font-size: 1.1875rem; line-height: 1.45; margin-bottom: .875rem; max-width: 44rem; }
+.ks-brief section p { line-height: 1.65; max-width: 44rem; }
+.ks-glance { display: grid; gap: 1.125rem; margin-top: .25rem; }
+.ks-glance div { display: flex; justify-content: space-between; gap: 1.25rem; align-items: baseline; line-height: 1.4; }
 .ks-glance .amount { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ks-decide { gap: 1rem; }
+.ks-decide h2 { line-height: 1.45; }
+.ks-decide p { line-height: 1.6; }
+.ks-email summary { cursor: pointer; color: var(--link); font-weight: 500; font-size: .875rem; }
+.ks-email[open] summary { margin-bottom: .25rem; }
 @container main (max-width: 62rem) {
-  .ks-brief-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .ks-brief-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .ks-brief-aside { position: static; }
 }
 
 /* Cost bridge: one row per step. The added-duty bar starts exactly where the
    "before" bar ends, so the three rows read as before + added = after. */
-.ks-bridge { display: grid; grid-template-columns: minmax(7.5rem, 10rem) minmax(0, 1fr) minmax(6.5rem, 8rem); column-gap: 1rem; row-gap: .875rem; align-items: center; margin-top: 1.25rem; }
+.ks-bridge { display: grid; grid-template-columns: minmax(7.5rem, 10rem) minmax(0, 1fr) minmax(6.5rem, 8rem); column-gap: 1.25rem; row-gap: 1.25rem; align-items: center; margin-top: 1.75rem; }
 .ks-bridge .step { font-size: .875rem; color: var(--ink-soft); }
 .ks-bridge .track { position: relative; height: 2.25rem; background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--rule-soft) calc(25% - 1px) 25%); }
 .ks-bridge .bar { position: absolute; top: 0; bottom: 0; }
@@ -204,7 +216,7 @@
 .ks-bridge .guide { position: absolute; top: -.875rem; bottom: -.875rem; border-left: 1px dashed var(--ink-faint); }
 .ks-bridge .value { font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 .ks-bridge .value.increase { color: var(--accent-ink); }
-.ks-bridge-note { font-size: .8125rem; color: var(--ink-soft); margin-top: .75rem; }
+.ks-bridge-note { font-size: .8125rem; color: var(--ink-soft); margin-top: 1.25rem; }
 
 /* Reused Lineage graph and source viewer, restyled to match. */
 .ks .legacy { background: transparent; font-family: var(--bs-body-font-family); color: var(--ink); }
