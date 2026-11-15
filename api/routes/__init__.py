@@ -119,22 +119,27 @@ def lineage(id: str, connection: Database) -> ExposureLineage:
 
 
 @router.get("/decisions", operation_id="decisions")
-def decisions(connection: Database) -> list[DecisionCheck]:
+def decisions(connection: Database, change_id: str | None = None, part_no: str | None = None) -> list[DecisionCheck]:
     initialize_rates(connection)
     row = connection.execute(
         """
         SELECT version, change_event FROM tariff_rate_versions
-        WHERE change_id IS NOT NULL ORDER BY version DESC LIMIT 1
-        """
+        WHERE change_id IS NOT NULL AND (%s::text IS NULL OR change_id = %s)
+        ORDER BY version DESC LIMIT 1
+        """,
+        (change_id, change_id),
     ).fetchone()
     if row is None:
+        if change_id:
+            raise HTTPException(404, "Change not found")
         return []
     version, event = row
     change = ChangeEvent.model_validate(event)
     return [
         check_decision(connection, decision_id, change, version)
         for (decision_id,) in connection.execute(
-            "SELECT decision_id FROM decisions WHERE type = 'supplier_award' ORDER BY decision_id"
+            "SELECT decision_id FROM decisions WHERE type = 'supplier_award' "
+            "AND (%s::text IS NULL OR subject = %s) ORDER BY decision_id", (part_no, part_no),
         )
     ]
 

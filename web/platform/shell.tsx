@@ -23,6 +23,8 @@ export interface PlatformContext {
   data: WorkspaceData | null;
   reload: () => void;
   useFixtures: boolean;
+  sourcingPart: string;
+  selectSourcingPart: (part: string) => void;
 }
 const Ctx = createContext<PlatformContext | null>(null);
 export function usePlatform(): PlatformContext {
@@ -67,6 +69,14 @@ export function PageHead({ eyebrow, title, children, actions }: {
 export function Shell({ page, children }: { page: PageId; children: (ctx: PlatformContext) => ReactNode }) {
   const { data, error, loading, reload, useFixtures } = useWorkspace();
   const [role, setRole] = useRole();
+  const [sourcingPart, setSourcingPart] = useState("");
+  useEffect(() => {
+    try { setSourcingPart(window.localStorage.getItem("keystone.sourcing-part") ?? ""); } catch { /* Private mode. */ }
+  }, []);
+  function selectSourcingPart(part: string) {
+    setSourcingPart(part);
+    try { window.localStorage.setItem("keystone.sourcing-part", part); } catch { /* Private mode. */ }
+  }
   const router = useRouter();
   // The approver's home is the Brief; everyone else starts on Home.
   const shown: PageId = page === "home" ? role.home : page;
@@ -80,7 +90,7 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
 
   if (useFixtures) return <PhoneWorkflow page={page} role={role} onRole={setRole} />;
 
-  const ctx: PlatformContext = { role, setRole: switchRole, data, reload, useFixtures };
+  const ctx: PlatformContext = { role, setRole: switchRole, data, reload, useFixtures, sourcingPart, selectSourcingPart };
   return <Ctx.Provider value={ctx}>
     <div className="ks ks-layout">
       <div className="ks-body">
@@ -102,7 +112,7 @@ export function Shell({ page, children }: { page: PageId; children: (ctx: Platfo
           </div>
         </header>
         <main className="ks-main">
-          <nav className="phone-steps ks-live-steps ks-no-print mb-4" aria-label="Main navigation">
+          <nav className={`phone-steps ks-live-steps ks-no-print mb-4 ${role.id === "sourcing" ? "ks-sourcing-steps" : ""}`} aria-label="Main navigation">
             {role.pages.map(id => {
               const Icon = ICONS[id];
               return <Link key={id} href={PAGES[id].path} aria-current={id === shown ? "page" : undefined}>

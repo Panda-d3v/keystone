@@ -2,6 +2,7 @@
 import { useFixtures as offline } from "@/lib/data";
 import { Shell } from "./shell";
 import type { PageId } from "./roles";
+import { SourcingWorkspace } from "./screens/sourcing-workspace";
 import { ComponentHub } from "./screens/component-hub";
 import { Home } from "./screens/home";
 import { Intake } from "./screens/intake";
@@ -14,7 +15,10 @@ import { Brief, Lineage } from "./screens/specialist";
 
 /** One platform, one shell; the role decides the menu and the landing page. */
 export function PlatformPage({ page }: { page: PageId }) {
-  return <Shell page={page}>{({ role, data, reload, useFixtures }) => {
+  return <Shell page={page}>{({ role, data, reload, useFixtures, sourcingPart, selectSourcingPart }) => {
+    if (data && !offline && role.id === "sourcing" && (page === "home" || page === "decisions" || page === "exposure")) {
+      return <SourcingWorkspace data={data} page={page} part={sourcingPart} onPart={selectSourcingPart} />;
+    }
     if (data && !offline && page === "home") return <ComponentHub data={data} role={role} />;
     const shown = page === "home" ? role.home : page;
     switch (shown) {

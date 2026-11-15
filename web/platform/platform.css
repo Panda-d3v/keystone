@@ -343,3 +343,49 @@
 @media (max-width: 48rem) {
   .ks-component-overview { grid-template-columns: 1fr; }
 }
+
+.ks-component-title {
+  max-width: 100%;
+  padding: .15rem 2.25rem .2rem 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3 6 5 5 5-5' fill='none' stroke='%231b3139' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right .5rem center / 1rem no-repeat;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  color: inherit;
+  font: inherit;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ks .ks-sourcing-steps {
+  background: var(--nav);
+  border-color: #506971;
+}
+
+.ks-sourcing-steps .ks-live-arrow { display: none; }
+
+@media (min-width: 48.001rem) {
+  .ks .ks-sourcing-steps a {
+    isolation: isolate;
+    padding-inline-start: 1.9rem;
+    border-inline-end: 0;
+  }
+
+  .ks-sourcing-steps a:not(:last-child)::before,
+  .ks-sourcing-steps a:not(:last-child)::after {
+    position: absolute;
+    z-index: 1;
+    inset-block: 0;
+    inset-inline-start: 100%;
+    width: .9rem;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  .ks-sourcing-steps a:not(:last-child)::before { background: #68828b; }
+  .ks-sourcing-steps a:not(:last-child)::after { background: inherit; width: calc(.9rem - 1px); }
+  .ks .ks-sourcing-steps a { z-index: 4; }
+  .ks .ks-sourcing-steps a:nth-child(2) { z-index: 3; }
+  .ks .ks-sourcing-steps a:nth-child(3) { z-index: 2; }
+  .ks .ks-sourcing-steps a:nth-child(4) { z-index: 1; }
+}
