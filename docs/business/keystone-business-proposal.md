@@ -3,10 +3,10 @@
 **MVP development and commercialisation proposal for Kearney PERLab**
 
 **Submitted to:** Kearney PERLab  
-**Submitted by:** Oscar, CEO and CFO, and Pratham, CTO  
+**Submitted by:** Oscar Cavalieros, CEO and CFO, and Pratham Saxena, CTO  
 **Date:** 15 November 2026
 
-Keystone requests **$30,000 to complete an eight-week development and client-validation programme** with PERLab. The programme will develop the existing prototype into a scoped pilot connecting trade changes, purchasing commitments, supplier alternatives and supporting evidence. The commercial objective is a recurring software service, with PERLab licensing or acquisition of the product and intellectual property as strategic alternatives.
+Keystone requests **$30,000 to complete an eight-week development and client-validation programme** with PERLab. The programme will turn the existing UI prototype into a functional MVP connecting trade changes, purchasing commitments, supplier alternatives and supporting evidence. The commercial objective is a recurring software service, with PERLab licensing or acquisition of the product and intellectual property as strategic alternatives.
 
 ## Executive overview
 
@@ -14,22 +14,22 @@ A sourcing decision can remain active long after the facts that justified it hav
 
 Keystone brings that review into a shared decision record. It connects the changed fact to affected products, orders and award assumptions; compares feasible responses; identifies evidence gaps; and prepares a recommendation for approval. Its value is carrying a trade or supplier change through to a documented business decision.
 
-The current minimum viable product (MVP), developed during the hackathon, covers document interpretation, deterministic impact calculations, sourcing comparisons, evidence review and a decision brief. The next stage is client validation and production preparation for one bounded workflow.
+The hackathon deliverable is a user-interface (UI) prototype illustrating the intended sourcing, evidence and approval workflow with sample data. It demonstrates the product concept and user experience, rather than a functioning customer service. Backend processing, AI document interpretation, verified calculations and customer-data integration are deliverables of the proposed minimum viable product (MVP) programme.
 
 PERLab is the proposed development and commercialisation partner. Its public Tariff Simulator offering already covers duties, sourcing shifts and landed-cost scenarios. Keystone would contribute a persistent record connecting those scenarios to current commitments, previous decisions, supplier evidence and follow-up. A joint product review will establish where this adds value to PERLab's existing capabilities. [S3]
 
 The first deployment will target a U.S. industrial importer. The product addresses physical-goods sourcing across industries; a focused launch scope concentrates development and evidence requirements without restricting the long-term market.
 
-The programme will conclude with an evaluated client workflow, a deployment package, measured delivery costs and a commercial decision: extend the pilot, license the software, pursue acquisition discussions or end the programme.
+The programme will conclude with an evaluated MVP, a trial-readiness assessment, measured development costs and a commercial decision: start a customer trial, extend development, pursue licensing or acquisition discussions, or end the programme.
 
 ## 1 The Team
 
-Keystone is founded by Oscar and Pratham, who combine business ownership with direct responsibility for delivery.
+Keystone is founded by Oscar Cavalieros and Pratham Saxena, who combine business ownership with direct responsibility for delivery.
 
 | Founder | Role | Responsibilities | Founder IP ownership |
 | --- | --- | --- | ---: |
-| Oscar | CEO and CFO | Strategy, PERLab relationship, customer discovery, pricing, financing and financial management | 50% |
-| Pratham | CTO | Architecture, engineering, data integration, testing and technical delivery | 50% |
+| Oscar Cavalieros | CEO and CFO | Strategy, PERLab relationship, customer discovery, pricing, financing and financial management | 50% |
+| Pratham Saxena | CTO | Architecture, engineering, data integration, testing and technical delivery | 50% |
 
 Both founders will participate in client workflow design and implementation. Development will pair their product work with PERLab or client expertise in procurement and trade compliance. The client will appoint a business sponsor and trade reviewer; PERLab will appoint a product counterpart for integration assessment.
 
@@ -65,18 +65,18 @@ The intended differentiation is a complete, repeatable review across procurement
 
 ### 2.2 MVP and development stage
 
-Keystone has an early MVP with the principal workflow implemented. The next milestone is a client-ready MVP evaluated against actual procurement records.
+Keystone is at the UI-prototype stage. The hackathon work establishes the screen designs, intended user journey and illustrative decision outputs. It does not establish working end-to-end processing, production integrations or validated analytical performance.
 
-| Product area | Implemented foundation | Programme priority |
+| Product area | Current UI prototype | MVP development required |
 | --- | --- | --- |
-| Procurement records | Suppliers, parts, product structures, orders, decisions and assumptions | Map one client's records and validate joins |
-| Document processing | Intake, extraction, citations and review states | Evaluate agreed client documents |
-| Impact analysis | Versioned rates and deterministic calculations for a bounded scenario | Configure expert-reviewed pilot rules |
-| Sourcing review | Incumbent and alternative comparisons | Capture feasible options and transition costs |
-| Evidence | Missing, mismatch and review statuses | Define category requirements and ownership |
-| Decision workflow | Role-specific views, internal submissions, briefs and audit records | Add authenticated access and controlled approval |
+| Procurement records | Sample parts, suppliers, products and orders shown in screens | Backend data model, storage, import validation and record matching |
+| Document processing | Document upload and source-review experience illustrated | Upload service, extraction, citations and error handling for agreed document types |
+| Impact analysis | Illustrative exposure figures and explanations displayed | Versioned rules, deterministic calculations and independent verification |
+| Sourcing review | Incumbent and alternative comparison screens | Feasible-option logic, cost inputs and reproducible comparisons |
+| Evidence | Evidence statuses and follow-up workflow illustrated | Stored evidence, reviewed requirements, matching and exception handling |
+| Decision workflow | Role views, approval concept and decision brief | Authentication, permissions, persistence, review records and reliable export |
 
-The prototype originated in a hackathon. Commercial development will concentrate on one client, one category and agreed rules. General regulatory coverage, broad ERP connectivity, enterprise certification and autonomous transaction execution sit outside the first programme.
+The funded programme will build a functional MVP for one category and an agreed rule scope. Existing code can be assessed for reuse, but delivery acceptance will depend on demonstrated processing of authorised records. Broad regulatory coverage, general ERP connectivity, enterprise certification and autonomous execution are later development stages.
 
 ## 3 Product–Market Fit
 
@@ -183,12 +183,12 @@ Contracts will distinguish customer records, proprietary software and reusable d
 
 | Period | Delivery | Acceptance |
 | --- | --- | --- |
-| Weeks 1–2 | PERLab alignment, client baseline, data mapping and rule scope | Authorised records, named reviewers and expected results |
-| Weeks 3–4 | Connected impact, comparison and evidence workflow | Reproducible first historical event |
-| Weeks 5–6 | Access controls, approval/export records and corrections | Independent review of calculations, matches and evidence |
-| Weeks 7–8 | Held-out evaluation, training and deployment | Accepted pilot package, measured costs and commercial decision |
+| Weeks 1–2 | PERLab alignment, data model, backend foundation, access design and scope | Agreed records, rule scope, reviewers and baseline |
+| Weeks 3–4 | Imports, deterministic impact calculations and sourcing comparisons | Verified calculations for one historical event |
+| Weeks 5–6 | Extraction for agreed document types, evidence review and persisted decisions | Reviewed extraction, matches and evidence handling |
+| Weeks 7–8 | End-to-end integration, access controls, export and held-out evaluation | Functional MVP and a documented trial-readiness decision |
 
-The roadmap targets a client-ready MVP within eight weeks, subject to timely records and domain review. A one-month trial can overlap the final development stage only when access controls and core workflows are ready. A full two-month trial will normally continue beyond the build programme. Build completion and trial completion are separate milestones; customer trial dates will be agreed accordingly.
+The eight-week target is a functional MVP, subject to timely records and domain review. Paid customer trials begin after a readiness review confirms that the agreed workflow operates end to end, data access is controlled and calculations are independently reproducible. The one- or two-month trial is a separate service period following development; it is not assumed complete within the eight-week build. The initial programme is a bounded build and evaluation, rather than a promise of enterprise production readiness.
 
 ## 6 The Market
 
@@ -390,7 +390,7 @@ Present the $5,000 one-month or $10,000 two-month trial to the industrial budget
 
 ### What can be delivered in two months?
 
-A controlled pilot for one category, agreed rules and one client's records, including connected analysis, evidence review, authenticated access and an evaluated decision package. Broad regulatory coverage and enterprise deployment require further development.
+A functional MVP for one category, agreed rules and authorised records, including connected analysis, evidence review, authenticated access and an evaluated decision package. A readiness review precedes the paid trial. Broad regulatory coverage and enterprise deployment require further development.
 
 ### What if award reasoning is unavailable?
 
@@ -425,9 +425,9 @@ Report denominators with results. Small-case success is not universal reliabilit
 
 | Date | Stakeholder | Team Member | Engagement Type | Key Insight |
 | --- | --- | --- | --- | --- |
-| 14 November 2026 | Keystone product team | Oscar and Pratham | Hackathon development and product discussion | Established the impact, decision, evidence and review workflow |
+| 14 November 2026 | Keystone product team | Oscar Cavalieros and Pratham Saxena | Hackathon development and product discussion | Designed the UI prototype and intended impact, decision and evidence workflow |
 | 14–15 November 2026 | Public market/product sources | Keystone team | Market and competitor research | Relevant friction and substantial incumbent overlap |
-| 15 November 2026 | Keystone business planning | Oscar | Founder statement | Defined roles, equal IP ownership, PERLab audience and subscription model |
+| 15 November 2026 | Keystone business planning | Oscar Cavalieros | Founder statement | Defined roles, equal IP ownership, PERLab audience and subscription model |
 
 External interviews and the programme pilot are the next engagement stage. Each will record participant role, segment, interviewer, completed event, artifacts, measured burden and purchasing decision.
 
