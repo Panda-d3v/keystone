@@ -1,0 +1,125 @@
+.panel {
+  color: var(--ink, #1b3139);
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.form > p {
+  margin: 0;
+}
+
+.picker {
+  position: relative;
+  padding: 1.125rem 1.125rem 1.125rem 4.375rem;
+  border: 1px dashed var(--rule, #d1d5d7);
+  border-radius: .5rem;
+  background: var(--canvas, #f9f7f4);
+}
+
+.icon {
+  position: absolute;
+  inset: 1.125rem auto auto 1.125rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: .5rem;
+  background: var(--oat, #eeede9);
+}
+
+.label,
+.hint {
+  display: block;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.hint {
+  margin-top: .2rem;
+  color: var(--ink-soft, #5a6f77);
+  font-size: .875rem;
+}
+
+.picker input.file {
+  display: block;
+  width: 100%;
+  margin-top: .75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+}
+
+.file::file-selector-button,
+.submit {
+  padding: .5rem .875rem;
+  border: 1px solid var(--ink, #1b3139);
+  border-radius: .375rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file::file-selector-button {
+  margin-right: .65rem;
+  border-color: var(--rule, #d1d5d7);
+  background: var(--surface, #fff);
+  color: inherit;
+}
+
+.file:enabled::file-selector-button:hover {
+  border-color: var(--ink-soft, #5a6f77);
+}
+
+.submit {
+  background: var(--ink, #1b3139);
+  color: #fff;
+}
+
+.submit:enabled:hover {
+  background: #294550;
+}
+
+.submit:disabled {
+  border-color: var(--rule, #d1d5d7);
+  background: var(--oat, #eeede9);
+  color: var(--ink-soft, #5a6f77);
+  cursor: default;
+}
+
+@media (max-width: 32rem) {
+  .picker {
+    padding-left: 1.125rem;
+  }
+
+  .icon {
+    position: static;
+    margin-bottom: .625rem;
+  }
+}
+
+.confirmation,
+.fields {
+  display: grid;
+  gap: .75rem;
+}
+
+.fields {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.fields > p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.fields input {
+  display: block;
+  width: 100%;
+  margin-top: .375rem;
+}
