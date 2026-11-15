@@ -25,7 +25,13 @@ export default function TriageWorkspace({ screen }: { screen: Screen }) {
       <Link href="/">Design versions</Link>
     </nav>
     {workspace.error ? <main className="triage-error"><p role="alert">{workspace.error}</p><button onClick={workspace.reload}>Retry</button></main>
-      : !workspace.data ? <main className="triage-error" role="status">Loading triage…</main>
+      : !workspace.data ? <main className="triage-error">
+        {workspace.loading ? <p role="status">Loading triage…</p> : <>
+          <h1>Start with a tariff bulletin</h1>
+          <p>Upload the bulletin in Intake to see which requests need review.</p>
+          <Link href={routeFor(1, "inbox")}>Go to Intake</Link>
+        </>}
+      </main>
       : <TriageQueue data={workspace.data} screen={screen} />}
     <footer className="triage-footer">Illustrative scenario. Section 232 layer only. Other duty layers are outside this demo.</footer>
   </div>;

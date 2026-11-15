@@ -36,8 +36,10 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
         "ChangeDraft": GOOD,
         "VisionEvidenceDraft": {
             **SHEFFIELD_ANSWER,
+            # A3 votes across three scan reads (T41); a value every read rates
+            # below 0.5 stays unconfirmed, which is how "unreadable" is modelled.
             "part_no": {**SHEFFIELD_ANSWER["part_no"], "value": "mf8413005",
-                        "confidence": 0.68 if manual_link else 0.91},
+                        "confidence": 0.4 if manual_link else 0.91},
         },
     })
     llm = LLMClient(stub, cache_dir=tmp_path, replay=False)
@@ -102,7 +104,7 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
                 if manual_link:
                     expected_events.insert(4, "evidence_association_confirmed")
                 assert [event["type"] for event in client.get("/audit").json()] == expected_events
-                assert llm.stats.model_calls == 3
+                assert llm.stats.model_calls == 5
 
                 replay = LLMClient(cache_dir=tmp_path, replay=True)
                 monkeypatch.setattr("api.agents.llm._default_client", replay)
@@ -112,7 +114,7 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
                 assert client.post("/intake", data=fields, files={
                     "file": (scan_name, scan, "image/jpeg"),
                 }).raise_for_status().json()["evidence_doc_ids"] == ids["evidence_doc_ids"]
-                assert replay.stats.cache_hits == 3 and replay.stats.model_calls == 0
+                assert replay.stats.cache_hits == 5 and replay.stats.model_calls == 0
                 assert len(client.get("/audit").json()) == len(expected_events)
                 actions = client.get("/actions").raise_for_status().json()
                 assert len(actions) == 1 and actions[0]["usd_at_stake"] == 49690

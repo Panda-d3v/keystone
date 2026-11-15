@@ -11,15 +11,22 @@ export function useWorkspace() {
   const [data, setData] = useState<WorkspaceData | null>(
     useFixtures ? fixtureData : null,
   );
+  const [loading, setLoading] = useState(!useFixtures);
   const [error, setError] = useState("");
   const [revision, setRevision] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
     setError("");
+    setLoading(true);
     loadWorkspace(controller.signal)
-      .then(setData)
+      .then((result) => {
+        if (!controller.signal.aborted) setData(result);
+      })
       .catch((error) => {
-        if (error.name !== "AbortError") setError(error.message);
+        if (!controller.signal.aborted) setError(error.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
   }, [revision]);
@@ -40,6 +47,7 @@ export function useWorkspace() {
   return {
     data: visibleData,
     error,
+    loading,
     reload: () => setRevision((n) => n + 1),
     useFixtures,
   };

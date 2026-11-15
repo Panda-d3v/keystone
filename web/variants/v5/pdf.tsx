@@ -117,13 +117,7 @@ export async function downloadBrief(data: WorkspaceData) {
           build rates.
         </Text>
         {change.citations[0] && (
-          <Link
-            style={styles.source}
-            src={
-              new URL(referenceUrl(change.citations[0]), window.location.origin)
-                .href
-            }
-          >
+          <Link style={styles.source} src={absoluteSource(change.citations[0])}>
             Bulletin {change.citations[0].doc_id}, page{" "}
             {change.citations[0].page}
           </Link>

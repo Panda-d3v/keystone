@@ -1,0 +1,14 @@
+{
+  "file_sha256": "96322182733dd11041a520710c9a07ed812d74fba84e61184d95673911f9bd03",
+  "fingerprint": "15d6ce0707f7c6f75de087da4f5338daf635d52054730fb5bf0d0ce7a8fda7f3",
+  "model": "claude-haiku-5-5",
+  "output": {
+    "confidence": 0.97,
+    "kind": "supplier_document",
+    "reason": "Visible title reads INSPECTION CERTIFICATE from a mill with heat numbers, chemical composition and mechanical properties tables, and a quality lead's certification statement."
+  },
+  "recorded_at": "2026-11-15T00:01:12+00:00",
+  "schema": "IntakeClassification",
+  "task": "a1_intake",
+  "version": 1
+}

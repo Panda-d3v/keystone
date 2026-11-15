@@ -667,7 +667,8 @@
                     "alternative_without_proof_annual_usd": 1371444.0,
                     "incumbent_before_annual_usd": 993800.0,
                     "alternative_with_proof_delta_usd": -49690.0,
-                    "alternative_without_proof_delta_usd": 178884.0
+                    "alternative_without_proof_delta_usd": 178884.0,
+                    "incumbent_delta_annual_usd": 198760.0
                   }
                 ]
               }
@@ -2881,6 +2882,73 @@
           }
         }
       }
+    },
+    "/actions/{id}/decline": {
+      "post": {
+        "operationId": "decline_action",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action declined",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "action_id": {
+                      "title": "Action Id",
+                      "type": "string"
+                    },
+                    "state": {
+                      "const": "declined",
+                      "title": "State",
+                      "type": "string"
+                    },
+                    "audit_event": {
+                      "$ref": "#/components/schemas/AuditEvent"
+                    }
+                  },
+                  "required": [
+                    "action_id",
+                    "state",
+                    "audit_event"
+                  ],
+                  "title": "DeclineActionResponse",
+                  "type": "object"
+                },
+                "example": {
+                  "action_id": "ACT-0001",
+                  "state": "declined",
+                  "audit_event": {
+                    "id": "AUD-0012",
+                    "occurred_at": "2026-11-14T22:12:00Z",
+                    "actor": "demo-user",
+                    "type": "action_declined",
+                    "entity_id": "ACT-0001",
+                    "previous_hash": null,
+                    "hash": "b9ab4ebe06d36635d7f6c5b5ec98b664825105fc625a7044e9877ec752a14a03"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Action not found"
+          },
+          "409": {
+            "description": "Action already submitted"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3145,6 +3213,18 @@
             ],
             "default": null,
             "title": "Incumbent Before Annual Usd"
+          },
+          "incumbent_delta_annual_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Incumbent Delta Annual Usd"
           },
           "alternative_with_proof_delta_usd": {
             "anyOf": [

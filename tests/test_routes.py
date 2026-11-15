@@ -48,6 +48,7 @@ def test_live_routes_against_demo_contracts():
                 for item in fixture("evidence")["items"]:
                     save_evidence(connection, EvidenceItem.model_validate(item))
                 save_action(connection, action)
+                save_action(connection, action.model_copy(update={"id": "ACT-0002", "rank": 2}))
 
             app.dependency_overrides[get_connection] = dependency
             with TestClient(app) as client:
@@ -57,6 +58,7 @@ def test_live_routes_against_demo_contracts():
                 decision = DecisionCheck.model_validate(client.get("/decisions").json()[0])
                 assert decision.status == "broken"
                 assert decision.incumbent_before_annual_usd == 993800
+                assert decision.incumbent_delta_annual_usd == 198760
                 assert decision.alternative_with_proof_delta_usd == -49690
                 assert decision.alternative_without_proof_delta_usd == 178884
                 po = next(line for line in exposure.lines if line.po_id == "PO-4504")
@@ -74,6 +76,12 @@ def test_live_routes_against_demo_contracts():
                 evidence = EvidenceStatus.model_validate(client.get("/evidence/S007/MF-8413-005").json())
                 assert evidence.status == "needs_review"
                 assert next(row for row in evidence.requirements if row.id == "EV-UK-01").reason
+                assert len(client.get("/actions").json()) == 2
+                declined = client.post("/actions/ACT-0002/decline").raise_for_status().json()
+                assert declined["state"] == "declined"
+                assert declined["audit_event"]["type"] == "action_declined"
+                assert client.post("/actions/ACT-0002/decline").json() == declined
+                assert client.post("/actions/ACT-0002/send", json={"draft_email": "Draft"}).status_code == 409
                 assert client.get("/actions").json() == fixture("actions")
                 url = f"/actions/{action.id}/send"
                 response = client.post(url, json={"draft_email": "Edited draft"})
@@ -84,7 +92,8 @@ def test_live_routes_against_demo_contracts():
                 assert client.post(url, json={"draft_email": "Edited draft"}).json() == response.json()
                 assert client.post(url, json={"draft_email": "Different draft"}).status_code == 409
                 assert client.get("/actions").json() == []
-                assert client.get("/audit").json() == [response.json()["audit_event"]]
+                assert client.post(url.replace("/send", "/decline")).status_code == 409
+                assert client.get("/audit").json() == [response.json()["audit_event"], declined["audit_event"]]
             with connect() as connection:
                 assert verify_chain(connection)
         finally:

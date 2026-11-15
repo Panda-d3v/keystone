@@ -12,14 +12,20 @@ import { verifyAudit } from "@/lib/audit";
 import "./entry.css";
 
 export default function EntryWorkspace({ screen }: { screen: Screen }) {
-  const { data, error, reload, useFixtures } = useWorkspace();
+  const { data, error, loading, reload, useFixtures } = useWorkspace();
   return <div className="entry-sheet">
     <header className="entry-top"><Link className="brand" href="/"><Layers aria-hidden="true"/>Keystone</Link><div className="row"><span className="status">{useFixtures ? "Fixture data" : "Live API"}</span><button onClick={reload}><RefreshCw aria-hidden="true"/>Refresh</button><button onClick={() => window.print()}><Printer aria-hidden="true"/>Print sheet</button></div></header>
     <main className="entry-paper">
       <div className="entry-heading"><div><h1>Entry sheet</h1><p>MeridianFlow procurement</p></div><div><p className="code">{data?.changes[0]?.id || "Change pending"}</p><Link href="/">Compare versions</Link></div></div>
       <nav className="entry-tabs" aria-label="Entry sheet sections">{screens.map(item => <Link href={routeFor(2, item.id)} key={item.id} aria-current={item.id === screen ? "page" : undefined}>{item.id === "exposure" ? "Duty bill" : item.label}</Link>)}</nav>
       {error ? <div className="entry-section" role="alert"><p>{error}</p><button onClick={reload}>Retry</button></div>
-        : !data ? <p className="entry-section" role="status">Loading entry sheet…</p>
+        : !data ? <section className="entry-section">
+          {loading ? <p role="status">Loading entry sheet…</p> : <>
+            <h2>Start with a tariff bulletin</h2>
+            <p>Upload the bulletin in Intake to see the previous and revised duty bills.</p>
+            <Link href={routeFor(1, "inbox")}>Go to Intake</Link>
+          </>}
+        </section>
         : <EntryContent screen={screen} data={data}/>}
       <footer className="entry-scenario">Illustrative MeridianFlow scenario. Section 232 layer only. Other duty layers are outside this demo.</footer>
     </main>

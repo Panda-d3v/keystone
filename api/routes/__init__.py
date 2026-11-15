@@ -16,7 +16,7 @@ from api.rules.evidence import check_uk_evidence
 from api.rules.exposure import compute_exposure
 from api.rules.rates import initialize_rates
 from contracts.models import (
-    Action, AuditEvent, ChangeEvent, DecisionCheck, EvidenceItem, EvidenceStatus,
+    Action, AuditEvent, ChangeEvent, DecisionCheck, DeclineActionResponse, EvidenceItem, EvidenceStatus,
     Exposure, ExposureLineage, PendingApproval, SendActionRequest, SendActionResponse,
 )
 
@@ -145,6 +145,7 @@ def actions(connection: Database) -> list[Action]:
             """
             SELECT p.payload FROM proposed_actions p
             WHERE NOT EXISTS (SELECT 1 FROM sent_actions s WHERE s.action_id = p.id)
+              AND NOT EXISTS (SELECT 1 FROM declined_actions d WHERE d.action_id = p.id)
             """
         )
     ]
@@ -154,6 +155,8 @@ def actions(connection: Database) -> list[Action]:
 @router.post("/actions/{id}/send", operation_id="send_action")
 def send_action(id: str, request: SendActionRequest, connection: Database) -> SendActionResponse:
     initialize_store(connection)
+    if connection.execute("SELECT 1 FROM declined_actions WHERE action_id = %s", (id,)).fetchone():
+        raise HTTPException(409, "This request was already declined.")
     if connection.execute("SELECT 1 FROM proposed_actions WHERE id = %s", (id,)).fetchone() is None:
         raise HTTPException(404, "Action not found")
     sent = connection.execute(
@@ -177,6 +180,26 @@ def send_action(id: str, request: SendActionRequest, connection: Database) -> Se
         audit_event=event, decision_id=f"D-2026-{number:03d}",
         state="pending_approval", pending_approvals=list(APPROVERS),
     )
+
+
+@router.post("/actions/{id}/decline", operation_id="decline_action")
+def decline_action(id: str, connection: Database) -> DeclineActionResponse:
+    initialize_store(connection)
+    existing = connection.execute(
+        "SELECT audit_id FROM declined_actions WHERE action_id = %s", (id,),
+    ).fetchone()
+    if existing:
+        with connection.cursor(row_factory=dict_row) as cursor:
+            cursor.execute(f"SELECT {FIELDS} FROM audit_events WHERE id = %s", existing)
+            event = event_from_row(cursor.fetchone())
+    else:
+        if connection.execute("SELECT 1 FROM proposed_actions WHERE id = %s", (id,)).fetchone() is None:
+            raise HTTPException(404, "Action not found")
+        if connection.execute("SELECT 1 FROM sent_actions WHERE action_id = %s", (id,)).fetchone():
+            raise HTTPException(409, "This request was already submitted for approval.")
+        event = append_event(connection, actor="demo-user", type="action_declined", entity_id=id)
+        connection.execute("INSERT INTO declined_actions VALUES (%s, %s)", (id, event.id))
+    return DeclineActionResponse(action_id=id, state="declined", audit_event=event)
 
 
 @router.get("/audit", operation_id="audit")

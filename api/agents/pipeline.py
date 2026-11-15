@@ -56,6 +56,7 @@ FIELD_NAMES = {
     "supplier_id": "the supplier",
     "certificate_no": "the certificate number",
     "issue_date": "the issue date",
+    "expires_on": "the expiry date",
     "customer_po": "the purchase order",
     "part_no": "the part number",
     "material_spec": "the material grade",
