@@ -69,6 +69,8 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
     </PageHead>
     {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
+    <div className="ks-brief-grid">
+    <div>
     {change && <section aria-labelledby="b-changed">
       <div className="eyebrow">01 · What changed</div>
       <h2 id="b-changed">{changeHeadline(change)}</h2>
@@ -78,7 +80,7 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
     {story && decision && <section aria-labelledby="b-cost">
       <div className="eyebrow">02 · The award&apos;s annual cost</div>
       <h2 id="b-cost">{story.happened}</h2>
-      {story.before != null && story.increase != null && <Waterfall before={story.before} increase={story.increase} after={decision.incumbent_annual_usd} />}
+      {story.before != null && story.increase != null && <Bridge before={story.before} increase={story.increase} after={decision.incumbent_annual_usd} supplier={story.incumbent} />}
       <div className="table-responsive border rounded mt-4"><table className="table align-middle">
         <thead><tr><th>Option</th><th className="money">Annual landed cost</th><th className="money">Against today</th></tr></thead>
         <tbody>
@@ -105,24 +107,44 @@ export function Brief({ data }: { data: WorkspaceData | null }) {
       </ul>
     </section>
 
-    {action && <section aria-labelledby="b-decide">
-      <div className="eyebrow" id="b-decide">04 · Your decision</div>
-      <Decide action={action} audit={data.audit} supplier={supplierName(data.evidence.supplier_id)} />
-    </section>}
+    </div>
+
+    <aside className="ks-brief-aside" aria-label="Your decision">
+      {story && decision && <div className="card"><div className="card-body">
+        <div className="eyebrow">At a glance</div>
+        <div className="ks-glance">
+          {story.increase != null && <div><span>Award cost since the change</span><span className="amount" style={{ color: "var(--accent-ink)" }}>+{money(story.increase)}/yr</span></div>}
+          <div><span>Switch to {story.alternative}, with proof</span><span className="amount" style={{ color: story.withProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(story.withProof)}/yr</span></div>
+          <div><span>Switch without proof</span><span className="amount" style={{ color: story.withoutProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(story.withoutProof)}/yr</span></div>
+        </div>
+      </div></div>}
+      {action && <Decide action={action} audit={data.audit} supplier={supplierName(data.evidence.supplier_id)} />}
+    </aside>
+    </div>
   </div>;
 }
 
-function Waterfall({ before, increase, after }: { before: number; increase: number; after: number }) {
+/** Before + added duty = after, as three aligned rows on one scale. */
+function Bridge({ before, increase, after, supplier }: { before: number; increase: number; after: number; supplier: string }) {
   const max = Math.max(before + increase, after);
   const pct = (v: number) => `${(v / max) * 100}%`;
-  return <div className="mt-3" role="img" aria-label={`Annual cost rose from ${money(before)} by ${money(increase)} to ${money(after)}`}>
-    <div className="ks-waterfall">
-      <div className="ks-bar before"><div className="amount">{money(before)}</div><div className="fill" style={{ height: pct(before) }} /></div>
-      <div className="ks-bar increase"><div className="amount">+{money(increase)}</div><div className="fill" style={{ height: pct(increase) }} /><div style={{ height: pct(before) }} /></div>
-      <div className="ks-bar"><div className="amount">{money(after)}</div><div className="fill" style={{ height: pct(after) }} /></div>
+  return <figure className="mb-0">
+    <div className="ks-bridge" role="img"
+      aria-label={`Annual cost rose from ${money(before)} by ${money(increase)} to ${money(after)}`}>
+      <span className="step">Before the change</span>
+      <div className="track"><div className="bar before" style={{ left: 0, width: pct(before) }} /><div className="guide" style={{ left: pct(before) }} /></div>
+      <span className="value">{money(before)}</span>
+
+      <span className="step">Added duty</span>
+      <div className="track"><div className="bar increase" style={{ left: pct(before), width: pct(increase) }} /><div className="guide" style={{ left: pct(before) }} /><div className="guide" style={{ left: pct(before + increase) }} /></div>
+      <span className="value increase">+{money(increase)}</span>
+
+      <span className="step">After the change</span>
+      <div className="track"><div className="bar after" style={{ left: 0, width: pct(after) }} /><div className="guide" style={{ left: pct(after) }} /></div>
+      <span className="value">{money(after)}</span>
     </div>
-    <div className="ks-bar-labels"><span>Before the change</span><span>Added duty</span><span>After the change</span></div>
-  </div>;
+    <figcaption className="ks-bridge-note">Annual landed cost of the award with {supplier}. The red step is the added duty from the new rate.</figcaption>
+  </figure>;
 }
 
 function Decide({ action, audit, supplier }: { action: Action; audit: WorkspaceData["audit"]; supplier: string }) {
@@ -149,13 +171,14 @@ function Decide({ action, audit, supplier }: { action: Action; audit: WorkspaceD
   }
 
   return <div className="card"><div className="card-body d-grid gap-3">
-    <div className="d-flex justify-content-between gap-3 flex-wrap">
-      <h2 className="mb-0">{actionTitle(action)}</h2>
+    <div className="eyebrow mb-0">Your decision</div>
+    <div className="d-flex justify-content-between gap-2 flex-wrap">
+      <h2 className="mb-0 fs-6">{actionTitle(action)}</h2>
       <span className="chip chip-accent align-self-start">{money(action.usd_at_stake)} a year at stake</span>
     </div>
     {action.why && <p className="mb-0">{action.why}</p>}
     <label className="d-block"><span className="label d-block mb-1">Email to {supplier}</span>
-      <textarea className="form-control" rows={9} value={done ? saved?.draftEmail ?? draft : draft}
+      <textarea className="form-control" rows={7} value={done ? saved?.draftEmail ?? draft : draft}
         disabled={busy || !!done || !!refused} onChange={event => setDraft(event.target.value)} /></label>
     {error && <div className="alert alert-danger mb-0" role="alert">{error}</div>}
     {done ? <div className="alert alert-success mb-0" role="status"><strong>Approved.</strong> Draft decision <span className="code">{done.decision_id}</span> is waiting for {done.pending_approvals.map(p => p.name).join(" and ")}.</div>

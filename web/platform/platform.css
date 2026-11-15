@@ -129,7 +129,7 @@
 .ks-avatar { width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 500; font-size: .75rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .ks-role { display: flex; align-items: center; gap: .625rem; }
 .ks-role .form-select { min-width: 13rem; background-color: var(--canvas); }
-.ks-main { padding: 2rem 1.75rem 3rem; width: 100%; max-width: 86rem; container-type: inline-size; container-name: main; }
+.ks-main { padding: 2rem 2.25rem 3rem; width: 100%; max-width: 90rem; margin-inline: auto; container-type: inline-size; container-name: main; }
 .ks-footnote { font-size: .75rem; color: var(--ink-faint); margin-top: 3rem; }
 .ks-mobile-nav { display: none; }
 
@@ -179,16 +179,32 @@
 .ks-math { background: var(--canvas); font-family: var(--bs-font-monospace); font-size: .8125rem; color: var(--ink); }
 
 /* Brief */
-.ks-brief { max-width: 52rem; }
+/* Brief: the story on the left, the decision pinned on the right. */
+.ks-brief-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem); gap: 2.5rem; align-items: start; }
+.ks-brief-aside { position: sticky; top: calc(var(--ks-topbar) + 1rem); display: grid; gap: 1rem; }
 .ks-brief section { padding: 1.5rem 0; border-top: 1px solid var(--rule); }
-.ks-brief section:first-of-type { border-top: 0; }
-.ks-waterfall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: end; height: 13rem; padding: 0 .5rem; border-bottom: 1px solid var(--rule); }
-.ks-bar { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
-.ks-bar .fill { background: var(--ink); }
-.ks-bar.increase .fill { background: var(--accent); }
-.ks-bar.before .fill { background: #8fa4aa; }
-.ks-bar .amount { font-weight: 500; text-align: center; margin-bottom: .375rem; font-variant-numeric: tabular-nums; }
-.ks-bar-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding: .5rem .5rem 0; text-align: center; font-size: .8125rem; color: var(--ink-soft); }
+.ks-brief section:first-of-type { border-top: 0; padding-top: 0; }
+.ks-glance { display: grid; gap: .75rem; }
+.ks-glance div { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.ks-glance .amount { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@container main (max-width: 62rem) {
+  .ks-brief-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .ks-brief-aside { position: static; }
+}
+
+/* Cost bridge: one row per step. The added-duty bar starts exactly where the
+   "before" bar ends, so the three rows read as before + added = after. */
+.ks-bridge { display: grid; grid-template-columns: minmax(7.5rem, 10rem) minmax(0, 1fr) minmax(6.5rem, 8rem); column-gap: 1rem; row-gap: .875rem; align-items: center; margin-top: 1.25rem; }
+.ks-bridge .step { font-size: .875rem; color: var(--ink-soft); }
+.ks-bridge .track { position: relative; height: 2.25rem; background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--rule-soft) calc(25% - 1px) 25%); }
+.ks-bridge .bar { position: absolute; top: 0; bottom: 0; }
+.ks-bridge .bar.before { background: #8fa4aa; }
+.ks-bridge .bar.increase { background: var(--accent); }
+.ks-bridge .bar.after { background: var(--ink); }
+.ks-bridge .guide { position: absolute; top: -.875rem; bottom: -.875rem; border-left: 1px dashed var(--ink-faint); }
+.ks-bridge .value { font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.ks-bridge .value.increase { color: var(--accent-ink); }
+.ks-bridge-note { font-size: .8125rem; color: var(--ink-soft); margin-top: .75rem; }
 
 /* Reused Lineage graph and source viewer, restyled to match. */
 .ks .legacy { background: transparent; font-family: var(--bs-body-font-family); color: var(--ink); }
@@ -221,7 +237,8 @@
   .ks-mobile-nav a.active { background: rgba(255, 255, 255, .12); color: #fff; }
   .ks-main { padding: 1.25rem 1rem 2.5rem; }
   .ks-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ks-waterfall, .ks-bar-labels { gap: .75rem; }
+  .ks-bridge { grid-template-columns: minmax(0, 1fr) minmax(5.5rem, auto); }
+  .ks-bridge .step { grid-column: 1 / -1; margin-bottom: -.5rem; }
 }
 
 @media print {
