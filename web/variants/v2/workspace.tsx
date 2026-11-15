@@ -16,7 +16,7 @@ export default function EntryWorkspace({ screen }: { screen: Screen }) {
   return <div className="entry-sheet">
     <header className="entry-top"><Link className="brand" href="/"><Layers aria-hidden="true"/>Keystone</Link><div className="row"><span className="status">{useFixtures ? "Fixture data" : "Live API"}</span><button onClick={reload}><RefreshCw aria-hidden="true"/>Refresh</button><button onClick={() => window.print()}><Printer aria-hidden="true"/>Print sheet</button></div></header>
     <main className="entry-paper">
-      <div className="entry-heading"><div><h1>Entry sheet</h1><p>MeridianFlow procurement</p></div><div><p className="code">{data?.changes[0]?.id || "Change pending"}</p><Link href="/">Compare versions</Link></div></div>
+      <div className="entry-heading"><div><h1>Entry sheet</h1><p>MeridianFlow procurement</p></div><div><p className="code">{data?.changes[0]?.id || "Change pending"}</p><Link href="/versions">Compare versions</Link></div></div>
       <nav className="entry-tabs" aria-label="Entry sheet sections">{screens.map(item => <Link href={routeFor(2, item.id)} key={item.id} aria-current={item.id === screen ? "page" : undefined}>{item.id === "exposure" ? "Duty bill" : item.label}</Link>)}</nav>
       {error ? <div className="entry-section" role="alert"><p>{error}</p><button onClick={reload}>Retry</button></div>
         : !data ? <section className="entry-section">

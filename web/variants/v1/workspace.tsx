@@ -23,7 +23,7 @@ export default function ConsoleWorkspace({ screen }: {screen: Screen}) {
   return <div className="workspace" data-theme={dark ? "dark" : "light"}>
     <aside className="rail"><Link className="brand" href="/"><Layers aria-hidden="true"/>Keystone</Link>
       <nav aria-label="Main navigation">{screens.map((s,i) => { const Icon=icons[i]; return <Link key={s.id} href={routeFor(1,s.id)} aria-current={screen === s.id ? "page" : undefined}><Icon aria-hidden="true"/>{s.label}</Link>; })}</nav>
-      <div className="rail-footer"><p className="small muted">Decision integrity for industrial procurement</p><Link href="/">Compare design versions</Link><span className="small muted">Console / Version 1</span></div>
+      <div className="rail-footer"><p className="small muted">Decision integrity for industrial procurement</p><Link href="/versions">Compare design versions</Link><span className="small muted">Console / Version 1</span></div>
     </aside>
     <div className="workspace-body"><header className="topbar"><div className="row"><strong>MeridianFlow</strong><span className="muted">Procurement workspace</span></div><div className="row"><span className="status">{useFixtures ? "Fixture data" : "Live API"}</span><button onClick={()=>setDark(!dark)}>{dark ? "Light theme" : "Dark theme"}</button><button onClick={reload}><RefreshCw aria-hidden="true"/>Refresh</button></div></header>
       <main id="main" className="main"><div><div className="breadcrumb">Workspace / {screen === "inbox" || screen === "audit" ? label : "Changes / CE-0007 / " + label}</div>

@@ -1,0 +1,91 @@
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+
+/* Bootstrap theme: one calm accent, readable type, soft surfaces. */
+.ks {
+  --bs-primary: #2160c4;
+  --bs-primary-rgb: 33, 96, 196;
+  --bs-link-color: #2160c4;
+  --bs-link-color-rgb: 33, 96, 196;
+  --bs-body-font-family: "IBM Plex Sans", system-ui, sans-serif;
+  --bs-font-monospace: "IBM Plex Mono", ui-monospace, monospace;
+  --bs-body-font-size: .9375rem;
+  --bs-body-bg: #f4f6f9;
+  --bs-border-color: #e1e5eb;
+  --bs-border-radius: .5rem;
+  --ks-sidebar: 15rem;
+  --ks-ink-soft: #5b6573;
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  background: var(--bs-body-bg);
+  min-height: 100vh;
+  color: #1b1f24;
+}
+.ks .btn-primary { --bs-btn-bg: #2160c4; --bs-btn-border-color: #2160c4; --bs-btn-hover-bg: #1a4e9f; --bs-btn-hover-border-color: #1a4e9f; }
+.ks .text-soft { color: var(--ks-ink-soft) !important; }
+.ks .code { font-family: var(--bs-font-monospace); font-size: .85em; }
+.ks .money { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.ks .card { border-color: var(--bs-border-color); box-shadow: 0 1px 2px rgba(16, 24, 40, .04); }
+.ks .card-header { background: #fff; font-weight: 600; }
+.ks h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -.01em; }
+.ks h2 { font-size: 1.125rem; font-weight: 600; }
+.ks .table { --bs-table-hover-bg: #eef3fc; font-size: .875rem; margin-bottom: 0; }
+.ks .table thead th { color: var(--ks-ink-soft); font-weight: 500; white-space: nowrap; background: #f8f9fb; }
+.ks svg.lucide { width: 1rem; height: 1rem; flex-shrink: 0; }
+.ks :focus-visible { outline: 3px solid #2160c4; outline-offset: 2px; }
+
+/* Shell */
+.ks-topbar { height: 3.75rem; background: #fff; border-bottom: 1px solid var(--bs-border-color); position: sticky; top: 0; z-index: 20; }
+.ks-brand { font-weight: 600; font-size: 1.05rem; color: #1b1f24; text-decoration: none; display: inline-flex; gap: .5rem; align-items: center; }
+.ks-brand svg { color: #2160c4; }
+.ks-avatar { width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #e7effc; color: #1a4e9f; font-weight: 600; font-size: .8125rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ks-role-select { min-width: 12.5rem; }
+.ks-sidebar { width: var(--ks-sidebar); flex-shrink: 0; background: #fff; border-right: 1px solid var(--bs-border-color); min-height: calc(100vh - 3.75rem); position: sticky; top: 3.75rem; align-self: flex-start; }
+.ks-sidebar .nav-link { color: #3a4350; border-radius: .5rem; display: flex; gap: .625rem; align-items: center; padding: .5rem .75rem; }
+.ks-sidebar .nav-link:hover { background: #f1f4f8; }
+.ks-sidebar .nav-link.active { background: #e7effc; color: #1a4e9f; font-weight: 500; }
+.ks-main { min-width: 0; flex: 1; padding: 1.75rem 2rem 3rem; max-width: 82rem; }
+.ks-banner { font-size: .8125rem; color: var(--ks-ink-soft); }
+
+/* Home */
+.ks-hero { background: linear-gradient(0deg, #fff, #fff); border: 1px solid var(--bs-border-color); border-radius: .75rem; }
+.ks-kpi .value { font-size: 1.75rem; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.ks-kpi .label { color: var(--ks-ink-soft); font-size: .8125rem; }
+.ks-step { text-decoration: none; color: inherit; }
+.ks-step:hover { background: #f6f9ff; }
+
+/* Source viewer and reused views sit inside the Bootstrap cards. */
+.ks .legacy { background: transparent; font-family: var(--bs-body-font-family); }
+.ks .legacy.lineage-app, .ks .legacy.brief-app { min-height: 0; }
+.ks-field { text-align: left; border: 0; border-left: 3px solid transparent; background: #fff; width: 100%; }
+.ks-field[aria-pressed="true"] { border-left-color: #2160c4; background: #f2f6fd; }
+.ks-field:hover { background: #f6f9ff; }
+.ks-math { background: #f8f9fb; font-family: var(--bs-font-monospace); font-size: .8125rem; }
+
+.ks-mobile-nav { display: none !important; overflow-x: auto; gap: .25rem; background: #fff; border-bottom: 1px solid var(--bs-border-color); padding: .5rem 1rem; }
+.ks-mobile-nav .nav-link { white-space: nowrap; color: #3a4350; border-radius: .5rem; padding: .375rem .75rem; }
+.ks-mobile-nav .nav-link.active { background: #e7effc; color: #1a4e9f; }
+
+@media (max-width: 900px) {
+  .ks-sidebar { display: none; }
+  .ks-main { padding: 1.25rem 1rem 2.5rem; }
+  .ks-mobile-nav { display: flex !important; }
+  .ks-role-select { min-width: 0; width: 11rem; }
+  .ks-topbar { gap: .5rem !important; }
+}
+
+@media print {
+  .ks-topbar, .ks-sidebar, .ks-mobile-nav, .ks-no-print { display: none !important; }
+  .ks-main { padding: 0; max-width: none; }
+}
+
+/* Reused views use their own `.row` (a simple flex row). Undo Bootstrap's grid
+   gutters and full-width columns inside them. */
+.ks .legacy .row { margin: 0; --bs-gutter-x: 0; --bs-gutter-y: 0; }
+.ks .legacy .row > * { width: auto; max-width: none; padding: 0; margin-top: 0; flex-shrink: 1; }
+.ks .legacy .lineage-heading h1 { font-size: 1.25rem; }
+/* Bootstrap makes labels inline-block; the reused views wrap fields in labels. */
+.ks .legacy label { display: block; }
+.ks .legacy label textarea { margin-top: .375rem; }

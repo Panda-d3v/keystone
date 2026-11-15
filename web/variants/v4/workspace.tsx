@@ -22,7 +22,7 @@ export default function TriageWorkspace({ screen }: { screen: Screen }) {
     </header>
     <nav className="triage-nav" aria-label="Triage sections">
       {screens.map(item => <Link href={routeFor(4, item.id)} key={item.id} aria-current={screen === item.id ? "page" : undefined}>{item.label}</Link>)}
-      <Link href="/">Design versions</Link>
+      <Link href="/versions">Design versions</Link>
     </nav>
     {workspace.error ? <main className="triage-error"><p role="alert">{workspace.error}</p><button onClick={workspace.reload}>Retry</button></main>
       : !workspace.data ? <main className="triage-error">

@@ -41,3 +41,17 @@ T15 should export an `APIRouter` named `router` from `api.routes`; the bootstrap
 See [task breakdown](docs/reference/keystone-task-breakdown.pdf), [technical design](docs/reference/keystone-technical-design.pdf), and [demo pack](docs/reference/keystone-demo-pack.zip). Original files are preserved without modification.
 
 Work on a dedicated branch, keep contract changes coordinated in #ai-builders, and open PRs with validation output. Task completion updates include PR and GitHub check status. Human reviewers merge at the agreed merge windows.
+
+## The demo platform
+
+http://localhost:3000 is one Keystone platform for every role. Pick who you are in **Viewing as** at the top right:
+
+| Role | Lands on | Sees |
+|---|---|---|
+| Sourcing manager (Maya Chen) | Home | Intake, Exposure, Decisions, Evidence, Actions, Audit log |
+| Trade compliance (Priya Raman) | Home | Intake, Evidence, Exposure with the old vs new duty bill, Actions, Audit log |
+| Analyst (Sam Okafor) | Home | Exposure, **Lineage** graph, Decisions, Audit log |
+| Approver (Elena Park) | **Brief** | Brief (PDF export, approve or decline), Decisions, Evidence, Audit log |
+
+Share a role directly with `?as=sourcing|compliance|analyst|approver`, e.g. http://localhost:3000/?as=approver. The five earlier design explorations are archived at http://localhost:3000/versions.
+

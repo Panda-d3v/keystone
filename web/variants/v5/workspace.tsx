@@ -65,7 +65,7 @@ export default function BriefWorkspace() {
             <Printer aria-hidden="true" />
             Print
           </button>
-          <Link href="/">Compare versions</Link>
+          <Link href="/versions">Compare versions</Link>
         </div>
       </header>
       {exportError && (
@@ -90,7 +90,7 @@ export default function BriefWorkspace() {
     </div>
   );
 }
-function BriefContent({
+export function BriefContent({
   data,
   reload,
 }: {
