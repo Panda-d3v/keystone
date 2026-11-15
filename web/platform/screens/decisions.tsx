@@ -2,19 +2,16 @@
 import Link from "next/link";
 import type { WorkspaceData } from "@/lib/contracts";
 import { money } from "@/lib/format";
-import type { Role } from "../roles";
 import { decisionStory } from "../story";
 import { EmptyWorkspace, PageHead } from "../shell";
 
 const signed = (value: number) => `${value < 0 ? "−" : "+"}${money(Math.abs(value))}`;
 
-export function Decisions({ data, role }: { data: WorkspaceData | null; role: Role }) {
-  if (!data) return <EmptyWorkspace />;
+export function Decisions({ data }: { data: WorkspaceData | null }) {
+  if (!data) return <><PageHead title="Supplier decisions" /><EmptyWorkspace /></>;
   const change = data.changes[0];
   return <div className="d-grid gap-4">
-    <PageHead eyebrow="Supplier awards" title="Decisions">
-      Supplier choices whose reasons changed, and what each option costs now.
-    </PageHead>
+    <PageHead title="Supplier decisions">Awards priced on a rate that has since changed, with each option at the new rate.</PageHead>
     {!data.decisions.length && <div className="card"><div className="card-body">No decisions are affected.</div></div>}
     {data.decisions.map(d => {
       const s = decisionStory(d, change, data.evidence);
@@ -37,17 +34,17 @@ export function Decisions({ data, role }: { data: WorkspaceData | null; role: Ro
             <thead><tr><th>Option</th><th>Condition</th><th className="money">Annual landed cost</th><th className="money">Against today</th></tr></thead>
             <tbody>
               <tr><td>Stay with {s.incumbent}</td><td>At the new rate</td><td className="money">{money(d.incumbent_annual_usd)}</td><td className="money text-soft">–</td></tr>
-              <tr><td>Switch to {s.alternative}</td><td>With melt-and-pour proof</td><td className="money">{money(d.alternative_with_proof_annual_usd)}</td>
+              <tr><td>Switch to {s.alternative}</td><td>With US fab proof</td><td className="money">{money(d.alternative_with_proof_annual_usd)}</td>
                 <td className="money fw-medium" style={{ color: s.withProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(s.withProof)}</td></tr>
-              <tr><td>Switch to {s.alternative}</td><td>Without proof</td><td className="money">{money(d.alternative_without_proof_annual_usd)}</td>
+              <tr><td>Switch to {s.alternative}</td><td>Without US fab proof</td><td className="money">{money(d.alternative_without_proof_annual_usd)}</td>
                 <td className="money fw-medium" style={{ color: s.withoutProof < 0 ? "var(--good)" : "var(--bad)" }}>{signed(s.withoutProof)}</td></tr>
             </tbody>
           </table></div>
 
           <div className="alert alert-primary mb-0">{s.verdict}</div>
           <div className="d-flex gap-2 flex-wrap">
-            {role.pages.includes("actions") && <Link className="btn btn-primary" href="/actions">Request the missing documents</Link>}
-            {role.pages.includes("exposure") && <Link className="btn btn-outline-primary" href="/exposure">See the affected orders</Link>}
+            <Link className="btn btn-primary" href="/sourcing/requests">Request the missing documents</Link>
+            <Link className="btn btn-outline-secondary" href="/sourcing/cost-impact">See the affected orders</Link>
           </div>
         </div>
       </article>;

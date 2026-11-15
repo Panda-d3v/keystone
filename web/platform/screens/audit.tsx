@@ -14,14 +14,14 @@ export function Audit({ data }: { data: WorkspaceData | null }) {
   const [result, setResult] = useState<{ valid: boolean; reason: string } | null>(null);
   const [query, setQuery] = useState("");
   const events = useMemo(() => [...(data?.audit ?? [])].sort((a, b) => b.occurred_at.localeCompare(a.occurred_at)), [data]);
-  if (!data) return <EmptyWorkspace />;
+  if (!data) return <><PageHead title="Audit log" /><EmptyWorkspace /></>;
   const q = query.trim().toLowerCase();
   const shown = events.filter(e => !q || `${actorName(e.actor)} ${e.type} ${e.entity_id}`.toLowerCase().includes(q));
   return <div className="d-grid gap-4">
-    <PageHead eyebrow="Governance" title="Audit log"
+    <PageHead title="Audit log"
       actions={<button className="btn btn-outline-primary" onClick={async () => setResult(await verifyAudit(data.audit))}>
         <ShieldCheck aria-hidden="true" className="lucide" />Verify the chain</button>}>
-      Every step Keystone and your team took, each linked to the one before it.
+      Every system and user step, each hashed and linked to the one before.
     </PageHead>
     {result && <div className={`alert mb-0 ${result.valid ? "alert-success" : "alert-danger"}`} role="status">
       {result.valid ? `All ${data.audit.length} events are intact and in order.` : result.reason}</div>}

@@ -1,2 +1,2 @@
-import { PlatformPage } from "@/platform/page";
-export default function Page() { return <PlatformPage page="home" />; }
+import { RoleRedirect } from "@/platform/page";
+export default function Page() { return <RoleRedirect />; }

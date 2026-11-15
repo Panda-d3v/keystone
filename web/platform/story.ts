@@ -2,7 +2,7 @@
 // differences the decision rule already returns.
 import type { ChangeEvent, DecisionCheck, EvidenceStatus, WorkspaceData } from "@/lib/contracts";
 import { date, money, percent } from "@/lib/format";
-import { AWARDS, hts, supplierName, SUPPLIERS } from "./names";
+import { AWARDS, hts, PROOF, supplierName, SUPPLIERS } from "./names";
 
 export function changeHeadline(change: ChangeEvent): string {
   const codes = change.hts_scope.map(hts);
@@ -14,6 +14,7 @@ export interface DecisionStory {
   title: string;
   happened: string;
   broke: string;
+  lede: string;
   incumbent: string;
   alternative: string;
   before?: number | null;
@@ -40,6 +41,9 @@ export function decisionStory(d: DecisionCheck, change: ChangeEvent | undefined,
     broke: d.status === "broken"
       ? `That assumption no longer holds: the duty is now ${rate}${change ? ` from ${date(change.effective_date)}` : ""}.`
       : "The award's assumptions still hold.",
+    lede: d.status === "broken" && change
+      ? `The award was priced at ${percent(change.old_rate)} duty; from ${date(change.effective_date)} it is ${rate}.`
+      : "",
     incumbent,
     alternative,
     before: d.incumbent_before_annual_usd,
@@ -47,7 +51,7 @@ export function decisionStory(d: DecisionCheck, change: ChangeEvent | undefined,
     withProof,
     withoutProof,
     verdict: withProof < 0 && withoutProof > 0
-      ? `Switching to ${alternative} saves ${money(-withProof)} a year, but only with melt-and-pour proof. Without it, the switch costs ${money(withoutProof)} more.`
+      ? `Switching to ${alternative} saves ${money(-withProof)} a year, but only with ${PROOF}. Without it, the switch costs ${money(withoutProof)} more.`
       : withProof < 0
         ? `Switching to ${alternative} saves ${money(-withProof)} a year.`
         : `${incumbent} is still the cheapest documented option.`,

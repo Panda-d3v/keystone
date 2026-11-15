@@ -1,29 +1,46 @@
 "use client";
-import { Shell } from "./shell";
-import type { PageId } from "./roles";
-import { Home } from "./screens/home";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Shell, rememberedRole } from "./shell";
+import { roleById, roleOfStep, type StepId } from "./roles";
+import { SourcingOverview, CostImpact } from "./screens/sourcing";
+import { Parts } from "./screens/parts";
+import { ComplianceOverview, DutyBill } from "./screens/compliance";
+import { AnalystOverview, Calculations } from "./screens/analyst";
 import { Intake } from "./screens/intake";
-import { Exposure } from "./screens/exposure";
 import { Decisions } from "./screens/decisions";
 import { Evidence } from "./screens/evidence";
 import { Actions } from "./screens/actions";
 import { Audit } from "./screens/audit";
-import { Brief, Lineage } from "./screens/specialist";
+import { Brief, DecisionHistory, Lineage } from "./screens/specialist";
 
-/** One platform, one shell; the role decides the menu and the landing page. */
-export function PlatformPage({ page }: { page: PageId }) {
-  return <Shell page={page}>{({ role, data, reload, useFixtures }) => {
-    const shown = page === "home" ? role.home : page;
-    switch (shown) {
-      case "home": return <Home data={data} role={role} />;
-      case "intake": return <Intake data={data} useFixtures={useFixtures} reload={reload} />;
-      case "exposure": return <Exposure data={data} role={role} />;
-      case "decisions": return <Decisions data={data} role={role} />;
-      case "evidence": return <Evidence data={data} role={role} />;
-      case "actions": return <Actions data={data} />;
-      case "lineage": return <Lineage data={data} />;
-      case "brief": return <Brief data={data} />;
-      case "audit": return <Audit data={data} />;
+/** One platform; each step belongs to exactly one role. */
+export function PlatformPage({ step }: { step: StepId }) {
+  const role = roleOfStep(step);
+  return <Shell roleId={role.id} stepId={step}>{({ data, outcomes, record }) => {
+    switch (step) {
+      case "sourcing-overview": return <SourcingOverview data={data} />;
+      case "sourcing-parts": return <Parts data={data} />;
+      case "sourcing-decisions": return <Decisions data={data} />;
+      case "sourcing-cost": return <CostImpact data={data} />;
+      case "sourcing-requests": return <Actions data={data} outcomes={outcomes} record={record} />;
+      case "compliance-overview": return <ComplianceOverview data={data} />;
+      case "compliance-documents": return <Intake data={data} />;
+      case "compliance-evidence": return <Evidence data={data} />;
+      case "compliance-duty": return <DutyBill data={data} />;
+      case "analyst-overview": return <AnalystOverview data={data} />;
+      case "analyst-lineage": return <Lineage data={data} />;
+      case "analyst-calculations": return <Calculations data={data} />;
+      case "analyst-audit": return <Audit data={data} />;
+      case "approver-brief": return <Brief data={data} outcomes={outcomes} record={record} />;
+      case "approver-history": return <DecisionHistory data={data} />;
     }
   }}</Shell>;
+}
+
+/** "/" sends people to the first step of the role they last used. */
+export function RoleRedirect() {
+  const router = useRouter();
+  useEffect(() => { router.replace(roleById(rememberedRole()).steps[0].path); }, [router]);
+  return null;
 }

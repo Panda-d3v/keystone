@@ -1,64 +1,67 @@
-// Who is using Keystone. Everyone shares one platform and one look; each role
-// gets only the pages its job needs, in the order it works.
-//
-//   Sourcing manager  decides supplier awards      Home, Decisions, Exposure, Actions
-//   Trade compliance  proves duty claims           Home, Intake, Evidence, Duty bill
-//   Analyst           traces every number          Home, Lineage, Exposure, Audit log
-//   Approver          signs off the change         Brief, Audit log
-
-export type PageId =
-  | "home" | "intake" | "exposure" | "decisions" | "evidence" | "actions"
-  | "lineage" | "brief" | "audit";
+// Four roles, four separate workspaces. No page is shared: each role works
+// through its own steps, shown as a step bar in the order the job is done.
 
 export type RoleId = "sourcing" | "compliance" | "analyst" | "approver";
+
+export type StepId =
+  | "sourcing-overview" | "sourcing-parts" | "sourcing-decisions" | "sourcing-cost" | "sourcing-requests"
+  | "compliance-overview" | "compliance-documents" | "compliance-evidence" | "compliance-duty"
+  | "analyst-overview" | "analyst-lineage" | "analyst-calculations" | "analyst-audit"
+  | "approver-brief" | "approver-history";
+
+export interface Step {
+  id: StepId;
+  label: string;
+  path: string;
+}
 
 export interface Role {
   id: RoleId;
   label: string;
   person: string;
   initials: string;
-  focus: string;
-  home: PageId;
-  pages: PageId[];
-  /** Same page, named for how this role uses it. */
-  labels?: Partial<Record<PageId, string>>;
+  steps: Step[];
 }
+
+const step = (id: StepId, label: string, path: string): Step => ({ id, label, path });
 
 export const ROLES: Role[] = [
   {
     id: "sourcing", label: "Sourcing manager", person: "Maya Chen", initials: "MC",
-    focus: "Keep supplier decisions right when trade rules change.",
-    home: "home", pages: ["home", "decisions", "exposure", "actions"],
+    steps: [
+      step("sourcing-overview", "Overview", "/sourcing"),
+      step("sourcing-parts", "Parts", "/sourcing/parts"),
+      step("sourcing-decisions", "Supplier decisions", "/sourcing/decisions"),
+      step("sourcing-cost", "Cost impact", "/sourcing/cost-impact"),
+      step("sourcing-requests", "Supplier requests", "/sourcing/requests"),
+    ],
   },
   {
     id: "compliance", label: "Trade compliance", person: "Priya Raman", initials: "PR",
-    focus: "Make sure every duty claim is backed by documents.",
-    home: "home", pages: ["home", "intake", "evidence", "exposure"],
-    labels: { exposure: "Duty bill" },
+    steps: [
+      step("compliance-overview", "Overview", "/compliance"),
+      step("compliance-documents", "Documents", "/compliance/documents"),
+      step("compliance-evidence", "Evidence", "/compliance/evidence"),
+      step("compliance-duty", "Duty bill", "/compliance/duty-bill"),
+    ],
   },
   {
     id: "analyst", label: "Analyst", person: "Sam Okafor", initials: "SO",
-    focus: "Trace every number back to the rows and rules behind it.",
-    home: "home", pages: ["home", "lineage", "exposure", "audit"],
+    steps: [
+      step("analyst-overview", "Overview", "/analyst"),
+      step("analyst-lineage", "Lineage", "/analyst/lineage"),
+      step("analyst-calculations", "Calculations", "/analyst/calculations"),
+      step("analyst-audit", "Audit log", "/analyst/audit"),
+    ],
   },
   {
     id: "approver", label: "Approver", person: "Elena Park", initials: "EP",
-    focus: "Decide on supplier changes with the full case in one place.",
-    home: "brief", pages: ["brief", "audit"],
+    steps: [
+      step("approver-brief", "Decision brief", "/approver"),
+      step("approver-history", "Decision history", "/approver/history"),
+    ],
   },
 ];
-
-export const PAGES: Record<PageId, { label: string; path: string; description: string }> = {
-  home: { label: "Home", path: "/", description: "What needs you today" },
-  intake: { label: "Intake", path: "/intake", description: "Documents received and what they say" },
-  exposure: { label: "Exposure", path: "/exposure", description: "Which orders cost more, and by how much" },
-  decisions: { label: "Decisions", path: "/decisions", description: "Supplier choices that no longer hold" },
-  evidence: { label: "Evidence", path: "/evidence", description: "Proof a supplier still owes us" },
-  actions: { label: "Actions", path: "/actions", description: "Requests ready to send" },
-  lineage: { label: "Lineage", path: "/lineage", description: "Trace a number to its sources" },
-  brief: { label: "Brief", path: "/brief", description: "The case for a decision, on one page" },
-  audit: { label: "Audit log", path: "/audit", description: "Every step, signed and chained" },
-};
 
 export const DEFAULT_ROLE: RoleId = "sourcing";
 
@@ -66,11 +69,6 @@ export function roleById(id: string | null | undefined): Role {
   return ROLES.find(role => role.id === id) ?? ROLES.find(role => role.id === DEFAULT_ROLE)!;
 }
 
-export function pageLabel(role: Role, page: PageId): string {
-  return role.labels?.[page] ?? PAGES[page].label;
-}
-
-/** Which role owns a page that the current role does not see. */
-export function ownerOf(page: PageId): Role | undefined {
-  return ROLES.find(role => role.pages.includes(page));
+export function roleOfStep(stepId: StepId): Role {
+  return ROLES.find(role => role.steps.some(s => s.id === stepId))!;
 }

@@ -2,12 +2,11 @@ import React from "react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { PlatformPage } from "./page";
-import { PAGES, ROLES, roleById } from "./roles";
+import { ROLES, roleById, roleOfStep } from "./roles";
 import { hts } from "./names";
 
 const push = vi.fn();
-vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
-vi.mock("@/variants/v1/pdf-page", () => ({ default: () => <div aria-label="PDF page" /> }));
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push, replace: push }) }));
 
 function as(role: string) {
   window.localStorage.setItem("keystone.role", role);
@@ -23,120 +22,127 @@ beforeEach(() => {
 });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
-it("gives every role one platform with its own menu and specialist view", () => {
-  for (const role of ROLES) {
-    expect(role.pages).toContain(role.home);
-    expect(role.pages.length).toBeLessThanOrEqual(4);  // each role sees only what its job needs
+it("gives each role its own steps, with no page shared between roles", () => {
+  const paths = ROLES.flatMap(role => role.steps.map(step => step.path));
+  expect(new Set(paths).size).toBe(paths.length);
+  for (const role of ROLES) for (const step of role.steps) {
+    expect(step.path.startsWith(`/${role.id}`)).toBe(true);
+    expect(roleOfStep(step.id).id).toBe(role.id);
   }
-  // No two roles share the same menu.
-  expect(new Set(ROLES.map(role => role.pages.join(","))).size).toBe(ROLES.length);
-  expect(roleById("sourcing").pages).toEqual(["home", "decisions", "exposure", "actions"]);
-  expect(roleById("compliance").pages).toEqual(["home", "intake", "evidence", "exposure"]);
-  expect(roleById("analyst").pages).toEqual(["home", "lineage", "exposure", "audit"]);
-  expect(roleById("approver").pages).toEqual(["brief", "audit"]);
-  expect(ROLES.filter(role => role.pages.includes("lineage")).map(role => role.id)).toEqual(["analyst"]);
-  expect(ROLES.filter(role => role.pages.includes("brief")).map(role => role.id)).toEqual(["approver"]);
+  expect(roleById("sourcing").steps.map(s => s.label)).toEqual(["Overview", "Parts", "Supplier decisions", "Cost impact", "Supplier requests"]);
+  expect(roleById("compliance").steps.map(s => s.label)).toEqual(["Overview", "Documents", "Evidence", "Duty bill"]);
+  expect(roleById("analyst").steps.map(s => s.label)).toEqual(["Overview", "Lineage", "Calculations", "Audit log"]);
+  expect(roleById("approver").steps.map(s => s.label)).toEqual(["Decision brief", "Decision history"]);
   expect(roleById("nobody").id).toBe("sourcing");
-  expect(Object.values(PAGES).every(page => page.path.startsWith("/"))).toBe(true);
 });
 
-it("greets the person and lists their next steps", async () => {
-  render(<PlatformPage page="home" />);
-  expect(await screen.findByRole("heading", { name: /, Maya$/ })).toBeTruthy();
-  const steps = screen.getByText("Your next steps").closest(".card") as HTMLElement;
-  expect(within(steps).getByText("Review the pump casing award")).toBeTruthy();
-  expect(within(steps).getByText("It now costs $198,760 more a year.")).toBeTruthy();
-  expect(screen.getAllByText("$470,687").length).toBeGreaterThan(0);
+it("shows the step bar, the company and no live, refresh or footnote", async () => {
+  render(<PlatformPage step="sourcing-overview" />);
+  const nav = await screen.findByRole("navigation", { name: "Sourcing manager steps" });
+  expect(within(nav).getAllByRole("link").map(a => a.textContent)).toEqual(["1Overview", "2Parts", "3Supplier decisions", "4Cost impact", "5Supplier requests"]);
+  expect(within(nav).getByText("Overview").closest("a")?.getAttribute("aria-current")).toBe("step");
+  expect(screen.getByText("Larkspur Mobile")).toBeTruthy();
+  expect(screen.queryByText(/^Live$/)).toBeNull();
+  expect(screen.queryByRole("button", { name: /refresh/i })).toBeNull();
+  expect(screen.queryByText(/Illustrative/)).toBeNull();
+  expect(window.localStorage.getItem("keystone.role")).toBe("sourcing");
 });
 
-it("switches roles from the top bar and changes the menu", async () => {
-  render(<PlatformPage page="home" />);
-  const nav = await screen.findByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).queryByText("Lineage")).toBeNull();
-  fireEvent.change(screen.getByLabelText("Viewing as"), { target: { value: "analyst" } });
-  expect(within(nav).getByText("Lineage")).toBeTruthy();
-  expect(await screen.findByText("Trace the $470,687")).toBeTruthy();
-  expect(window.localStorage.getItem("keystone.role")).toBe("analyst");
+it("switches role from the dropdown in the top bar", async () => {
+  render(<PlatformPage step="sourcing-overview" />);
+  fireEvent.click(await screen.findByRole("button", { name: "Viewing as: Maya Chen" }));
+  const list = screen.getByRole("listbox", { name: "Viewing as" });
+  expect(within(list).getAllByRole("option").map(o => o.textContent)).toEqual([
+    "MCMaya ChenSourcing manager", "PRPriya RamanTrade compliance", "SOSam OkaforAnalyst", "EPElena ParkApprover"]);
+  fireEvent.click(within(list).getByText("Sam Okafor"));
+  expect(push).toHaveBeenCalledWith("/analyst");
 });
 
-it("explains when a page belongs to another role", async () => {
-  render(<PlatformPage page="lineage" />);
-  expect(await screen.findByRole("heading", { name: "Lineage belongs to the analyst view" })).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "View as Sam Okafor, Analyst" }));
-  expect(window.localStorage.getItem("keystone.role")).toBe("analyst");
+it("shows one part at a time with its duty, quotes and orders", async () => {
+  render(<PlatformPage step="sourcing-parts" />);
+  expect(await screen.findByRole("heading", { name: "LPDDR5X memory, 12 GB" })).toBeTruthy();
+  expect(screen.getByText("Section 232 semiconductors, rate increase")).toBeTruthy();
+  expect(screen.getByText(/Quote Q-SRM-2611 at \$29.60, no duty with US fab proof/)).toBeTruthy();
+  fireEvent.click(screen.getByRole("button", { name: /^Part: / }));
+  fireEvent.change(screen.getByLabelText("Search part"), { target: { value: "battery" } });
+  fireEvent.click(screen.getByText("Lithium-ion battery, 4,000 mAh"));
+  expect(screen.getByRole("heading", { name: "Lithium-ion battery, 4,000 mAh" })).toBeTruthy();
+  expect(screen.getByText(/No tariff updates/)).toBeTruthy();
 });
 
-it("lands the approver on the Brief", async () => {
-  as("approver");
-  render(<PlatformPage page="home" />);
-  expect(await screen.findByRole("button", { name: "Approve request" })).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getByText("Brief").closest("a")?.getAttribute("aria-current")).toBe("page");
+it("groups the sourcing manager's cost impact by supplier", async () => {
+  render(<PlatformPage step="sourcing-cost" />);
+  const table = await screen.findByRole("table");
+  const first = within(table).getAllByRole("row")[1];
+  const supplier = within(first).getByRole("button", { name: "Hsinchu Advanced Silicon" });
+  expect(within(first).getByText("Hsinchu, Taiwan")).toBeTruthy();
+  const rows = within(table).getAllByRole("row").length;
+  fireEvent.click(supplier);
+  expect(within(table).getAllByRole("row").length).toBe(rows + 8);
+});
+
+it("gives trade compliance the duty bill by HTS heading", async () => {
+  render(<PlatformPage step="compliance-duty" />);
+  expect(await screen.findByRole("heading", { name: "Duty bill" })).toBeTruthy();
+  expect(screen.getAllByText("8542.31").length).toBeGreaterThan(0);
+  expect(screen.getByText("Processors and controllers")).toBeTruthy();
+  expect(screen.getByText("+$2,410,809")).toBeTruthy();
+  expect(screen.getAllByText(/Dallas\/Fort Worth, Texas/).length).toBeGreaterThan(0);
+});
+
+it("lets the analyst reconcile every line", async () => {
+  render(<PlatformPage step="analyst-calculations" />);
+  expect(await screen.findByText("Reconciles")).toBeTruthy();
+  expect(screen.getAllByText("$2,155,600.00 × (25.00% − 10.00%) = $323,340.00")).toHaveLength(2);
+});
+
+it("gives the approver the Brief with a PDF download, and records the decision", async () => {
+  render(<PlatformPage step="approver-brief" />);
+  expect(await screen.findByRole("heading", { name: "LPDDR5X memory award: decision required" })).toBeTruthy();
+  expect(screen.getByRole("img", { name: /rose from \$20,583,200 by \$2,806,800 to \$23,390,000/ })).toBeTruthy();
+  expect(screen.getByRole("button", { name: /Download PDF/ })).toBeTruthy();
+  fireEvent.click(screen.getByRole("button", { name: "Approve and send" }));
+  expect(await screen.findByText("Request sent to Snake River Memory")).toBeTruthy();
+  const events = JSON.parse(window.localStorage.getItem("keystone.phones.outcomes.v1") || "[]");
+  expect(events[0].event).toMatchObject({ id: "AUD-0014", type: "action_sent", actor: "elena.park", entity_id: "ACT-0021" });
+});
+
+it("shows the approver the decision history", async () => {
+  render(<PlatformPage step="approver-history" />);
+  expect(await screen.findByRole("heading", { name: "Decision history" })).toBeTruthy();
+  expect(screen.getByText("LPDDR5X memory award awarded to Hanul Semiconductor")).toBeTruthy();
+  expect(screen.getByText("New rate takes effect")).toBeTruthy();
 });
 
 it("tells the decision story with names and the rule deltas", async () => {
-  render(<PlatformPage page="decisions" />);
-  expect(await screen.findByText(/5 pump casings were awarded to Ningbo Haitai Precision Casting \(China\)/)).toBeTruthy();
-  expect(screen.getByText("−$49,690")).toBeTruthy();
-  expect(screen.getByText("+$178,884")).toBeTruthy();
-  expect(screen.getByText(/Switching to Sheffield Forge & Pattern saves \$49,690 a year, but only with melt-and-pour proof/)).toBeTruthy();
+  render(<PlatformPage step="sourcing-decisions" />);
+  expect(await screen.findByText(/2 LPDDR5X memory parts were awarded to Hanul Semiconductor \(South Korea\)/)).toBeTruthy();
+  expect(screen.getByText("−$3,364,000")).toBeTruthy();
+  expect(screen.getByText("+$1,642,500")).toBeTruthy();
+  expect(screen.getByText(/Switching to Snake River Memory saves \$3,364,000 a year, but only with proof the wafers were fabricated in the US/)).toBeTruthy();
 });
 
-it("lists the largest added duty first, with supplier names", async () => {
-  render(<PlatformPage page="exposure" />);
-  const table = await screen.findByRole("table");
-  const first = within(table).getAllByRole("row")[1];
-  expect(within(first).getByText("PO-4504 / 1")).toBeTruthy();
-  expect(within(first).getByText("Ningbo Haitai Precision Casting")).toBeTruthy();
-  expect(within(table).queryByText("Previous duty")).toBeNull();
-  fireEvent.click(within(first).getByRole("button", { name: "PO-4504 / 1" }));
-  expect(within(table).getByText("$307,200.00 × (50.00% − 25.00%) = $76,800.00")).toBeTruthy();
-});
-
-it("shows trade compliance the duty bill", async () => {
-  as("compliance");
-  render(<PlatformPage page="exposure" />);
-  expect(await screen.findByRole("heading", { name: "Duty bill" })).toBeTruthy();
-  expect(screen.getByText("Duty by order line")).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getByText("Duty bill")).toBeTruthy();
-  expect(within(nav).queryByText("Decisions")).toBeNull();
-  expect(screen.getByText("Previous duty")).toBeTruthy();
-  expect(screen.getByText("New duty")).toBeTruthy();
-});
-
-it("names the supplier and heats on the evidence page", async () => {
-  as("compliance");
-  render(<PlatformPage page="evidence" />);
-  expect(await screen.findByRole("heading", { name: "Sheffield Forge & Pattern" })).toBeTruthy();
-  expect(screen.getByText(/United Kingdom\./)).toBeTruthy();
-  expect(screen.getByText(/heats SF-24117 and SF-24121/)).toBeTruthy();
+it("names the supplier and lots on the evidence page", async () => {
+  render(<PlatformPage step="compliance-evidence" />);
+  expect(await screen.findByRole("heading", { name: "Snake River Memory" })).toBeTruthy();
+  expect(screen.getByText(/lots SRM-2611-A and SRM-2611-B, from Boise, Idaho/)).toBeTruthy();
   expect(screen.getByText("Unreadable")).toBeTruthy();
   expect(screen.getByText("Missing")).toBeTruthy();
+  expect(screen.getByRole("img", { name: "Highlighted source region" })).toBeTruthy();
 });
 
 it("formats HTS codes for people", () => {
-  expect(hts("841391")).toBe("8413.91");
-  expect(hts("8413919095")).toBe("8413.91.9095");
+  expect(hts("854231")).toBe("8542.31");
+  expect(hts("8542320036")).toBe("8542.32.0036");
   expect(hts("not-a-code")).toBe("not-a-code");
 });
 
-it("gives the approver a native Brief with the waterfall and the decision", async () => {
-  as("approver");
-  render(<PlatformPage page="brief" />);
-  expect(await screen.findByRole("heading", { name: "The pump casing award needs your decision" })).toBeTruthy();
-  expect(screen.getByRole("img", { name: /rose from \$993,800 by \$198,760 to \$1,192,560/ })).toBeTruthy();
-  expect(screen.getByRole("button", { name: "Decline request" })).toBeTruthy();
-  const nav = screen.getByRole("navigation", { name: "Main navigation" });
-  expect(within(nav).getAllByRole("link").map(link => link.textContent)).toEqual(["Brief", "Audit log"]);
-});
-
-it("keeps the source document beside the fields on Intake", async () => {
-  as("compliance");
-  render(<PlatformPage page="intake" />);
+it("keeps the source document beside the fields on Documents, with no zoom", async () => {
+  render(<PlatformPage step="compliance-documents" />);
   const split = (await screen.findByText("What the bulletin says")).closest(".ks-split") as HTMLElement;
-  expect(split).toBeTruthy();
   expect(split.querySelector(".ks-pin")).toBeTruthy();
-  fireEvent.click(within(split).getByRole("button", { name: /Affected HTS headings/ }));
-  expect(within(split).getByRole("button", { name: /Affected HTS headings/ }).getAttribute("aria-pressed")).toBe("true");
+  fireEvent.click(within(split).getByRole("button", { name: /HTS headings/ }));
+  expect(within(split).getByRole("button", { name: /HTS headings/ }).getAttribute("aria-pressed")).toBe("true");
+  expect(within(split).getByText(/8542.31, 8542.32, 8542.39, 8523.51/, { selector: ".card-footer *, .card-footer" })).toBeTruthy();
+  expect(screen.queryByText(/Zoom/)).toBeNull();
 });

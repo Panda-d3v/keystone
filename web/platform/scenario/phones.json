@@ -1,0 +1,2824 @@
+{
+ "workspace": {
+  "changes": [
+   {
+    "id": "CE-0012",
+    "measure": "Section 232 semiconductors, rate increase",
+    "hts_scope": [
+     "854231",
+     "854232",
+     "854239",
+     "852351"
+    ],
+    "countries": [],
+    "old_rate": 0.1,
+    "new_rate": 0.25,
+    "basis": "full_customs_value",
+    "effective_date": "2027-01-01",
+    "citations": [
+     {
+      "doc_id": "CA-2026-311",
+      "page": 1,
+      "bbox": [
+       0.0784,
+       0.164,
+       0.7005,
+       0.1908
+      ],
+      "quote": "Section 232 semiconductors: duty rises to 25%"
+     }
+    ],
+    "field_citations": {
+     "measure": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.0784,
+        0.164,
+        0.7005,
+        0.1908
+       ],
+       "quote": "Section 232 semiconductors: duty rises to 25%"
+      }
+     ],
+     "hts_scope": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.3997,
+        0.6002,
+        0.4162
+       ],
+       "quote": "8542.31, 8542.32, 8542.39, 8523.51"
+      }
+     ],
+     "old_rate": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.4325,
+        0.5467,
+        0.4491
+       ],
+       "quote": "10% of the full customs value"
+      }
+     ],
+     "new_rate": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.4653,
+        0.5467,
+        0.4819
+       ],
+       "quote": "25% of the full customs value"
+      }
+     ],
+     "effective_date": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.4981,
+        0.7765,
+        0.5147
+       ],
+       "quote": "Goods entered on or after 12:01 a.m. EST, January 1, 2027"
+      }
+     ],
+     "basis": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.531,
+        0.7174,
+        0.5475
+       ],
+       "quote": "Full customs (entered) value, no content deductions"
+      }
+     ],
+     "countries": [
+      {
+       "doc_id": "CA-2026-311",
+       "page": 1,
+       "bbox": [
+        0.3235,
+        0.5638,
+        0.6897,
+        0.5804
+       ],
+       "quote": "All origins. US-fabricated wafers are not subject."
+      }
+     ]
+    }
+   }
+  ],
+  "exposure": {
+   "change_id": "CE-0012",
+   "affected_parts": 10,
+   "open_po_lines": 20,
+   "added_duty_usd": 2410809.0,
+   "annualized_added_duty_usd": 14457000,
+   "lines": [
+    {
+     "po_id": "PO-26-1111",
+     "line_no": 1,
+     "part_no": "LK-AP-4N",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-01-06",
+     "customs_value_usd": 1820000.0,
+     "added_duty_usd": 273000.0,
+     "old_duty_usd": 182000.0,
+     "new_duty_usd": 455000.0,
+     "math": "$1,820,000.00 × (25.00% − 10.00%) = $273,000.00"
+    },
+    {
+     "po_id": "PO-26-1111",
+     "line_no": 2,
+     "part_no": "LK-AP-3N",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-01-06",
+     "customs_value_usd": 2155600.0,
+     "added_duty_usd": 323340.0,
+     "old_duty_usd": 215560.0,
+     "new_duty_usd": 538900.0,
+     "math": "$2,155,600.00 × (25.00% − 10.00%) = $323,340.00"
+    },
+    {
+     "po_id": "PO-26-1111",
+     "line_no": 3,
+     "part_no": "LK-DD-61",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-01-06",
+     "customs_value_usd": 124740.0,
+     "added_duty_usd": 18711.0,
+     "old_duty_usd": 12474.0,
+     "new_duty_usd": 31185.0,
+     "math": "$124,740.00 × (25.00% − 10.00%) = $18,711.00"
+    },
+    {
+     "po_id": "PO-26-1111",
+     "line_no": 4,
+     "part_no": "LK-DD-67",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-01-06",
+     "customs_value_usd": 26000.0,
+     "added_duty_usd": 3900.0,
+     "old_duty_usd": 2600.0,
+     "new_duty_usd": 6500.0,
+     "math": "$26,000.00 × (25.00% − 10.00%) = $3,900.00"
+    },
+    {
+     "po_id": "PO-26-1112",
+     "line_no": 1,
+     "part_no": "LK-DR-08",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-01-09",
+     "customs_value_usd": 679000.0,
+     "added_duty_usd": 101850.0,
+     "old_duty_usd": 67900.0,
+     "new_duty_usd": 169750.0,
+     "math": "$679,000.00 × (25.00% − 10.00%) = $101,850.00"
+    },
+    {
+     "po_id": "PO-26-1112",
+     "line_no": 2,
+     "part_no": "LK-DR-12",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-01-09",
+     "customs_value_usd": 881260.0,
+     "added_duty_usd": 132189.0,
+     "old_duty_usd": 88126.0,
+     "new_duty_usd": 220315.0,
+     "math": "$881,260.00 × (25.00% − 10.00%) = $132,189.00"
+    },
+    {
+     "po_id": "PO-26-1112",
+     "line_no": 3,
+     "part_no": "LK-UF-256",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-01-09",
+     "customs_value_usd": 1213380.0,
+     "added_duty_usd": 182007.0,
+     "old_duty_usd": 121338.0,
+     "new_duty_usd": 303345.0,
+     "math": "$1,213,380.00 × (25.00% − 10.00%) = $182,007.00"
+    },
+    {
+     "po_id": "PO-26-1112",
+     "line_no": 4,
+     "part_no": "LK-UF-512",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-01-09",
+     "customs_value_usd": 369000.0,
+     "added_duty_usd": 55350.0,
+     "old_duty_usd": 36900.0,
+     "new_duty_usd": 92250.0,
+     "math": "$369,000.00 × (25.00% − 10.00%) = $55,350.00"
+    },
+    {
+     "po_id": "PO-26-1113",
+     "line_no": 1,
+     "part_no": "LK-PM-01",
+     "supplier_id": "S103",
+     "est_entry_date": "2027-01-12",
+     "customs_value_usd": 206770.0,
+     "added_duty_usd": 31015.5,
+     "old_duty_usd": 20677.0,
+     "new_duty_usd": 51692.5,
+     "math": "$206,770.00 × (25.00% − 10.00%) = $31,015.50"
+    },
+    {
+     "po_id": "PO-26-1114",
+     "line_no": 1,
+     "part_no": "LK-RF-5G",
+     "supplier_id": "S104",
+     "est_entry_date": "2027-01-15",
+     "customs_value_usd": 560280.0,
+     "added_duty_usd": 84042.0,
+     "old_duty_usd": 56028.0,
+     "new_duty_usd": 140070.0,
+     "math": "$560,280.00 × (25.00% − 10.00%) = $84,042.00"
+    },
+    {
+     "po_id": "PO-26-1121",
+     "line_no": 1,
+     "part_no": "LK-AP-4N",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-02-06",
+     "customs_value_usd": 1820000.0,
+     "added_duty_usd": 273000.0,
+     "old_duty_usd": 182000.0,
+     "new_duty_usd": 455000.0,
+     "math": "$1,820,000.00 × (25.00% − 10.00%) = $273,000.00"
+    },
+    {
+     "po_id": "PO-26-1121",
+     "line_no": 2,
+     "part_no": "LK-AP-3N",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-02-06",
+     "customs_value_usd": 2155600.0,
+     "added_duty_usd": 323340.0,
+     "old_duty_usd": 215560.0,
+     "new_duty_usd": 538900.0,
+     "math": "$2,155,600.00 × (25.00% − 10.00%) = $323,340.00"
+    },
+    {
+     "po_id": "PO-26-1121",
+     "line_no": 3,
+     "part_no": "LK-DD-61",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-02-06",
+     "customs_value_usd": 124740.0,
+     "added_duty_usd": 18711.0,
+     "old_duty_usd": 12474.0,
+     "new_duty_usd": 31185.0,
+     "math": "$124,740.00 × (25.00% − 10.00%) = $18,711.00"
+    },
+    {
+     "po_id": "PO-26-1121",
+     "line_no": 4,
+     "part_no": "LK-DD-67",
+     "supplier_id": "S101",
+     "est_entry_date": "2027-02-06",
+     "customs_value_usd": 26000.0,
+     "added_duty_usd": 3900.0,
+     "old_duty_usd": 2600.0,
+     "new_duty_usd": 6500.0,
+     "math": "$26,000.00 × (25.00% − 10.00%) = $3,900.00"
+    },
+    {
+     "po_id": "PO-26-1122",
+     "line_no": 1,
+     "part_no": "LK-DR-08",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-02-09",
+     "customs_value_usd": 679000.0,
+     "added_duty_usd": 101850.0,
+     "old_duty_usd": 67900.0,
+     "new_duty_usd": 169750.0,
+     "math": "$679,000.00 × (25.00% − 10.00%) = $101,850.00"
+    },
+    {
+     "po_id": "PO-26-1122",
+     "line_no": 2,
+     "part_no": "LK-DR-12",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-02-09",
+     "customs_value_usd": 881260.0,
+     "added_duty_usd": 132189.0,
+     "old_duty_usd": 88126.0,
+     "new_duty_usd": 220315.0,
+     "math": "$881,260.00 × (25.00% − 10.00%) = $132,189.00"
+    },
+    {
+     "po_id": "PO-26-1122",
+     "line_no": 3,
+     "part_no": "LK-UF-256",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-02-09",
+     "customs_value_usd": 1213380.0,
+     "added_duty_usd": 182007.0,
+     "old_duty_usd": 121338.0,
+     "new_duty_usd": 303345.0,
+     "math": "$1,213,380.00 × (25.00% − 10.00%) = $182,007.00"
+    },
+    {
+     "po_id": "PO-26-1122",
+     "line_no": 4,
+     "part_no": "LK-UF-512",
+     "supplier_id": "S102",
+     "est_entry_date": "2027-02-09",
+     "customs_value_usd": 369000.0,
+     "added_duty_usd": 55350.0,
+     "old_duty_usd": 36900.0,
+     "new_duty_usd": 92250.0,
+     "math": "$369,000.00 × (25.00% − 10.00%) = $55,350.00"
+    },
+    {
+     "po_id": "PO-26-1123",
+     "line_no": 1,
+     "part_no": "LK-PM-01",
+     "supplier_id": "S103",
+     "est_entry_date": "2027-02-12",
+     "customs_value_usd": 206770.0,
+     "added_duty_usd": 31015.5,
+     "old_duty_usd": 20677.0,
+     "new_duty_usd": 51692.5,
+     "math": "$206,770.00 × (25.00% − 10.00%) = $31,015.50"
+    },
+    {
+     "po_id": "PO-26-1124",
+     "line_no": 1,
+     "part_no": "LK-RF-5G",
+     "supplier_id": "S104",
+     "est_entry_date": "2027-02-15",
+     "customs_value_usd": 560280.0,
+     "added_duty_usd": 84042.0,
+     "old_duty_usd": 56028.0,
+     "new_duty_usd": 140070.0,
+     "math": "$560,280.00 × (25.00% − 10.00%) = $84,042.00"
+    }
+   ]
+  },
+  "decisions": [
+   {
+    "decision_id": "D-2026-044",
+    "change_id": "CE-0012",
+    "status": "broken",
+    "reason": "854232/KR changed from 10% to 25%",
+    "incumbent_annual_usd": 23390000.0,
+    "alternative_with_proof_annual_usd": 20026000.0,
+    "alternative_without_proof_annual_usd": 25032500.0,
+    "incumbent_before_annual_usd": 20583200.0,
+    "incumbent_delta_annual_usd": 2806800.0,
+    "alternative_with_proof_delta_usd": -3364000.0,
+    "alternative_without_proof_delta_usd": 1642500.0
+   }
+  ],
+  "evidence": {
+   "supplier_id": "S109",
+   "part_no": "LK-DR-12",
+   "status": "needs_review",
+   "missing_requirements": [
+    "Wafer fabricated in the US",
+    "Signed US origin declaration"
+   ],
+   "items": [
+    {
+     "supplier_id": "S109",
+     "part_no": "LK-DR-12",
+     "batch_id": "SRM-2611-A",
+     "doc_id": "SRM-CoC-11873",
+     "kind": "certificate_of_conformance",
+     "confidence": 0.86,
+     "fields": {
+      "supplier_name": "Snake River Memory, Inc.",
+      "supplier_name_confidence": 0.94,
+      "certificate_no": "SRM-CoC-11873",
+      "certificate_no_confidence": 0.9,
+      "part_no_confidence": 0.93,
+      "batch_id_confidence": 0.91,
+      "date_code": "2645",
+      "wafer_fab": null,
+      "wafer_fab_confidence": 0.38,
+      "assembly_site": "Boise, Idaho, USA",
+      "assembly_site_confidence": 0.9,
+      "country_of_origin": "United States",
+      "country_of_origin_confidence": 0.92
+     },
+     "bbox_refs": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.085,
+        0.0615,
+        0.4091,
+        0.0836
+       ],
+       "quote": "Snake River Memory, Inc."
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.2753,
+        0.5838,
+        0.2919
+       ],
+       "quote": "LK-DR-12 (SRM SR5X12G-85)"
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.3409,
+        0.5542,
+        0.3575
+       ],
+       "quote": "SRM-2611-A"
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.4723,
+        0.4494,
+        0.4888
+       ],
+       "quote": "United States"
+      }
+     ],
+     "field_citations": {
+      "supplier_name": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.0615,
+         0.4091,
+         0.0836
+        ],
+        "quote": "Snake River Memory, Inc."
+       }
+      ],
+      "certificate_no": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.166,
+         0.4214,
+         0.1802
+        ],
+        "quote": "SRM-CoC-11873"
+       }
+      ],
+      "part_no": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.2753,
+         0.5838,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (SRM SR5X12G-85)"
+       }
+      ],
+      "batch_id": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.3409,
+         0.5542,
+         0.3575
+        ],
+        "quote": "SRM-2611-A"
+       }
+      ],
+      "wafer_fab": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4066,
+         0.4866,
+         0.4232
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ],
+      "assembly_site": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4394,
+         0.4866,
+         0.456
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ],
+      "country_of_origin": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4723,
+         0.4494,
+         0.4888
+        ],
+        "quote": "United States"
+       }
+      ]
+     }
+    },
+    {
+     "supplier_id": "S109",
+     "part_no": "LK-DR-12",
+     "batch_id": "SRM-2611-B",
+     "doc_id": "SRM-CoC-11873",
+     "kind": "certificate_of_conformance",
+     "confidence": 0.86,
+     "fields": {
+      "supplier_name": "Snake River Memory, Inc.",
+      "supplier_name_confidence": 0.94,
+      "certificate_no": "SRM-CoC-11873",
+      "certificate_no_confidence": 0.9,
+      "part_no_confidence": 0.93,
+      "batch_id_confidence": 0.91,
+      "date_code": "2645",
+      "wafer_fab": null,
+      "wafer_fab_confidence": 0.38,
+      "assembly_site": "Boise, Idaho, USA",
+      "assembly_site_confidence": 0.9,
+      "country_of_origin": "United States",
+      "country_of_origin_confidence": 0.92
+     },
+     "bbox_refs": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.085,
+        0.0615,
+        0.4091,
+        0.0836
+       ],
+       "quote": "Snake River Memory, Inc."
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.2753,
+        0.5838,
+        0.2919
+       ],
+       "quote": "LK-DR-12 (SRM SR5X12G-85)"
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.3409,
+        0.5542,
+        0.3575
+       ],
+       "quote": "SRM-2611-B"
+      },
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.4723,
+        0.4494,
+        0.4888
+       ],
+       "quote": "United States"
+      }
+     ],
+     "field_citations": {
+      "supplier_name": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.0615,
+         0.4091,
+         0.0836
+        ],
+        "quote": "Snake River Memory, Inc."
+       }
+      ],
+      "certificate_no": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.085,
+         0.166,
+         0.4214,
+         0.1802
+        ],
+        "quote": "SRM-CoC-11873"
+       }
+      ],
+      "part_no": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.2753,
+         0.5838,
+         0.2919
+        ],
+        "quote": "LK-DR-12 (SRM SR5X12G-85)"
+       }
+      ],
+      "batch_id": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.3409,
+         0.5542,
+         0.3575
+        ],
+        "quote": "SRM-2611-B"
+       }
+      ],
+      "wafer_fab": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4066,
+         0.4866,
+         0.4232
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ],
+      "assembly_site": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4394,
+         0.4866,
+         0.456
+        ],
+        "quote": "Boise, Idaho, USA"
+       }
+      ],
+      "country_of_origin": [
+       {
+        "doc_id": "SRM-CoC-11873",
+        "page": 1,
+        "bbox": [
+         0.3464,
+         0.4723,
+         0.4494,
+         0.4888
+        ],
+        "quote": "United States"
+       }
+      ]
+     }
+    }
+   ],
+   "requirements": [
+    {
+     "id": "part-number",
+     "label": "Part number",
+     "status": "checked",
+     "citations": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.2753,
+        0.5838,
+        0.2919
+       ],
+       "quote": "LK-DR-12 (SRM SR5X12G-85)"
+      }
+     ]
+    },
+    {
+     "id": "lots",
+     "label": "Lots and date code",
+     "status": "checked",
+     "citations": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.3409,
+        0.5542,
+        0.3575
+       ],
+       "quote": "SRM-2611-A, SRM-2611-B"
+      }
+     ]
+    },
+    {
+     "id": "wafer-fab",
+     "label": "Wafer fabricated in the US",
+     "status": "needs_review",
+     "reason": "The wafer fab line is unreadable on the scan (38% confidence, 85% needed).",
+     "citations": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.4066,
+        0.4866,
+        0.4232
+       ],
+       "quote": "Boise, Idaho, USA"
+      }
+     ]
+    },
+    {
+     "id": "assembly-site",
+     "label": "Assembly and test site",
+     "status": "checked",
+     "citations": [
+      {
+       "doc_id": "SRM-CoC-11873",
+       "page": 1,
+       "bbox": [
+        0.3464,
+        0.4394,
+        0.4866,
+        0.456
+       ],
+       "quote": "Boise, Idaho, USA"
+      }
+     ]
+    },
+    {
+     "id": "origin-declaration",
+     "label": "Signed US origin declaration",
+     "status": "missing",
+     "reason": "No signed origin declaration is on file for this part.",
+     "citations": []
+    }
+   ]
+  },
+  "actions": [
+   {
+    "id": "ACT-0021",
+    "rank": 1,
+    "type": "request_evidence",
+    "part_ids": [
+     "LK-DR-08",
+     "LK-DR-12"
+    ],
+    "usd_at_stake": 3364000.0,
+    "title": "Ask Snake River Memory for a legible wafer fab statement and a signed US origin declaration",
+    "why": "Moving the LPDDR5X award to Snake River Memory saves $3,364,000 a year, but only once we can show the wafers were fabricated in the US.",
+    "draft_email": "Hello M. Alvarez,\n\nThank you for certificate SRM-CoC-11873 covering lots SRM-2611-A and SRM-2611-B of LK-DR-12 (SRM SR5X12G-85).\n\nThe wafer fab line is unreadable on the copy we received. Could you send:\n1. A legible copy of the certificate showing the wafer fabrication site.\n2. A signed origin declaration naming the wafer fab for LK-DR-08 and LK-DR-12.\n\nWe need both before we can place volume orders under quotation Q-SRM-2611.\n\nThank you,\nMaya Chen\nSourcing, Larkspur Mobile, Inc."
+   },
+   {
+    "id": "ACT-0022",
+    "rank": 2,
+    "type": "request_quote",
+    "part_ids": [
+     "LK-PM-01"
+    ],
+    "usd_at_stake": 372000,
+    "title": "Ask Lone Star Silicon to quote the power management IC",
+    "why": "LK-PM-01 from Kaohsiung Power Devices now carries $372,000 a year in added duty. A part fabricated in the US would carry none.",
+    "draft_email": "Hello,\n\nWe are looking for a second source for our power management IC, LK-PM-01, at about 800,000 units a year, starting in the second quarter of 2027.\n\nCould you quote unit price, lead time and the wafer fab location? We can share the data sheet under NDA.\n\nThank you,\nMaya Chen\nSourcing, Larkspur Mobile, Inc."
+   }
+  ],
+  "audit": [
+   {
+    "actor": "A1",
+    "entity_id": "HSC-CoC-26-10482",
+    "id": "AUD-0001",
+    "occurred_at": "2026-10-28T03:20:00Z",
+    "previous_hash": null,
+    "type": "document_ingested",
+    "hash": "c9f094ff0d7f77901c6bf86dbac04141f7b8113ed181303ccc55d8809defd960"
+   },
+   {
+    "actor": "A1",
+    "entity_id": "Q-SRM-2611",
+    "id": "AUD-0002",
+    "occurred_at": "2026-11-06T16:40:00Z",
+    "previous_hash": "c9f094ff0d7f77901c6bf86dbac04141f7b8113ed181303ccc55d8809defd960",
+    "type": "document_ingested",
+    "hash": "abd3f99db1136429e291bf085b635b46572707fe3dab6efc69cf8cfe445ceb27"
+   },
+   {
+    "actor": "A1",
+    "entity_id": "CA-2026-311",
+    "id": "AUD-0003",
+    "occurred_at": "2026-11-09T14:05:00Z",
+    "previous_hash": "abd3f99db1136429e291bf085b635b46572707fe3dab6efc69cf8cfe445ceb27",
+    "type": "document_ingested",
+    "hash": "7702bdae4d315dc2fa488449fcc50736f56e38b8ffd21deb48b0b8316572f955"
+   },
+   {
+    "actor": "A2",
+    "entity_id": "CE-0012",
+    "id": "AUD-0004",
+    "occurred_at": "2026-11-09T14:06:00Z",
+    "previous_hash": "7702bdae4d315dc2fa488449fcc50736f56e38b8ffd21deb48b0b8316572f955",
+    "type": "change_extracted",
+    "hash": "5a4f868000df39bdbc6f4792971d1fd97ccb6fc72560d4a9a1ab1dc560b9d86b"
+   },
+   {
+    "actor": "priya.raman",
+    "entity_id": "CE-0012",
+    "id": "AUD-0005",
+    "occurred_at": "2026-11-09T15:20:00Z",
+    "previous_hash": "5a4f868000df39bdbc6f4792971d1fd97ccb6fc72560d4a9a1ab1dc560b9d86b",
+    "type": "change_reviewed",
+    "hash": "d977d5d2182aad48f5d7b786ec67d75cfcc47f1da5d4adc06cf859eba5ce30b2"
+   },
+   {
+    "actor": "rules",
+    "entity_id": "CE-0012",
+    "id": "AUD-0006",
+    "occurred_at": "2026-11-09T15:21:00Z",
+    "previous_hash": "d977d5d2182aad48f5d7b786ec67d75cfcc47f1da5d4adc06cf859eba5ce30b2",
+    "type": "rates_versioned",
+    "hash": "952f78ccfd2d86199b25083ad66c7044fdc47249b4448954d8b12c169b617560"
+   },
+   {
+    "actor": "rules",
+    "entity_id": "CE-0012",
+    "id": "AUD-0007",
+    "occurred_at": "2026-11-09T15:21:30Z",
+    "previous_hash": "952f78ccfd2d86199b25083ad66c7044fdc47249b4448954d8b12c169b617560",
+    "type": "exposure_computed",
+    "hash": "f09a05c6a8405341000b19b8fe4acfb104dd8b594db2bcb8b52e06d42d75dec0"
+   },
+   {
+    "actor": "rules",
+    "entity_id": "D-2026-044",
+    "id": "AUD-0008",
+    "occurred_at": "2026-11-09T15:22:00Z",
+    "previous_hash": "f09a05c6a8405341000b19b8fe4acfb104dd8b594db2bcb8b52e06d42d75dec0",
+    "type": "decision_checked",
+    "hash": "7a3921911cbf5e1f3dcffa38b491b09389a0ac5c236a7bf249a99cbabc00da49"
+   },
+   {
+    "actor": "A3",
+    "entity_id": "S109",
+    "id": "AUD-0009",
+    "occurred_at": "2026-11-10T09:12:00Z",
+    "previous_hash": "7a3921911cbf5e1f3dcffa38b491b09389a0ac5c236a7bf249a99cbabc00da49",
+    "type": "evidence_ingested",
+    "hash": "114f28fc29eb8f089a4b01d6393cb22bce4d64da183daa3ecd00e31f5ad464f6"
+   },
+   {
+    "actor": "T14",
+    "entity_id": "S109",
+    "id": "AUD-0010",
+    "occurred_at": "2026-11-10T09:12:30Z",
+    "previous_hash": "114f28fc29eb8f089a4b01d6393cb22bce4d64da183daa3ecd00e31f5ad464f6",
+    "type": "evidence_refused",
+    "hash": "914eaca37ecf5e4603aaabb7f12d334528610f982534430de5c8695eb58caf7c"
+   },
+   {
+    "actor": "T14",
+    "entity_id": "S109",
+    "id": "AUD-0011",
+    "occurred_at": "2026-11-10T09:13:00Z",
+    "previous_hash": "914eaca37ecf5e4603aaabb7f12d334528610f982534430de5c8695eb58caf7c",
+    "type": "evidence_checked",
+    "hash": "7d275337315dcafdd267fd53b1611e87e29b5ae569705a8fc55bcc3638bb33b2"
+   },
+   {
+    "actor": "A5",
+    "entity_id": "ACT-0021",
+    "id": "AUD-0012",
+    "occurred_at": "2026-11-10T09:30:00Z",
+    "previous_hash": "7d275337315dcafdd267fd53b1611e87e29b5ae569705a8fc55bcc3638bb33b2",
+    "type": "action_drafted",
+    "hash": "b4fffbb15a5a62ef475bd09efdf1dbddc38c7f8db487f28005fe495f470af2ac"
+   },
+   {
+    "actor": "A5",
+    "entity_id": "ACT-0022",
+    "id": "AUD-0013",
+    "occurred_at": "2026-11-10T09:30:30Z",
+    "previous_hash": "b4fffbb15a5a62ef475bd09efdf1dbddc38c7f8db487f28005fe495f470af2ac",
+    "type": "action_drafted",
+    "hash": "13bbe6f2ac6c6a2b36040a65da2fbffcdb0f6c3d01dd4f596698f274c2e2d3ac"
+   }
+  ],
+  "documents": [
+   {
+    "doc_id": "CA-2026-311",
+    "filename": "CA-2026-311_client_advisory.pdf",
+    "media_type": "application/pdf",
+    "kind": "bulletin",
+    "summary": "Brazos Customs Brokerage advisory: Section 232 duty on 4 semiconductor headings (8542.31, 8542.32, 8542.39, 8523.51) rises from 10% to 25% of the full customs value for goods entered from Jan 1, 2027.",
+    "review": [],
+    "received_at": "2026-11-09T14:05:00Z"
+   },
+   {
+    "doc_id": "SRM-CoC-11873",
+    "filename": "SRM-CoC-11873_LK-DR-12_scan.jpg",
+    "media_type": "image/jpeg",
+    "kind": "supplier_document",
+    "summary": "Snake River Memory certificate for LK-DR-12, lots SRM-2611-A and SRM-2611-B. Assembly and test in Boise, Idaho. Country of origin: United States.",
+    "review": [
+     "The wafer fab line is unreadable (38% confidence, 85% needed). It will not be used until a clear copy arrives."
+    ],
+    "received_at": "2026-11-10T09:12:00Z"
+   },
+   {
+    "doc_id": "Q-SRM-2611",
+    "filename": "Q-SRM-2611_quotation.pdf",
+    "media_type": "application/pdf",
+    "kind": "supplier_document",
+    "summary": "Snake River Memory quotation: LK-DR-08 at $20.90 and LK-DR-12 at $29.60, FCA Boise, valid until Jan 31, 2027.",
+    "review": [],
+    "received_at": "2026-11-06T16:40:00Z"
+   },
+   {
+    "doc_id": "HSC-CoC-26-10482",
+    "filename": "HSC-CoC-26-10482_LK-DR-12.pdf",
+    "media_type": "application/pdf",
+    "kind": "supplier_document",
+    "summary": "Hanul Semiconductor certificate for LK-DR-12, lot HN2610-117. Wafer fab Icheon, Korea. Country of origin: Republic of Korea.",
+    "review": [],
+    "received_at": "2026-10-28T03:20:00Z"
+   }
+  ]
+ },
+ "lineage": {
+  "change_id": "CE-0012",
+  "added_duty_usd": 2410809.0,
+  "affected_parts": 10,
+  "nodes": [
+   {
+    "id": "bulletin:CA-2026-311",
+    "kind": "bulletin",
+    "label": "Client advisory CA-2026-311"
+   },
+   {
+    "id": "change:CE-0012",
+    "kind": "change",
+    "label": "Section 232 semiconductors, rate increase",
+    "added_duty_usd": 2410809.0
+   },
+   {
+    "id": "rate:854231:all",
+    "kind": "rate",
+    "label": "8542.31, Processors and controllers: 10% to 25%"
+   },
+   {
+    "id": "rate:854232:all",
+    "kind": "rate",
+    "label": "8542.32, Memories: 10% to 25%"
+   },
+   {
+    "id": "rate:854239:all",
+    "kind": "rate",
+    "label": "8542.39, Other integrated circuits: 10% to 25%"
+   },
+   {
+    "id": "rate:852351:all",
+    "kind": "rate",
+    "label": "8523.51, Solid-state storage devices: 10% to 25%"
+   },
+   {
+    "id": "assumption:A-0441",
+    "kind": "assumption",
+    "label": "8542.32 from South Korea assumed at 10%"
+   },
+   {
+    "id": "decision:D-2026-044",
+    "kind": "decision",
+    "label": "LPDDR5X memory award, D-2026-044"
+   },
+   {
+    "id": "part:LK-AP-4N",
+    "kind": "part",
+    "label": "LK-AP-4N · Application processor, 4 nm",
+    "added_duty_usd": 546000.0
+   },
+   {
+    "id": "part:LK-AP-3N",
+    "kind": "part",
+    "label": "LK-AP-3N · Application processor, 3 nm",
+    "added_duty_usd": 646680.0
+   },
+   {
+    "id": "part:LK-DR-08",
+    "kind": "part",
+    "label": "LK-DR-08 · LPDDR5X memory, 8 GB",
+    "added_duty_usd": 203700.0
+   },
+   {
+    "id": "part:LK-DR-12",
+    "kind": "part",
+    "label": "LK-DR-12 · LPDDR5X memory, 12 GB",
+    "added_duty_usd": 264378.0
+   },
+   {
+    "id": "part:LK-UF-256",
+    "kind": "part",
+    "label": "LK-UF-256 · UFS 4.0 storage, 256 GB",
+    "added_duty_usd": 364014.0
+   },
+   {
+    "id": "part:LK-UF-512",
+    "kind": "part",
+    "label": "LK-UF-512 · UFS 4.0 storage, 512 GB",
+    "added_duty_usd": 110700.0
+   },
+   {
+    "id": "part:LK-PM-01",
+    "kind": "part",
+    "label": "LK-PM-01 · Power management IC",
+    "added_duty_usd": 62031.0
+   },
+   {
+    "id": "part:LK-RF-5G",
+    "kind": "part",
+    "label": "LK-RF-5G · 5G RF transceiver",
+    "added_duty_usd": 168084.0
+   },
+   {
+    "id": "part:LK-DD-61",
+    "kind": "part",
+    "label": "LK-DD-61 · OLED display driver IC, 6.1-inch",
+    "added_duty_usd": 37422.0
+   },
+   {
+    "id": "part:LK-DD-67",
+    "kind": "part",
+    "label": "LK-DD-67 · OLED display driver IC, 6.7-inch",
+    "added_duty_usd": 7800.0
+   },
+   {
+    "id": "purchase_order:PO-26-1111:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1111 · line 1",
+    "added_duty_usd": 273000.0
+   },
+   {
+    "id": "purchase_order:PO-26-1111:2",
+    "kind": "purchase_order",
+    "label": "PO-26-1111 · line 2",
+    "added_duty_usd": 323340.0
+   },
+   {
+    "id": "purchase_order:PO-26-1111:3",
+    "kind": "purchase_order",
+    "label": "PO-26-1111 · line 3",
+    "added_duty_usd": 18711.0
+   },
+   {
+    "id": "purchase_order:PO-26-1111:4",
+    "kind": "purchase_order",
+    "label": "PO-26-1111 · line 4",
+    "added_duty_usd": 3900.0
+   },
+   {
+    "id": "purchase_order:PO-26-1112:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1112 · line 1",
+    "added_duty_usd": 101850.0
+   },
+   {
+    "id": "purchase_order:PO-26-1112:2",
+    "kind": "purchase_order",
+    "label": "PO-26-1112 · line 2",
+    "added_duty_usd": 132189.0
+   },
+   {
+    "id": "purchase_order:PO-26-1112:3",
+    "kind": "purchase_order",
+    "label": "PO-26-1112 · line 3",
+    "added_duty_usd": 182007.0
+   },
+   {
+    "id": "purchase_order:PO-26-1112:4",
+    "kind": "purchase_order",
+    "label": "PO-26-1112 · line 4",
+    "added_duty_usd": 55350.0
+   },
+   {
+    "id": "purchase_order:PO-26-1113:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1113 · line 1",
+    "added_duty_usd": 31015.5
+   },
+   {
+    "id": "purchase_order:PO-26-1114:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1114 · line 1",
+    "added_duty_usd": 84042.0
+   },
+   {
+    "id": "purchase_order:PO-26-1121:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1121 · line 1",
+    "added_duty_usd": 273000.0
+   },
+   {
+    "id": "purchase_order:PO-26-1121:2",
+    "kind": "purchase_order",
+    "label": "PO-26-1121 · line 2",
+    "added_duty_usd": 323340.0
+   },
+   {
+    "id": "purchase_order:PO-26-1121:3",
+    "kind": "purchase_order",
+    "label": "PO-26-1121 · line 3",
+    "added_duty_usd": 18711.0
+   },
+   {
+    "id": "purchase_order:PO-26-1121:4",
+    "kind": "purchase_order",
+    "label": "PO-26-1121 · line 4",
+    "added_duty_usd": 3900.0
+   },
+   {
+    "id": "purchase_order:PO-26-1122:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1122 · line 1",
+    "added_duty_usd": 101850.0
+   },
+   {
+    "id": "purchase_order:PO-26-1122:2",
+    "kind": "purchase_order",
+    "label": "PO-26-1122 · line 2",
+    "added_duty_usd": 132189.0
+   },
+   {
+    "id": "purchase_order:PO-26-1122:3",
+    "kind": "purchase_order",
+    "label": "PO-26-1122 · line 3",
+    "added_duty_usd": 182007.0
+   },
+   {
+    "id": "purchase_order:PO-26-1122:4",
+    "kind": "purchase_order",
+    "label": "PO-26-1122 · line 4",
+    "added_duty_usd": 55350.0
+   },
+   {
+    "id": "purchase_order:PO-26-1123:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1123 · line 1",
+    "added_duty_usd": 31015.5
+   },
+   {
+    "id": "purchase_order:PO-26-1124:1",
+    "kind": "purchase_order",
+    "label": "PO-26-1124 · line 1",
+    "added_duty_usd": 84042.0
+   },
+   {
+    "id": "product:LM-ONE",
+    "kind": "product",
+    "label": "Larkspur One"
+   },
+   {
+    "id": "product:LM-PRO",
+    "kind": "product",
+    "label": "Larkspur One Pro"
+   },
+   {
+    "id": "product:LM-MAX",
+    "kind": "product",
+    "label": "Larkspur One Max"
+   }
+  ],
+  "edges": [
+   {
+    "source": "bulletin:CA-2026-311",
+    "target": "change:CE-0012",
+    "kind": "cites"
+   },
+   {
+    "source": "change:CE-0012",
+    "target": "rate:854231:all",
+    "kind": "changes"
+   },
+   {
+    "source": "change:CE-0012",
+    "target": "rate:854232:all",
+    "kind": "changes"
+   },
+   {
+    "source": "change:CE-0012",
+    "target": "rate:854239:all",
+    "kind": "changes"
+   },
+   {
+    "source": "change:CE-0012",
+    "target": "rate:852351:all",
+    "kind": "changes"
+   },
+   {
+    "source": "rate:854232:all",
+    "target": "assumption:A-0441",
+    "kind": "invalidates"
+   },
+   {
+    "source": "assumption:A-0441",
+    "target": "decision:D-2026-044",
+    "kind": "supports"
+   },
+   {
+    "source": "decision:D-2026-044",
+    "target": "part:LK-DR-08",
+    "kind": "covers"
+   },
+   {
+    "source": "decision:D-2026-044",
+    "target": "part:LK-DR-12",
+    "kind": "covers"
+   },
+   {
+    "source": "rate:854231:all",
+    "target": "part:LK-AP-4N",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-AP-4N",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854231:all",
+    "target": "part:LK-AP-3N",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-AP-3N",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-AP-3N",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854232:all",
+    "target": "part:LK-DR-08",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-DR-08",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854232:all",
+    "target": "part:LK-DR-12",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-DR-12",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-DR-12",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:852351:all",
+    "target": "part:LK-UF-256",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-UF-256",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-UF-256",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:852351:all",
+    "target": "part:LK-UF-512",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-UF-512",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854239:all",
+    "target": "part:LK-PM-01",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-PM-01",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-PM-01",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-PM-01",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854239:all",
+    "target": "part:LK-RF-5G",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-RF-5G",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-RF-5G",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-RF-5G",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854239:all",
+    "target": "part:LK-DD-61",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-DD-61",
+    "target": "product:LM-ONE",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-DD-61",
+    "target": "product:LM-PRO",
+    "kind": "used_in"
+   },
+   {
+    "source": "rate:854239:all",
+    "target": "part:LK-DD-67",
+    "kind": "affects"
+   },
+   {
+    "source": "part:LK-DD-67",
+    "target": "product:LM-MAX",
+    "kind": "used_in"
+   },
+   {
+    "source": "part:LK-AP-4N",
+    "target": "purchase_order:PO-26-1111:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-AP-3N",
+    "target": "purchase_order:PO-26-1111:2",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DD-61",
+    "target": "purchase_order:PO-26-1111:3",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DD-67",
+    "target": "purchase_order:PO-26-1111:4",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DR-08",
+    "target": "purchase_order:PO-26-1112:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DR-12",
+    "target": "purchase_order:PO-26-1112:2",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-UF-256",
+    "target": "purchase_order:PO-26-1112:3",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-UF-512",
+    "target": "purchase_order:PO-26-1112:4",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-PM-01",
+    "target": "purchase_order:PO-26-1113:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-RF-5G",
+    "target": "purchase_order:PO-26-1114:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-AP-4N",
+    "target": "purchase_order:PO-26-1121:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-AP-3N",
+    "target": "purchase_order:PO-26-1121:2",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DD-61",
+    "target": "purchase_order:PO-26-1121:3",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DD-67",
+    "target": "purchase_order:PO-26-1121:4",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DR-08",
+    "target": "purchase_order:PO-26-1122:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-DR-12",
+    "target": "purchase_order:PO-26-1122:2",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-UF-256",
+    "target": "purchase_order:PO-26-1122:3",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-UF-512",
+    "target": "purchase_order:PO-26-1122:4",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-PM-01",
+    "target": "purchase_order:PO-26-1123:1",
+    "kind": "appears_on"
+   },
+   {
+    "source": "part:LK-RF-5G",
+    "target": "purchase_order:PO-26-1124:1",
+    "kind": "appears_on"
+   }
+  ]
+ },
+ "catalog": {
+  "company": {
+   "name": "Larkspur Mobile",
+   "legal": "Larkspur Mobile, Inc.",
+   "site": "Fort Worth, Texas"
+  },
+  "suppliers": {
+   "S101": {
+    "name": "Hsinchu Advanced Silicon",
+    "country": "Taiwan",
+    "country_code": "TW",
+    "city": "Hsinchu"
+   },
+   "S102": {
+    "name": "Hanul Semiconductor",
+    "country": "South Korea",
+    "country_code": "KR",
+    "city": "Icheon"
+   },
+   "S103": {
+    "name": "Kaohsiung Power Devices",
+    "country": "Taiwan",
+    "country_code": "TW",
+    "city": "Kaohsiung"
+   },
+   "S104": {
+    "name": "Penang RF Systems",
+    "country": "Malaysia",
+    "country_code": "MY",
+    "city": "Penang"
+   },
+   "S105": {
+    "name": "Bac Ninh Display",
+    "country": "Vietnam",
+    "country_code": "VN",
+    "city": "Bac Ninh"
+   },
+   "S106": {
+    "name": "Dong Nai Energy Cells",
+    "country": "Vietnam",
+    "country_code": "VN",
+    "city": "Bien Hoa"
+   },
+   "S107": {
+    "name": "Gumi Optics",
+    "country": "South Korea",
+    "country_code": "KR",
+    "city": "Gumi"
+   },
+   "S108": {
+    "name": "Saltillo Precision Metals",
+    "country": "Mexico",
+    "country_code": "MX",
+    "city": "Saltillo"
+   },
+   "S109": {
+    "name": "Snake River Memory",
+    "country": "United States",
+    "country_code": "US",
+    "city": "Boise, Idaho"
+   },
+   "S110": {
+    "name": "Lone Star Silicon",
+    "country": "United States",
+    "country_code": "US",
+    "city": "Austin, Texas"
+   },
+   "S111": {
+    "name": "Bluegrass Cover Glass",
+    "country": "United States",
+    "country_code": "US",
+    "city": "Harrodsburg, Kentucky"
+   },
+   "S112": {
+    "name": "Haiphong Acoustics",
+    "country": "Vietnam",
+    "country_code": "VN",
+    "city": "Hai Phong"
+   }
+  },
+  "products": [
+   {
+    "sku": "LM-ONE",
+    "name": "Larkspur One",
+    "list_price_usd": 599,
+    "annual_units": 420000
+   },
+   {
+    "sku": "LM-PRO",
+    "name": "Larkspur One Pro",
+    "list_price_usd": 899,
+    "annual_units": 260000
+   },
+   {
+    "sku": "LM-MAX",
+    "name": "Larkspur One Max",
+    "list_price_usd": 1099,
+    "annual_units": 120000
+   }
+  ],
+  "parts": [
+   {
+    "part_no": "LK-AP-4N",
+    "description": "Application processor, 4 nm",
+    "hts10": "8542310000",
+    "supplier_id": "S101",
+    "unit_price_usd": 52.0,
+    "products": [
+     "LM-ONE"
+    ],
+    "annual_qty": 420000
+   },
+   {
+    "part_no": "LK-AP-3N",
+    "description": "Application processor, 3 nm",
+    "hts10": "8542310000",
+    "supplier_id": "S101",
+    "unit_price_usd": 68.0,
+    "products": [
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 380000
+   },
+   {
+    "part_no": "LK-DR-08",
+    "description": "LPDDR5X memory, 8 GB",
+    "hts10": "8542320036",
+    "supplier_id": "S102",
+    "unit_price_usd": 19.4,
+    "products": [
+     "LM-ONE"
+    ],
+    "annual_qty": 420000
+   },
+   {
+    "part_no": "LK-DR-12",
+    "description": "LPDDR5X memory, 12 GB",
+    "hts10": "8542320036",
+    "supplier_id": "S102",
+    "unit_price_usd": 27.8,
+    "products": [
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 380000
+   },
+   {
+    "part_no": "LK-UF-256",
+    "description": "UFS 4.0 storage, 256 GB",
+    "hts10": "8523510000",
+    "supplier_id": "S102",
+    "unit_price_usd": 21.4,
+    "products": [
+     "LM-ONE",
+     "LM-PRO"
+    ],
+    "annual_qty": 680000
+   },
+   {
+    "part_no": "LK-UF-512",
+    "description": "UFS 4.0 storage, 512 GB",
+    "hts10": "8523510000",
+    "supplier_id": "S102",
+    "unit_price_usd": 36.9,
+    "products": [
+     "LM-MAX"
+    ],
+    "annual_qty": 120000
+   },
+   {
+    "part_no": "LK-PM-01",
+    "description": "Power management IC",
+    "hts10": "8542390090",
+    "supplier_id": "S103",
+    "unit_price_usd": 3.1,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   },
+   {
+    "part_no": "LK-RF-5G",
+    "description": "5G RF transceiver",
+    "hts10": "8542390090",
+    "supplier_id": "S104",
+    "unit_price_usd": 8.4,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   },
+   {
+    "part_no": "LK-DD-61",
+    "description": "OLED display driver IC, 6.1-inch",
+    "hts10": "8542390090",
+    "supplier_id": "S101",
+    "unit_price_usd": 2.2,
+    "products": [
+     "LM-ONE",
+     "LM-PRO"
+    ],
+    "annual_qty": 680000
+   },
+   {
+    "part_no": "LK-DD-67",
+    "description": "OLED display driver IC, 6.7-inch",
+    "hts10": "8542390090",
+    "supplier_id": "S101",
+    "unit_price_usd": 2.6,
+    "products": [
+     "LM-MAX"
+    ],
+    "annual_qty": 120000
+   },
+   {
+    "part_no": "LK-OL-61",
+    "description": "OLED display module, 6.1-inch",
+    "hts10": "8524920000",
+    "supplier_id": "S105",
+    "unit_price_usd": 34.0,
+    "products": [
+     "LM-ONE",
+     "LM-PRO"
+    ],
+    "annual_qty": 680000
+   },
+   {
+    "part_no": "LK-OL-67",
+    "description": "OLED display module, 6.7-inch",
+    "hts10": "8524920000",
+    "supplier_id": "S105",
+    "unit_price_usd": 45.0,
+    "products": [
+     "LM-MAX"
+    ],
+    "annual_qty": 120000
+   },
+   {
+    "part_no": "LK-BT-40",
+    "description": "Lithium-ion battery, 4,000 mAh",
+    "hts10": "8507600020",
+    "supplier_id": "S106",
+    "unit_price_usd": 7.8,
+    "products": [
+     "LM-ONE"
+    ],
+    "annual_qty": 420000
+   },
+   {
+    "part_no": "LK-BT-46",
+    "description": "Lithium-ion battery, 4,600 mAh",
+    "hts10": "8507600020",
+    "supplier_id": "S106",
+    "unit_price_usd": 9.2,
+    "products": [
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 380000
+   },
+   {
+    "part_no": "LK-CM-48",
+    "description": "Main camera module, 48 MP",
+    "hts10": "8525895050",
+    "supplier_id": "S107",
+    "unit_price_usd": 16.0,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   },
+   {
+    "part_no": "LK-CM-12",
+    "description": "Ultra-wide camera module, 12 MP",
+    "hts10": "8525895050",
+    "supplier_id": "S107",
+    "unit_price_usd": 6.5,
+    "products": [
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 380000
+   },
+   {
+    "part_no": "LK-FR-61",
+    "description": "Aluminum frame, 6.1-inch",
+    "hts10": "7616995190",
+    "supplier_id": "S108",
+    "unit_price_usd": 11.0,
+    "products": [
+     "LM-ONE",
+     "LM-PRO"
+    ],
+    "annual_qty": 680000
+   },
+   {
+    "part_no": "LK-FR-67",
+    "description": "Aluminum frame, 6.7-inch",
+    "hts10": "7616995190",
+    "supplier_id": "S108",
+    "unit_price_usd": 13.5,
+    "products": [
+     "LM-MAX"
+    ],
+    "annual_qty": 120000
+   },
+   {
+    "part_no": "LK-GL-61",
+    "description": "Cover glass, 6.1-inch",
+    "hts10": "7007190000",
+    "supplier_id": "S111",
+    "unit_price_usd": 4.5,
+    "products": [
+     "LM-ONE",
+     "LM-PRO"
+    ],
+    "annual_qty": 680000
+   },
+   {
+    "part_no": "LK-GL-67",
+    "description": "Cover glass, 6.7-inch",
+    "hts10": "7007190000",
+    "supplier_id": "S111",
+    "unit_price_usd": 5.4,
+    "products": [
+     "LM-MAX"
+    ],
+    "annual_qty": 120000
+   },
+   {
+    "part_no": "LK-SP-01",
+    "description": "Speaker module",
+    "hts10": "8518298000",
+    "supplier_id": "S112",
+    "unit_price_usd": 1.2,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   },
+   {
+    "part_no": "LK-UC-01",
+    "description": "USB-C receptacle",
+    "hts10": "8536694040",
+    "supplier_id": "S112",
+    "unit_price_usd": 0.4,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   },
+   {
+    "part_no": "LK-HP-01",
+    "description": "Haptic actuator",
+    "hts10": "8501104060",
+    "supplier_id": "S112",
+    "unit_price_usd": 1.9,
+    "products": [
+     "LM-ONE",
+     "LM-PRO",
+     "LM-MAX"
+    ],
+    "annual_qty": 800000
+   }
+  ],
+  "orders": [
+   {
+    "po_id": "PO-26-1101",
+    "line_no": 1,
+    "part_no": "LK-AP-4N",
+    "supplier_id": "S101",
+    "qty": 35000,
+    "unit_price_usd": 52.0,
+    "customs_value_usd": 1820000.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1101",
+    "line_no": 2,
+    "part_no": "LK-AP-3N",
+    "supplier_id": "S101",
+    "qty": 31700,
+    "unit_price_usd": 68.0,
+    "customs_value_usd": 2155600.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1101",
+    "line_no": 3,
+    "part_no": "LK-DD-61",
+    "supplier_id": "S101",
+    "qty": 56700,
+    "unit_price_usd": 2.2,
+    "customs_value_usd": 124740.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1101",
+    "line_no": 4,
+    "part_no": "LK-DD-67",
+    "supplier_id": "S101",
+    "qty": 10000,
+    "unit_price_usd": 2.6,
+    "customs_value_usd": 26000.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1102",
+    "line_no": 1,
+    "part_no": "LK-DR-08",
+    "supplier_id": "S102",
+    "qty": 35000,
+    "unit_price_usd": 19.4,
+    "customs_value_usd": 679000.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1102",
+    "line_no": 2,
+    "part_no": "LK-DR-12",
+    "supplier_id": "S102",
+    "qty": 31700,
+    "unit_price_usd": 27.8,
+    "customs_value_usd": 881260.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1102",
+    "line_no": 3,
+    "part_no": "LK-UF-256",
+    "supplier_id": "S102",
+    "qty": 56700,
+    "unit_price_usd": 21.4,
+    "customs_value_usd": 1213380.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1102",
+    "line_no": 4,
+    "part_no": "LK-UF-512",
+    "supplier_id": "S102",
+    "qty": 10000,
+    "unit_price_usd": 36.9,
+    "customs_value_usd": 369000.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1103",
+    "line_no": 1,
+    "part_no": "LK-PM-01",
+    "supplier_id": "S103",
+    "qty": 66700,
+    "unit_price_usd": 3.1,
+    "customs_value_usd": 206770.0,
+    "est_entry_date": "2026-12-12",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1104",
+    "line_no": 1,
+    "part_no": "LK-RF-5G",
+    "supplier_id": "S104",
+    "qty": 66700,
+    "unit_price_usd": 8.4,
+    "customs_value_usd": 560280.0,
+    "est_entry_date": "2026-12-15",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1105",
+    "line_no": 1,
+    "part_no": "LK-OL-61",
+    "supplier_id": "S105",
+    "qty": 56700,
+    "unit_price_usd": 34.0,
+    "customs_value_usd": 1927800.0,
+    "est_entry_date": "2026-12-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1105",
+    "line_no": 2,
+    "part_no": "LK-OL-67",
+    "supplier_id": "S105",
+    "qty": 10000,
+    "unit_price_usd": 45.0,
+    "customs_value_usd": 450000.0,
+    "est_entry_date": "2026-12-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1106",
+    "line_no": 1,
+    "part_no": "LK-BT-40",
+    "supplier_id": "S106",
+    "qty": 35000,
+    "unit_price_usd": 7.8,
+    "customs_value_usd": 273000.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1106",
+    "line_no": 2,
+    "part_no": "LK-BT-46",
+    "supplier_id": "S106",
+    "qty": 31700,
+    "unit_price_usd": 9.2,
+    "customs_value_usd": 291640.0,
+    "est_entry_date": "2026-12-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1107",
+    "line_no": 1,
+    "part_no": "LK-CM-48",
+    "supplier_id": "S107",
+    "qty": 66700,
+    "unit_price_usd": 16.0,
+    "customs_value_usd": 1067200.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1107",
+    "line_no": 2,
+    "part_no": "LK-CM-12",
+    "supplier_id": "S107",
+    "qty": 31700,
+    "unit_price_usd": 6.5,
+    "customs_value_usd": 206050.0,
+    "est_entry_date": "2026-12-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1108",
+    "line_no": 1,
+    "part_no": "LK-FR-61",
+    "supplier_id": "S108",
+    "qty": 56700,
+    "unit_price_usd": 11.0,
+    "customs_value_usd": 623700.0,
+    "est_entry_date": "2026-12-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1108",
+    "line_no": 2,
+    "part_no": "LK-FR-67",
+    "supplier_id": "S108",
+    "qty": 10000,
+    "unit_price_usd": 13.5,
+    "customs_value_usd": 135000.0,
+    "est_entry_date": "2026-12-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1109",
+    "line_no": 1,
+    "part_no": "LK-GL-61",
+    "supplier_id": "S111",
+    "qty": 56700,
+    "unit_price_usd": 4.5,
+    "customs_value_usd": 255150.0,
+    "est_entry_date": "2026-12-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1109",
+    "line_no": 2,
+    "part_no": "LK-GL-67",
+    "supplier_id": "S111",
+    "qty": 10000,
+    "unit_price_usd": 5.4,
+    "customs_value_usd": 54000.0,
+    "est_entry_date": "2026-12-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1110",
+    "line_no": 1,
+    "part_no": "LK-SP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.2,
+    "customs_value_usd": 80040.0,
+    "est_entry_date": "2026-12-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1110",
+    "line_no": 2,
+    "part_no": "LK-UC-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 0.4,
+    "customs_value_usd": 26680.0,
+    "est_entry_date": "2026-12-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1110",
+    "line_no": 3,
+    "part_no": "LK-HP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.9,
+    "customs_value_usd": 126730.0,
+    "est_entry_date": "2026-12-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1111",
+    "line_no": 1,
+    "part_no": "LK-AP-4N",
+    "supplier_id": "S101",
+    "qty": 35000,
+    "unit_price_usd": 52.0,
+    "customs_value_usd": 1820000.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1111",
+    "line_no": 2,
+    "part_no": "LK-AP-3N",
+    "supplier_id": "S101",
+    "qty": 31700,
+    "unit_price_usd": 68.0,
+    "customs_value_usd": 2155600.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1111",
+    "line_no": 3,
+    "part_no": "LK-DD-61",
+    "supplier_id": "S101",
+    "qty": 56700,
+    "unit_price_usd": 2.2,
+    "customs_value_usd": 124740.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1111",
+    "line_no": 4,
+    "part_no": "LK-DD-67",
+    "supplier_id": "S101",
+    "qty": 10000,
+    "unit_price_usd": 2.6,
+    "customs_value_usd": 26000.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1112",
+    "line_no": 1,
+    "part_no": "LK-DR-08",
+    "supplier_id": "S102",
+    "qty": 35000,
+    "unit_price_usd": 19.4,
+    "customs_value_usd": 679000.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1112",
+    "line_no": 2,
+    "part_no": "LK-DR-12",
+    "supplier_id": "S102",
+    "qty": 31700,
+    "unit_price_usd": 27.8,
+    "customs_value_usd": 881260.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1112",
+    "line_no": 3,
+    "part_no": "LK-UF-256",
+    "supplier_id": "S102",
+    "qty": 56700,
+    "unit_price_usd": 21.4,
+    "customs_value_usd": 1213380.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1112",
+    "line_no": 4,
+    "part_no": "LK-UF-512",
+    "supplier_id": "S102",
+    "qty": 10000,
+    "unit_price_usd": 36.9,
+    "customs_value_usd": 369000.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1113",
+    "line_no": 1,
+    "part_no": "LK-PM-01",
+    "supplier_id": "S103",
+    "qty": 66700,
+    "unit_price_usd": 3.1,
+    "customs_value_usd": 206770.0,
+    "est_entry_date": "2027-01-12",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1114",
+    "line_no": 1,
+    "part_no": "LK-RF-5G",
+    "supplier_id": "S104",
+    "qty": 66700,
+    "unit_price_usd": 8.4,
+    "customs_value_usd": 560280.0,
+    "est_entry_date": "2027-01-15",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1115",
+    "line_no": 1,
+    "part_no": "LK-OL-61",
+    "supplier_id": "S105",
+    "qty": 56700,
+    "unit_price_usd": 34.0,
+    "customs_value_usd": 1927800.0,
+    "est_entry_date": "2027-01-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1115",
+    "line_no": 2,
+    "part_no": "LK-OL-67",
+    "supplier_id": "S105",
+    "qty": 10000,
+    "unit_price_usd": 45.0,
+    "customs_value_usd": 450000.0,
+    "est_entry_date": "2027-01-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1116",
+    "line_no": 1,
+    "part_no": "LK-BT-40",
+    "supplier_id": "S106",
+    "qty": 35000,
+    "unit_price_usd": 7.8,
+    "customs_value_usd": 273000.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1116",
+    "line_no": 2,
+    "part_no": "LK-BT-46",
+    "supplier_id": "S106",
+    "qty": 31700,
+    "unit_price_usd": 9.2,
+    "customs_value_usd": 291640.0,
+    "est_entry_date": "2027-01-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1117",
+    "line_no": 1,
+    "part_no": "LK-CM-48",
+    "supplier_id": "S107",
+    "qty": 66700,
+    "unit_price_usd": 16.0,
+    "customs_value_usd": 1067200.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1117",
+    "line_no": 2,
+    "part_no": "LK-CM-12",
+    "supplier_id": "S107",
+    "qty": 31700,
+    "unit_price_usd": 6.5,
+    "customs_value_usd": 206050.0,
+    "est_entry_date": "2027-01-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1118",
+    "line_no": 1,
+    "part_no": "LK-FR-61",
+    "supplier_id": "S108",
+    "qty": 56700,
+    "unit_price_usd": 11.0,
+    "customs_value_usd": 623700.0,
+    "est_entry_date": "2027-01-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1118",
+    "line_no": 2,
+    "part_no": "LK-FR-67",
+    "supplier_id": "S108",
+    "qty": 10000,
+    "unit_price_usd": 13.5,
+    "customs_value_usd": 135000.0,
+    "est_entry_date": "2027-01-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1119",
+    "line_no": 1,
+    "part_no": "LK-GL-61",
+    "supplier_id": "S111",
+    "qty": 56700,
+    "unit_price_usd": 4.5,
+    "customs_value_usd": 255150.0,
+    "est_entry_date": "2027-01-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1119",
+    "line_no": 2,
+    "part_no": "LK-GL-67",
+    "supplier_id": "S111",
+    "qty": 10000,
+    "unit_price_usd": 5.4,
+    "customs_value_usd": 54000.0,
+    "est_entry_date": "2027-01-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1120",
+    "line_no": 1,
+    "part_no": "LK-SP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.2,
+    "customs_value_usd": 80040.0,
+    "est_entry_date": "2027-01-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1120",
+    "line_no": 2,
+    "part_no": "LK-UC-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 0.4,
+    "customs_value_usd": 26680.0,
+    "est_entry_date": "2027-01-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1120",
+    "line_no": 3,
+    "part_no": "LK-HP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.9,
+    "customs_value_usd": 126730.0,
+    "est_entry_date": "2027-01-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1121",
+    "line_no": 1,
+    "part_no": "LK-AP-4N",
+    "supplier_id": "S101",
+    "qty": 35000,
+    "unit_price_usd": 52.0,
+    "customs_value_usd": 1820000.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1121",
+    "line_no": 2,
+    "part_no": "LK-AP-3N",
+    "supplier_id": "S101",
+    "qty": 31700,
+    "unit_price_usd": 68.0,
+    "customs_value_usd": 2155600.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1121",
+    "line_no": 3,
+    "part_no": "LK-DD-61",
+    "supplier_id": "S101",
+    "qty": 56700,
+    "unit_price_usd": 2.2,
+    "customs_value_usd": 124740.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1121",
+    "line_no": 4,
+    "part_no": "LK-DD-67",
+    "supplier_id": "S101",
+    "qty": 10000,
+    "unit_price_usd": 2.6,
+    "customs_value_usd": 26000.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1122",
+    "line_no": 1,
+    "part_no": "LK-DR-08",
+    "supplier_id": "S102",
+    "qty": 35000,
+    "unit_price_usd": 19.4,
+    "customs_value_usd": 679000.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1122",
+    "line_no": 2,
+    "part_no": "LK-DR-12",
+    "supplier_id": "S102",
+    "qty": 31700,
+    "unit_price_usd": 27.8,
+    "customs_value_usd": 881260.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1122",
+    "line_no": 3,
+    "part_no": "LK-UF-256",
+    "supplier_id": "S102",
+    "qty": 56700,
+    "unit_price_usd": 21.4,
+    "customs_value_usd": 1213380.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1122",
+    "line_no": 4,
+    "part_no": "LK-UF-512",
+    "supplier_id": "S102",
+    "qty": 10000,
+    "unit_price_usd": 36.9,
+    "customs_value_usd": 369000.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1123",
+    "line_no": 1,
+    "part_no": "LK-PM-01",
+    "supplier_id": "S103",
+    "qty": 66700,
+    "unit_price_usd": 3.1,
+    "customs_value_usd": 206770.0,
+    "est_entry_date": "2027-02-12",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1124",
+    "line_no": 1,
+    "part_no": "LK-RF-5G",
+    "supplier_id": "S104",
+    "qty": 66700,
+    "unit_price_usd": 8.4,
+    "customs_value_usd": 560280.0,
+    "est_entry_date": "2027-02-15",
+    "port": "Dallas/Fort Worth, Texas",
+    "port_code": "5501"
+   },
+   {
+    "po_id": "PO-26-1125",
+    "line_no": 1,
+    "part_no": "LK-OL-61",
+    "supplier_id": "S105",
+    "qty": 56700,
+    "unit_price_usd": 34.0,
+    "customs_value_usd": 1927800.0,
+    "est_entry_date": "2027-02-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1125",
+    "line_no": 2,
+    "part_no": "LK-OL-67",
+    "supplier_id": "S105",
+    "qty": 10000,
+    "unit_price_usd": 45.0,
+    "customs_value_usd": 450000.0,
+    "est_entry_date": "2027-02-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1126",
+    "line_no": 1,
+    "part_no": "LK-BT-40",
+    "supplier_id": "S106",
+    "qty": 35000,
+    "unit_price_usd": 7.8,
+    "customs_value_usd": 273000.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1126",
+    "line_no": 2,
+    "part_no": "LK-BT-46",
+    "supplier_id": "S106",
+    "qty": 31700,
+    "unit_price_usd": 9.2,
+    "customs_value_usd": 291640.0,
+    "est_entry_date": "2027-02-06",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1127",
+    "line_no": 1,
+    "part_no": "LK-CM-48",
+    "supplier_id": "S107",
+    "qty": 66700,
+    "unit_price_usd": 16.0,
+    "customs_value_usd": 1067200.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1127",
+    "line_no": 2,
+    "part_no": "LK-CM-12",
+    "supplier_id": "S107",
+    "qty": 31700,
+    "unit_price_usd": 6.5,
+    "customs_value_usd": 206050.0,
+    "est_entry_date": "2027-02-09",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1128",
+    "line_no": 1,
+    "part_no": "LK-FR-61",
+    "supplier_id": "S108",
+    "qty": 56700,
+    "unit_price_usd": 11.0,
+    "customs_value_usd": 623700.0,
+    "est_entry_date": "2027-02-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1128",
+    "line_no": 2,
+    "part_no": "LK-FR-67",
+    "supplier_id": "S108",
+    "qty": 10000,
+    "unit_price_usd": 13.5,
+    "customs_value_usd": 135000.0,
+    "est_entry_date": "2027-02-12",
+    "port": "Laredo, Texas",
+    "port_code": "2304"
+   },
+   {
+    "po_id": "PO-26-1129",
+    "line_no": 1,
+    "part_no": "LK-GL-61",
+    "supplier_id": "S111",
+    "qty": 56700,
+    "unit_price_usd": 4.5,
+    "customs_value_usd": 255150.0,
+    "est_entry_date": "2027-02-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1129",
+    "line_no": 2,
+    "part_no": "LK-GL-67",
+    "supplier_id": "S111",
+    "qty": 10000,
+    "unit_price_usd": 5.4,
+    "customs_value_usd": 54000.0,
+    "est_entry_date": "2027-02-15",
+    "port": null,
+    "port_code": null
+   },
+   {
+    "po_id": "PO-26-1130",
+    "line_no": 1,
+    "part_no": "LK-SP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.2,
+    "customs_value_usd": 80040.0,
+    "est_entry_date": "2027-02-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1130",
+    "line_no": 2,
+    "part_no": "LK-UC-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 0.4,
+    "customs_value_usd": 26680.0,
+    "est_entry_date": "2027-02-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   },
+   {
+    "po_id": "PO-26-1130",
+    "line_no": 3,
+    "part_no": "LK-HP-01",
+    "supplier_id": "S112",
+    "qty": 66700,
+    "unit_price_usd": 1.9,
+    "customs_value_usd": 126730.0,
+    "est_entry_date": "2027-02-18",
+    "port": "Los Angeles, California",
+    "port_code": "2704"
+   }
+  ],
+  "quotes": [
+   {
+    "supplier_id": "S109",
+    "part_no": "LK-DR-08",
+    "unit_price_usd": 20.9,
+    "reference": "Q-SRM-2611"
+   },
+   {
+    "supplier_id": "S109",
+    "part_no": "LK-DR-12",
+    "unit_price_usd": 29.6,
+    "reference": "Q-SRM-2611"
+   }
+  ],
+  "headings": {
+   "854231": "Processors and controllers",
+   "854232": "Memories",
+   "854239": "Other integrated circuits",
+   "852351": "Solid-state storage devices",
+   "852492": "OLED display modules",
+   "850760": "Lithium-ion batteries",
+   "852589": "Camera modules",
+   "761699": "Aluminum articles",
+   "700719": "Toughened safety glass",
+   "851829": "Loudspeakers",
+   "853669": "Connectors",
+   "850110": "Small electric motors"
+  },
+  "action_suppliers": {
+   "ACT-0021": "S109",
+   "ACT-0022": "S110"
+  },
+  "base_rates": {
+   "852492": 0.0,
+   "850760": 0.034,
+   "852589": 0.0,
+   "761699": 0.0,
+   "700719": 0.05,
+   "851829": 0.049,
+   "853669": 0.0,
+   "850110": 0.04,
+   "854231": 0.1,
+   "854232": 0.1,
+   "854239": 0.1,
+   "852351": 0.1
+  },
+  "award": {
+   "title": "LPDDR5X memory award",
+   "decided_on": "2026-04-14",
+   "incumbent": "S102",
+   "parts": [
+    "LK-DR-08",
+    "LK-DR-12"
+   ],
+   "part_label": "2 LPDDR5X memory parts",
+   "decision_id": "D-2026-044",
+   "assumption": "a 10% Section 232 duty on the full customs value",
+   "alternative": "S109"
+  }
+ },
+ "sources": {
+  "CA-2026-311": {
+   "title": "Client advisory CA-2026-311",
+   "kind": "Bulletin",
+   "original": "/scenario/CA-2026-311_client_advisory.pdf",
+   "pages": [
+    "/scenario/CA-2026-311-page-1.png"
+   ]
+  },
+  "HSC-CoC-26-10482": {
+   "title": "Hanul certificate of conformance",
+   "kind": "Supplier document",
+   "original": "/scenario/HSC-CoC-26-10482_LK-DR-12.pdf",
+   "pages": [
+    "/scenario/HSC-CoC-26-10482-page-1.png"
+   ]
+  },
+  "Q-SRM-2611": {
+   "title": "Snake River Memory quotation",
+   "kind": "Supplier document",
+   "original": "/scenario/Q-SRM-2611_quotation.pdf",
+   "pages": [
+    "/scenario/Q-SRM-2611-page-1.png"
+   ]
+  },
+  "SRM-CoC-11873": {
+   "title": "Snake River Memory certificate (scan)",
+   "kind": "Supplier document",
+   "original": "/scenario/SRM-CoC-11873_LK-DR-12_scan.jpg",
+   "pages": [
+    "/scenario/SRM-CoC-11873_LK-DR-12_scan.jpg"
+   ]
+  }
+ }
+}
