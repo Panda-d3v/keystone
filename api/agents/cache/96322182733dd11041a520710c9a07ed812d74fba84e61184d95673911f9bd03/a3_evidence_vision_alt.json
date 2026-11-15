@@ -1,0 +1,181 @@
+{
+  "file_sha256": "96322182733dd11041a520710c9a07ed812d74fba84e61184d95673911f9bd03",
+  "fingerprint": "9877a4c3e6a5f5fbfeb7a46ba1cf9d976d4331846f9b6a347e2d09714fbe5a08",
+  "model": "claude-opus-5-5",
+  "output": {
+    "certificate_no": {
+      "bbox": [
+        0.349,
+        0.148,
+        0.438,
+        0.159
+      ],
+      "confidence": 0.65,
+      "page": 1,
+      "status": "read",
+      "value": "SFP-3.1-07791"
+    },
+    "country_of_origin": {
+      "bbox": [
+        0.351,
+        0.276,
+        0.449,
+        0.288
+      ],
+      "confidence": 0.75,
+      "page": 1,
+      "status": "read",
+      "value": "United Kingdom"
+    },
+    "customer_po": {
+      "bbox": [
+        0.349,
+        0.195,
+        0.468,
+        0.206
+      ],
+      "confidence": 0.6,
+      "page": 1,
+      "status": "read",
+      "value": "Quote Q-2026-0412"
+    },
+    "doc_kind": "mill_certificate",
+    "expires_on": {
+      "bbox": [],
+      "confidence": 0.0,
+      "page": 1,
+      "status": "not_present",
+      "value": null
+    },
+    "heats": [
+      {
+        "heat_no": {
+          "bbox": [
+            0.11,
+            0.356,
+            0.167,
+            0.366
+          ],
+          "confidence": 0.5,
+          "page": 1,
+          "status": "read",
+          "value": "SF-24117"
+        },
+        "qty": {
+          "bbox": [
+            0.225,
+            0.354,
+            0.24,
+            0.364
+          ],
+          "confidence": 0.4,
+          "page": 1,
+          "status": "read",
+          "value": "60"
+        }
+      },
+      {
+        "heat_no": {
+          "bbox": [
+            0.11,
+            0.369,
+            0.167,
+            0.379
+          ],
+          "confidence": 0.5,
+          "page": 1,
+          "status": "read",
+          "value": "SF-24121"
+        },
+        "qty": {
+          "bbox": [
+            0.225,
+            0.367,
+            0.24,
+            0.377
+          ],
+          "confidence": 0.4,
+          "page": 1,
+          "status": "read",
+          "value": "40"
+        }
+      }
+    ],
+    "hs_code": {
+      "bbox": [
+        0.351,
+        0.26,
+        0.419,
+        0.271
+      ],
+      "confidence": 0.6,
+      "page": 1,
+      "status": "read",
+      "value": "8413.91.90"
+    },
+    "issue_date": {
+      "bbox": [
+        0.349,
+        0.164,
+        0.412,
+        0.175
+      ],
+      "confidence": 0.6,
+      "page": 1,
+      "status": "read",
+      "value": "2026-11-02"
+    },
+    "material_spec": {
+      "bbox": [
+        0.351,
+        0.242,
+        0.522,
+        0.255
+      ],
+      "confidence": 0.7,
+      "page": 1,
+      "status": "read",
+      "value": "ASTM A536 Grade 65-45-12"
+    },
+    "melt_location": {
+      "bbox": [
+        0.327,
+        0.284,
+        0.645,
+        0.319
+      ],
+      "confidence": 0.05,
+      "page": 1,
+      "status": "unclear",
+      "value": null
+    },
+    "part_no": {
+      "bbox": [
+        0.349,
+        0.211,
+        0.43,
+        0.222
+      ],
+      "confidence": 0.6,
+      "page": 1,
+      "status": "read",
+      "value": "MF-8413-005"
+    },
+    "supplier_name": {
+      "bbox": [
+        0.097,
+        0.091,
+        0.505,
+        0.119
+      ],
+      "confidence": 0.93,
+      "page": 1,
+      "status": "read",
+      "value": "Sheffield Forge & Pattern Ltd (fictional)"
+    }
+  },
+  "recorded_at": "2026-11-15T00:01:34+00:00",
+  "schema": "VisionEvidenceDraft",
+  "task": "a3_evidence_vision_alt",
+  "version": 1
+}

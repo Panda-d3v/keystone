@@ -194,14 +194,79 @@ def test_text_value_with_bogus_block_is_dropped(tmp_path):
     assert out.flags["country_of_origin"] == "no valid citation"
 
 
-def test_vision_low_confidence_read_is_not_trusted(tmp_path):
-    guess = json.loads(json.dumps(SHEFFIELD_ANSWER))
-    guess["melt_location"] = seen("Sheffield, United Kingdom", 0.6, [0.1, 0.28, 0.65, 0.31])
-    _, client = _client(tmp_path, VisionEvidenceDraft=guess)
-    out = extract_evidence(_doc(SHEFFIELD, client), resolve_supplier=resolve, client=client)
+class TwoReads(Stub):
+    """First vision call is the enhanced scan, second the original pixels."""
+
+    def __init__(self, first, second, third=None):
+        super().__init__({"TextEvidenceDraft": NINGBO_ANSWER,
+                          "IntakeClassification": {"kind": "supplier_document", "confidence": 0.9, "reason": "c"}})
+        self.reads = [first, second, third if third is not None else second]
+
+    def generate(self, request):
+        if request.schema.__name__ == "VisionEvidenceDraft":
+            self.calls.append(request)
+            return json.loads(json.dumps(self.reads.pop(0)))
+        return super().generate(request)
+
+
+def _two_reads(tmp_path, first, second, third=None):
+    stub = TwoReads(first, second, third)
+    client = LLMClient(stub, cache_dir=tmp_path / "cache", replay=False)
+    return stub, extract_evidence(_doc(SHEFFIELD, client), resolve_supplier=resolve, client=client)
+
+
+def _with_field(name, **changes):
+    answer = json.loads(json.dumps(SHEFFIELD_ANSWER))
+    answer[name] = {**answer[name], **changes}
+    return answer
+
+
+def test_scan_is_read_twice_and_agreement_confirms(tmp_path):
+    # Live Claude reads legible-but-blurred fields right yet rates them ~0.6.
+    calibrated = _with_field("part_no", confidence=0.6)
+    stub, out = _two_reads(tmp_path, calibrated, calibrated)
+    vision = [c for c in stub.calls if c.schema.__name__ == "VisionEvidenceDraft"]
+    assert len(vision) == 3
+    assert [v.attachments[0].media_type for v in vision] == ["image/png", "image/png", "image/jpeg"]
+    assert out.items[0].part_no == "MF-8413-005"
+    assert out.field_confidence["part_no"] == 0.9
+
+
+def test_one_misread_is_outvoted(tmp_path):
+    # Live run: the low-resolution original once read MF-8413-006.
+    misread = _with_field("part_no", value="MF-8413-006")
+    _, out = _two_reads(tmp_path, SHEFFIELD_ANSWER, SHEFFIELD_ANSWER, misread)
+    assert out.items[0].part_no == "MF-8413-005"
+    assert out.field_confidence["part_no"] == 0.86
+
+
+def test_no_majority_is_not_trusted(tmp_path):
+    _, out = _two_reads(tmp_path, SHEFFIELD_ANSWER, _with_field("part_no", value="MF-8418-005"),
+                        _with_field("part_no", value="MF-8413-006"))
+    assert out.items[0].part_no == ""
+    assert out.field_confidence["part_no"] <= 0.5
+
+
+def test_one_unclear_read_is_enough_to_refuse(tmp_path):
+    guess = _with_field("melt_location", value="Sheffield, United Kingdom", confidence=0.9, status="read")
+    unclear = _with_field("melt_location", value=None, confidence=0.05, status="unclear")
+    _, out = _two_reads(tmp_path, guess, unclear)
     assert out.items[0].fields["melt_location"] is None
-    assert out.items[0].fields["melt_location_confidence"] == 0.6
+    assert out.items[0].fields["melt_location_confidence"] == 0.05
+
+
+def test_agreeing_low_guesses_are_not_rescued(tmp_path):
+    guess = _with_field("melt_location", value="Sheffield, United Kingdom", confidence=0.4, status="read")
+    _, out = _two_reads(tmp_path, guess, guess)
+    assert out.items[0].fields["melt_location"] is None
     assert "unreadable" in out.flags["melt_location"]
+
+
+def test_not_present_field_is_omitted(tmp_path):
+    absent = _with_field("expires_on", value=None, confidence=0.9, status="not_present", bbox=[0.3, 0.1, 0.6, 0.3])
+    _, out = _two_reads(tmp_path, absent, absent)
+    assert "expires_on" not in out.items[0].fields
+    assert "expires_on" not in out.field_confidence
 
 
 def test_vision_value_without_bbox_is_dropped(tmp_path):

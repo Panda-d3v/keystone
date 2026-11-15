@@ -119,7 +119,7 @@ def test_replay_runs_the_whole_demo_offline(tmp_path):
     replay = LLMClient(None, cache_dir=tmp_path / "cache", replay=True)  # no backend at all
     offline = AgentPipeline(p.matcher, client=replay)
     second = [o.summary for f in files for o in offline.ingest((DOCS / f).read_bytes(), f)]
-    assert second == first and replay.stats.model_calls == 0 and recorded == 4
+    assert second == first and replay.stats.model_calls == 0 and recorded == 6  # scan is read three times
 
 
 def test_unreadable_attachment_does_not_sink_upload(tmp_path):
