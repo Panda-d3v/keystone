@@ -5,7 +5,7 @@ import { Layers, Printer, RefreshCw } from "lucide-react";
 import { useWorkspace } from "@/lib/use-workspace";
 import { routeFor, screens, type Screen } from "@/lib/routes";
 import type { Action, Citation, SendActionResponse, WorkspaceData } from "@/lib/contracts";
-import { date, money, percent, words } from "@/lib/format";
+import { actionTitle, atStake, date, money, percent, words } from "@/lib/format";
 import { referenceUrl } from "@/lib/reference";
 import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
 import { verifyAudit } from "@/lib/audit";
@@ -106,7 +106,7 @@ function EntryRequest({ action, saved }: { action: Action; saved?: Submission })
     catch (error) { setError(error instanceof Error ? error.message : "Submission failed."); }
     finally { guard.current = false; setBusy(false); }
   }
-  return <article className="entry-decision stack"><div className="row spread"><h3>{words(action.type)}</h3><strong>{money(action.usd_at_stake)} at stake</strong></div><p className="code">{action.part_ids.join(", ")}</p><label className="stack">Supplier request<textarea value={accepted ? saved?.draftEmail ?? draft : draft} disabled={!!accepted || busy} onChange={event => setDraft(event.target.value)}/></label>{error && <p role="alert" className="negative">{error}</p>}{accepted ? <EntryApproval result={accepted}/> : <button className="primary" disabled={busy || !draft.trim()} onClick={submit}>{busy ? "Submitting…" : "Submit request"}</button>}</article>;
+  return <article className="entry-decision stack"><div className="row spread"><h3>{actionTitle(action)}</h3><strong>{atStake(action.usd_at_stake)}</strong></div>{action.why && <p>{action.why}</p>}<p className="code">{action.part_ids.join(", ")}</p><label className="stack">Supplier request<textarea value={accepted ? saved?.draftEmail ?? draft : draft} disabled={!!accepted || busy} onChange={event => setDraft(event.target.value)}/></label>{error && <p role="alert" className="negative">{error}</p>}{accepted ? <EntryApproval result={accepted}/> : <button className="primary" disabled={busy || !draft.trim()} onClick={submit}>{busy ? "Submitting…" : "Submit request"}</button>}</article>;
 }
 function EntryAudit({ data }: { data: WorkspaceData }) {
   const [query, setQuery] = useState("");

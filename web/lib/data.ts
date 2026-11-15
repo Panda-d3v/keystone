@@ -5,11 +5,15 @@ import evidence from "../../contracts/fixtures/evidence.json";
 import actions from "../../contracts/fixtures/actions.json";
 import audit from "../../contracts/fixtures/audit.json";
 import sendAction from "../../contracts/fixtures/send_action.json";
+import intakeDocuments from "../../contracts/fixtures/intake_documents.json";
 
-import type { WorkspaceData, SendActionResponse } from "./contracts";
+import type { IntakeDocument, WorkspaceData, SendActionResponse } from "./contracts";
 export type { WorkspaceData } from "./contracts";
 
-export const fixtureData: WorkspaceData = { changes, exposure, decisions, evidence, actions, audit };
+export const fixtureData: WorkspaceData = {
+  changes, exposure, decisions, evidence, actions, audit,
+  documents: intakeDocuments as IntakeDocument[],
+};
 export const useFixtures = process.env.NEXT_PUBLIC_USE_FIXTURES !== "false";
 const base = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000").replace(/\/$/, "");
 
@@ -27,14 +31,16 @@ export async function loadWorkspace(signal?: AbortSignal): Promise<WorkspaceData
   const options = { signal };
   const changes = await apiRequest<WorkspaceData["changes"]>("/changes", options);
   if (changes.length === 0) return null;
-  const [exposure, decisions, evidence, actions, audit] = await Promise.all([
+  const [exposure, decisions, evidence, actions, audit, documents] = await Promise.all([
     apiRequest<WorkspaceData["exposure"]>("/changes/CE-0007/exposure", options),
     apiRequest<WorkspaceData["decisions"]>("/decisions", options),
     apiRequest<WorkspaceData["evidence"]>("/evidence/S007/MF-8413-005", options),
     apiRequest<WorkspaceData["actions"]>("/actions", options),
     apiRequest<WorkspaceData["audit"]>("/audit", options),
+    // Older API builds have no document list; the Intake screen just hides it.
+    apiRequest<IntakeDocument[]>("/intake/documents", options).catch(() => undefined),
   ]);
-  return { changes, exposure, decisions, evidence, actions, audit };
+  return { changes, exposure, decisions, evidence, actions, audit, documents };
 }
 export async function sendActionRequest(id: string, draftEmail: string): Promise<SendActionResponse> {
   if (!draftEmail.trim()) throw new Error("Enter a supplier request before submitting.");

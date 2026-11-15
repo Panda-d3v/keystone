@@ -10,7 +10,7 @@ import type {
   SendActionResponse,
   WorkspaceData,
 } from "@/lib/contracts";
-import { date, money, percent, words } from "@/lib/format";
+import { actionTitle, atStake, date, money, percent, words } from "@/lib/format";
 import { referenceUrl } from "@/lib/reference";
 import {
   declineAction,
@@ -389,8 +389,8 @@ function BriefRequest({
   }
   return (
     <article className="brief-request">
-      <h3>{words(action.type)}</h3>
-      <p>{money(action.usd_at_stake)} at stake</p>
+      <h3>{actionTitle(action)}</h3>
+      <p>{action.why || atStake(action.usd_at_stake)}</p>
       <label>
         Supplier request
         <textarea

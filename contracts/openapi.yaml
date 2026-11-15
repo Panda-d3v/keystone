@@ -1454,7 +1454,9 @@
                       "MF-8413-005"
                     ],
                     "usd_at_stake": 49690,
-                    "draft_email": "Please send a legible mill certificate showing the melt and pour location for the heats supplied for MF-8413-005, and an origin declaration."
+                    "draft_email": "Please send a legible mill certificate showing the melt and pour location for the heats supplied for MF-8413-005, and an origin declaration.",
+                    "title": "Ask Sheffield Forge & Pattern Ltd for the melt-and-pour certificate and origin declaration",
+                    "why": "Switching MF-8413-005 to Sheffield Forge & Pattern Ltd would save $49,690 a year, but only once we hold the melt-and-pour certificate and origin declaration."
                   }
                 ]
               }
@@ -2949,6 +2951,58 @@
           }
         }
       }
+    },
+    "/intake/documents": {
+      "get": {
+        "operationId": "intake_documents",
+        "summary": "Documents received, newest first, with a plain-language summary and anything a person must check",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/IntakeDocument"
+                  },
+                  "type": "array"
+                },
+                "example": [
+                  {
+                    "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+                    "filename": "03_scan_mill_cert_Sheffield_MF-8413-005.jpg",
+                    "media_type": "image/jpeg",
+                    "kind": "supplier_document",
+                    "summary": "Mill certificate from Sheffield Forge & Pattern Ltd (S007) for part MF-8413-005, heats SF-24117 and SF-24121. Country of origin: United Kingdom. Where the iron was melted and poured is unreadable (5% confidence).",
+                    "review": [
+                      "Where the iron was melted and poured is unreadable (5% confidence, 85% needed). It will not be used until a clear copy arrives."
+                    ],
+                    "received_at": "2026-11-14T15:12:00Z"
+                  },
+                  {
+                    "doc_id": "HTA-2026-118",
+                    "filename": "HTA-2026-118_trade_advisory.pdf",
+                    "media_type": "application/pdf",
+                    "kind": "bulletin",
+                    "summary": "Tariff bulletin HTA-2026-118: 4 HTS headings (8413.91, 8481.30, 8481.80, 8483.30) move from 25% to 50% on the full customs value, starting December 1, 2026.",
+                    "review": [],
+                    "received_at": "2026-11-14T15:05:00Z"
+                  },
+                  {
+                    "doc_id": "01_bulletin_email_HTA-2026-118",
+                    "filename": "01_bulletin_email_HTA-2026-118.eml",
+                    "media_type": "message/rfc822",
+                    "kind": "bulletin",
+                    "summary": "Email with 1 attachment: HTA-2026-118.",
+                    "review": [],
+                    "received_at": "2026-11-14T15:05:00Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3382,6 +3436,32 @@
           "draft_email": {
             "title": "Draft Email",
             "type": "string"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Title",
+            "description": "One plain sentence naming the next step"
+          },
+          "why": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Why",
+            "description": "One plain sentence on why it matters, using rule-computed amounts"
           }
         },
         "required": [
@@ -3584,6 +3664,58 @@
         ],
         "title": "LineageNode",
         "type": "object"
+      },
+      "IntakeDocument": {
+        "additionalProperties": false,
+        "title": "IntakeDocument",
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "media_type": {
+            "title": "Media Type",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "bulletin",
+              "supplier_document",
+              "unknown"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "review": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Review",
+            "type": "array"
+          },
+          "received_at": {
+            "format": "date-time",
+            "title": "Received At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "doc_id",
+          "filename",
+          "media_type",
+          "kind",
+          "summary",
+          "received_at"
+        ]
       }
     }
   }

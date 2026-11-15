@@ -1,0 +1,31 @@
+[
+  {
+    "doc_id": "03_scan_mill_cert_Sheffield_MF-8413-005",
+    "filename": "03_scan_mill_cert_Sheffield_MF-8413-005.jpg",
+    "media_type": "image/jpeg",
+    "kind": "supplier_document",
+    "summary": "Mill certificate from Sheffield Forge & Pattern Ltd (S007) for part MF-8413-005, heats SF-24117 and SF-24121. Country of origin: United Kingdom. Where the iron was melted and poured is unreadable (5% confidence).",
+    "review": [
+      "Where the iron was melted and poured is unreadable (5% confidence, 85% needed). It will not be used until a clear copy arrives."
+    ],
+    "received_at": "2026-11-14T15:12:00Z"
+  },
+  {
+    "doc_id": "HTA-2026-118",
+    "filename": "HTA-2026-118_trade_advisory.pdf",
+    "media_type": "application/pdf",
+    "kind": "bulletin",
+    "summary": "Tariff bulletin HTA-2026-118: 4 HTS headings (8413.91, 8481.30, 8481.80, 8483.30) move from 25% to 50% on the full customs value, starting December 1, 2026.",
+    "review": [],
+    "received_at": "2026-11-14T15:05:00Z"
+  },
+  {
+    "doc_id": "01_bulletin_email_HTA-2026-118",
+    "filename": "01_bulletin_email_HTA-2026-118.eml",
+    "media_type": "message/rfc822",
+    "kind": "bulletin",
+    "summary": "Email with 1 attachment: HTA-2026-118.",
+    "review": [],
+    "received_at": "2026-11-14T15:05:00Z"
+  }
+]

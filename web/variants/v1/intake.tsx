@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { Citation, WorkspaceData } from "@/lib/contracts";
+import type { Citation, IntakeDocument, WorkspaceData } from "@/lib/contracts";
 import { date, percent, words } from "@/lib/format";
 import { useFixtures } from "@/lib/data";
 import sources from "@/lib/reference-sources.json";
@@ -20,7 +20,7 @@ export function Intake({ data }: { data: WorkspaceData }) {
   ];
   const citations: Citation[] = change.field_citations?.[field] || change.citations;
   return <div className="stack">
-    {useFixtures && <section className="panel">
+    {data.documents?.length ? <ReceivedDocuments documents={data.documents} /> : useFixtures && <section className="panel">
       <div className="panel-header"><h2>Document queue</h2><span className="muted small">Provided demo documents</span></div>
       <div className="table-scroll"><table>
         <thead><tr><th>Document</th><th>Type</th><th>Source</th></tr></thead>
@@ -41,4 +41,31 @@ export function Intake({ data }: { data: WorkspaceData }) {
       <SourceViewer citation={citations[0] || null} />
     </div>
   </div>;
+}
+
+const KIND_LABEL: Record<IntakeDocument["kind"], string> = {
+  bulletin: "Bulletin",
+  supplier_document: "Supplier document",
+  unknown: "Needs sorting",
+};
+
+/** What arrived, in plain words, and what a person still has to check. */
+function ReceivedDocuments({ documents }: { documents: IntakeDocument[] }) {
+  const toCheck = documents.filter(doc => doc.review.length).length;
+  return <section className="panel" aria-labelledby="received-documents">
+    <div className="panel-header">
+      <h2 id="received-documents">Received documents</h2>
+      <span className={`status ${toCheck ? "warn" : "good"}`}>{toCheck ? `${toCheck} to check` : "All read"}</span>
+    </div>
+    <ul className="received-list">{documents.map(doc => <li key={doc.doc_id} className="received-item">
+      <div className="row spread">
+        <span className="status">{KIND_LABEL[doc.kind]}</span>
+        <span className="muted small">{doc.filename}</span>
+      </div>
+      <p>{doc.summary}</p>
+      {doc.review.length > 0 && <ul className="received-review" aria-label={`To check for ${doc.filename}`}>
+        {doc.review.map(note => <li key={note}>{note}</li>)}
+      </ul>}
+    </li>)}</ul>
+  </section>;
 }

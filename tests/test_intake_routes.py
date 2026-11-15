@@ -85,6 +85,13 @@ def test_uploads_persist_exposure_and_evidence_once(monkeypatch, tmp_path, manua
                         "supplier_id": "S007", "part_no": "MF-8413-001",
                     }, files=scan_files)
                     assert conflicting.status_code == 409
+                received = client.get("/intake/documents").raise_for_status().json()
+                by_id = {doc["doc_id"]: doc for doc in received}
+                assert received[0]["doc_id"] == ids["evidence_doc_ids"][0]  # newest first
+                assert set(by_id) >= {"01_bulletin_email_HTA-2026-118", "HTA-2026-118", received[0]["doc_id"]}
+                assert by_id["HTA-2026-118"]["kind"] == "bulletin"
+                assert by_id["HTA-2026-118"]["summary"].startswith("Tariff bulletin HTA-2026-118:")
+                assert received[0]["review"]  # the scan's unreadable melt location is listed for a person
                 source = client.get(f"/documents/{ids['evidence_doc_ids'][0]}").raise_for_status()
                 assert source.content == scan
                 assert source.headers["content-type"] == "image/jpeg"

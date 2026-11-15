@@ -14,7 +14,7 @@ from scripts.seed_demo import seed_demo
 DEMO_PACK = Path("docs/reference/keystone-demo-pack.zip")
 RUNTIME_TABLES = {
     "audit_events", "bulletin_intake", "declined_actions", "evidence_records",
-    "evidence_scopes", "intake_action_keys", "intake_documents", "proposed_actions",
+    "evidence_scopes", "intake_action_keys", "intake_documents", "intake_reviews", "proposed_actions",
     "sent_actions", "supplier_document_intake", "tariff_rate_entries", "tariff_rate_versions",
 }
 

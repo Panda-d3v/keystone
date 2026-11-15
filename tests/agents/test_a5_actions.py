@@ -65,6 +65,8 @@ def test_business_readable_title_and_reason():
     assert draft.title == "Ask Sheffield Forge & Pattern Ltd for the melt-and-pour certificate and origin declaration"
     assert draft.why.startswith("Switching MF-8413-005 to Sheffield Forge & Pattern Ltd would save $49,690 a year")
     assert draft.subject == "Documents needed for part MF-8413-005 (SF-24117, SF-24121)"
+    # The plain-language text travels with the contract Action to the API and UI.
+    assert (draft.action.title, draft.action.why) == (draft.title, draft.why)
     email = draft.action.draft_email
     assert email.startswith("Hello Sheffield Forge & Pattern Ltd team,")
     assert "unreadable where it matters" in email and "we have not received it" in email

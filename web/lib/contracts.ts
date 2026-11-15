@@ -83,6 +83,17 @@ export interface Action {
   part_ids: string[];
   usd_at_stake: number;
   draft_email: string;
+  title?: string | null;
+  why?: string | null;
+}
+export interface IntakeDocument {
+  doc_id: string;
+  filename: string;
+  media_type: string;
+  kind: "bulletin" | "supplier_document" | "unknown";
+  summary: string;
+  review: string[];
+  received_at: string;
 }
 export interface AuditEvent {
   id: string;
@@ -106,6 +117,7 @@ export interface WorkspaceData {
   evidence: EvidenceStatus;
   actions: Action[];
   audit: AuditEvent[];
+  documents?: IntakeDocument[];
 }
 
 export interface LineageNode {

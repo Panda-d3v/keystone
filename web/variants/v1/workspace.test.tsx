@@ -100,3 +100,17 @@ it("uploads a bulletin and explains the next step", async () => {
   expect(request.mock.calls[0][1].body.get("file")).toBe(file);
   expect(reload).toHaveBeenCalledOnce();
 });
+it("lists received documents in plain words with what to check", () => {
+ render(<ConsoleWorkspace screen="inbox"/>);
+ const list = screen.getByRole("region", {name: "Received documents"});
+ expect(within(list).getByText("1 to check")).toBeTruthy();
+ expect(within(list).getByText(/^Tariff bulletin HTA-2026-118: 4 HTS headings/)).toBeTruthy();
+ expect(within(list).getByText(/unreadable \(5% confidence, 85% needed\)/)).toBeTruthy();
+});
+it("titles each action in plain words with why it matters", async () => {
+ render(<ConsoleWorkspace screen="actions"/>);
+ expect(await screen.findByRole("heading", {name: "Ask Sheffield Forge & Pattern Ltd for the melt-and-pour certificate and origin declaration"})).toBeTruthy();
+ expect(screen.getByText(/would save \$49,690 a year, but only once we hold/)).toBeTruthy();
+ expect(screen.getByText("$49,690 a year at stake")).toBeTruthy();
+ expect(screen.queryByText(/request evidence/)).toBeNull();
+});

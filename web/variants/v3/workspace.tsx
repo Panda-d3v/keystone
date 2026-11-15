@@ -21,7 +21,7 @@ import type {
   LineageNode,
   WorkspaceData,
 } from "@/lib/contracts";
-import { money, percent, date, words } from "@/lib/format";
+import { actionTitle, atStake, money, percent, date, words } from "@/lib/format";
 import { referenceUrl } from "@/lib/reference";
 import {
   submitAction,
@@ -549,8 +549,9 @@ function LineageRequest({
   const accepted = result || saved?.response;
   return (
     <article className="stack">
-      <h3>{words(action.type)}</h3>
-      <p>{money(action.usd_at_stake)} at stake</p>
+      <h3>{actionTitle(action)}</h3>
+      <p>{atStake(action.usd_at_stake)}</p>
+      {action.why && <p>{action.why}</p>}
       <label className="stack">
         Supplier request
         <textarea

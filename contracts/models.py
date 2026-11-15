@@ -119,6 +119,18 @@ class Action(Contract):
     part_ids: list[str]
     usd_at_stake: float
     draft_email: str
+    title: str | None = Field(default=None, description="One plain sentence naming the next step")
+    why: str | None = Field(default=None, description="One plain sentence on why it matters, using rule-computed amounts")
+
+
+class IntakeDocument(Contract):
+    doc_id: str
+    filename: str
+    media_type: str
+    kind: Literal["bulletin", "supplier_document", "unknown"]
+    summary: str
+    review: list[str] = Field(default_factory=list)
+    received_at: datetime
 
 
 class AuditEvent(Contract):

@@ -5,6 +5,7 @@ from typing import Annotated
 from urllib.parse import quote
 
 from fastapi import File, Form, HTTPException, Response, UploadFile
+from psycopg.types.json import Jsonb
 from pydantic import BaseModel
 
 from api.agents.a4_match import EntityMatcher
@@ -12,7 +13,7 @@ from api.agents.llm import CacheMiss
 from api.agents.pipeline import AgentPipeline
 from api.audit.log import append_event
 from api.rules.rates import apply_change
-from contracts.models import DocEnvelope
+from contracts.models import DocEnvelope, IntakeDocument
 
 from . import Database, evidence_status, router
 from .action_drafts import refresh_evidence_requests
@@ -37,6 +38,17 @@ CREATE TABLE IF NOT EXISTS supplier_document_intake (
     sha256 text NOT NULL
 );
 """
+REVIEWS_SCHEMA = """
+CREATE TABLE IF NOT EXISTS intake_reviews (
+    doc_id text PRIMARY KEY,
+    filename text NOT NULL,
+    media_type text NOT NULL,
+    kind text NOT NULL,
+    summary text NOT NULL,
+    review jsonb NOT NULL,
+    received_at timestamptz NOT NULL DEFAULT now()
+);
+"""
 
 
 class DocumentReview(BaseModel):
@@ -51,6 +63,20 @@ class IntakeResponse(BaseModel):
     review_doc_ids: list[str]
     evidence_doc_ids: list[str]
     document_reviews: list[DocumentReview]
+
+
+@router.get("/intake/documents", operation_id="intake_documents")
+def intake_documents(connection: Database) -> list[IntakeDocument]:
+    """Documents received, newest first, each with a plain summary and what a person must check."""
+    if not connection.execute("SELECT to_regclass('intake_reviews')").fetchone()[0]:
+        return []
+    return [
+        IntakeDocument(doc_id=d, filename=f, media_type=m, kind=k, summary=s, review=r, received_at=t)
+        for d, f, m, k, s, r, t in connection.execute(
+            "SELECT doc_id, filename, media_type, kind, summary, review, received_at "
+            "FROM intake_reviews ORDER BY received_at DESC, doc_id"
+        )
+    ]
 
 
 @router.get("/documents/{doc_id}", operation_id="document_source")
@@ -224,6 +250,17 @@ def process_upload(
 
     for actor, kind, entity_id in journal:
         append_event(connection, actor=actor, type=kind, entity_id=entity_id)
+
+    connection.execute(REVIEWS_SCHEMA)
+    for outcome, item in zip(outcomes, reviews):
+        envelope = outcome.intake.envelope
+        connection.execute(
+            "INSERT INTO intake_reviews (doc_id, filename, media_type, kind, summary, review) "
+            "VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (doc_id) DO UPDATE SET "
+            "summary = EXCLUDED.summary, review = EXCLUDED.review, kind = EXCLUDED.kind, received_at = now()",
+            (envelope.doc_id, envelope.filename, envelope.media_type, envelope.kind,
+             item.summary, Jsonb(item.review)),
+        )
 
     return IntakeResponse(
         documents=[outcome.intake.envelope for outcome in outcomes],
