@@ -3,10 +3,12 @@ import {
   Document,
   Font,
   Link,
+  Line,
   Page,
   Rect,
   StyleSheet,
   Svg,
+  Text as SvgText,
   Text,
   View,
   pdf,
@@ -28,15 +30,15 @@ Font.register({
 });
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 38,
+    paddingTop: 44,
     paddingHorizontal: 44,
     paddingBottom: 48,
     fontFamily: "Brief body",
     fontSize: 10.5,
     lineHeight: 1.5,
-    color: "#1a1d21",
+    color: "#1b3139",
   },
-  masthead: { fontSize: 10, color: "#1f5135", marginBottom: 20 },
+  masthead: { fontSize: 10, color: "#5a6f77", marginBottom: 20 },
   title: {
     fontFamily: "Brief heading",
     fontSize: 28,
@@ -50,20 +52,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   paragraph: { marginBottom: 10 },
-  source: { fontSize: 9, color: "#1f5135", marginBottom: 12 },
-  findingSource: { fontSize: 9, color: "#1f5135", marginTop: 3 },
+  source: { fontSize: 9, color: "#016bc1", marginBottom: 12 },
+  findingSource: { fontSize: 9, color: "#016bc1", marginTop: 3 },
   row: {
     flexDirection: "row",
     paddingVertical: 8,
     borderBottomWidth: 0.5,
-    borderBottomColor: "#cbd7cf",
+    borderBottomColor: "#dcdad4",
   },
   cell: { width: "40%", paddingRight: 8 },
   amount: { width: "30%", textAlign: "right" },
   finding: {
     paddingVertical: 9,
     borderBottomWidth: 0.5,
-    borderBottomColor: "#dce4df",
+    borderBottomColor: "#ebe9e4",
   },
   footer: {
     position: "absolute",
@@ -71,11 +73,10 @@ const styles = StyleSheet.create({
     left: 44,
     right: 44,
     fontSize: 8,
-    color: "#526258",
+    color: "#5a6f77",
   },
-  chart: { flexDirection: "row", marginVertical: 12 },
-  chartColumn: { width: "33.33%", alignItems: "center" },
-  chartLabel: { fontSize: 9, textAlign: "center", marginTop: 6 },
+  chart: { marginVertical: 12, paddingVertical: 12, backgroundColor: "#f9f7f4" },
+  chartText: { fontSize: 10, fontFamily: "Brief body" },
 });
 function absoluteSource(citation: Citation) {
   const source = referenceUrl(citation);
@@ -127,7 +128,7 @@ export async function downloadBrief(data: WorkspaceData) {
           const bars = waterfallBars(decision);
           return (
             <View key={decision.decision_id}>
-              <Text style={styles.heading} minPresenceAhead={190}>
+              <Text style={styles.heading} minPresenceAhead={145}>
                 The award’s annual cost
               </Text>
               <Text style={styles.paragraph}>
@@ -137,29 +138,29 @@ export async function downloadBrief(data: WorkspaceData) {
               </Text>
               {bars && (
                 <View style={styles.chart} wrap={false}>
-                  {bars.map((bar, index) => (
-                    <View key={bar.label} style={styles.chartColumn}>
-                      <Svg width={145} height={160} viewBox="0 0 145 160">
-                        <Rect
-                          x={30}
-                          y={160 - (bar.bottom + bar.height) * 145}
-                          width={85}
-                          height={bar.height * 145}
-                          fill={
-                            index === 2
-                              ? "#1f5135"
-                              : index === 1
-                                ? "#557c64"
-                                : "#96ae9e"
-                          }
-                        />
-                      </Svg>
-                      <Text style={styles.chartLabel}>
-                        {bar.value == null ? "Unavailable" : money(bar.value)}
-                      </Text>
-                      <Text style={styles.chartLabel}>{bar.label}</Text>
-                    </View>
-                  ))}
+                  <Svg width="100%" height={102} viewBox="0 0 500 102">
+                    {bars.map((bar, index) => {
+                      const y = 19 + index * 32;
+                      const start = 132 + bar.bottom * 250;
+                      const end = start + bar.height * 250;
+                      return (
+                        <React.Fragment key={bar.label}>
+                          <SvgText x={12} y={y + 4} style={styles.chartText} fill="#1b3139">
+                            {bar.label}
+                          </SvgText>
+                          <Rect x={132} y={y - 6} width={250} height={12} fill="#eeede9" />
+                          <Rect x={start} y={y - 6} width={bar.height * 250} height={12}
+                            fill={["#8a9aa0", "#c41300", "#1b3139"][index]} />
+                          <Line x1={end} x2={end} y1={y - 9} y2={y + 9}
+                            stroke="#5a6f77" strokeWidth={0.5} />
+                          <SvgText x={485} y={y + 4} textAnchor="end" style={styles.chartText}
+                            fill={index === 1 ? "#c41300" : "#1b3139"}>
+                            {bar.value == null ? "Unavailable" : money(bar.value)}
+                          </SvgText>
+                        </React.Fragment>
+                      );
+                    })}
+                  </Svg>
                 </View>
               )}
               <Text style={styles.paragraph}>{decision.reason}</Text>
