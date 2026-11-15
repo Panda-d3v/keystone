@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { Action, SendActionResponse, WorkspaceData } from "@/lib/contracts";
-import { money, words } from "@/lib/format";
+import { actionTitle, atStake, words } from "@/lib/format";
 import { submitAction, useSubmissions, type Submission } from "@/lib/submissions";
 
 export function ApprovalResult({ result }: { result: SendActionResponse }) {
@@ -36,8 +36,9 @@ function ActionEditor({ action, saved }: { action: Action; saved?: Submission })
     finally { setSending(false); }
   }
   return <section className="panel">
-    <div className="panel-header"><h2>{action.rank}. {words(action.type)}</h2><span className="status">{money(action.usd_at_stake)} at stake</span></div>
+    <div className="panel-header"><h2>{actionTitle(action)}</h2><span className="status">{atStake(action.usd_at_stake)}</span></div>
     <div className="panel-body stack">
+      {action.why && <p>{action.why}</p>}
       <p className="code">{action.part_ids.join(", ")}</p>
       <label className="stack">Supplier request<textarea aria-label={`Supplier request ${action.id}`} value={accepted ? saved?.draftEmail ?? draft : draft} disabled={sending || !!accepted} onChange={event => setDraft(event.target.value)} /></label>
       {error && <p role="alert" className="negative">{error}</p>}

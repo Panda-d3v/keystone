@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Check, Inbox, Layers, RefreshCw } from "lucide-react";
 import type { AuditEvent, Citation, SendActionResponse, WorkspaceData } from "@/lib/contracts";
 import { screens, routeFor, type Screen } from "@/lib/routes";
-import { date, money, words } from "@/lib/format";
+import { actionTitle, atStake, date, money, words } from "@/lib/format";
 import { useWorkspace } from "@/lib/use-workspace";
 import { submitAction, useSubmissions } from "@/lib/submissions";
 import { useFixtures } from "@/lib/data";
@@ -103,7 +103,7 @@ function TriageQueue({ data, screen }: { data: WorkspaceData; screen: Screen }) 
         <label className="stack small">Filter requests<input value={query} onChange={event => { setQuery(event.target.value); setSelectedIndex(0); }} placeholder="Part or request" /></label>
       </div>
       <div className="triage-items">{visible.map((item, index) => <button className="triage-item" key={item.id} onClick={() => setSelectedIndex(index)} aria-current={action?.id === item.id ? "true" : undefined}>
-        <span className="row spread"><strong>{words(item.type)}</strong><span>{money(item.usd_at_stake)}</span></span>
+        <span className="row spread"><strong>{actionTitle(item)}</strong><span>{money(item.usd_at_stake)}</span></span>
         <span className="code">{item.part_ids.join(", ")}</span>
       </button>)}</div>
       {!queue.length && <div className="triage-empty"><Check aria-hidden="true" /><h2>Queue cleared</h2><p>Submitted requests are awaiting approval.</p></div>}
@@ -113,7 +113,8 @@ function TriageQueue({ data, screen }: { data: WorkspaceData; screen: Screen }) 
     <main className="triage-detail">
       {canSubmit ? <>
         {action && <section className="triage-request">
-          <div className="row spread"><div><p className="code muted">{action.id}</p><h2>Request the missing evidence</h2></div><span className="status">{money(action.usd_at_stake)} at stake</span></div>
+          <div className="row spread"><div><p className="code muted">{action.id}</p><h2>{actionTitle(action)}</h2></div><span className="status">{atStake(action.usd_at_stake)}</span></div>
+          {action.why && <p>{action.why}</p>}
           <p className="code">{action.part_ids.join(", ")}</p>
           <div className="triage-evidence-summary">{data.evidence.requirements?.filter(row => row.status !== "checked").map(row => <div key={row.id}><strong>{row.label}</strong><p>{row.reason}</p></div>)}</div>
           <label className="stack">Supplier request<textarea value={drafts[action.id] ?? action.draft_email} onChange={event => setDrafts(previous => ({ ...previous, [action.id]: event.target.value }))} disabled={busy} /></label>

@@ -155,9 +155,10 @@ def _request_evidence(gap: EvidenceGap, open_rows: list[EvidenceRequirement]) ->
                f"but only once we hold the {_join(names)}.")
     else:
         why = f"{gap.supplier_name} still owes us the {_join(names)} for {s.part_no}."
+    title = f"Ask {gap.supplier_name} for the {_join(names)}"
     action = Action(id="", rank=0, type="request_evidence", part_ids=[s.part_no],
-                    usd_at_stake=at_stake, draft_email=email)
-    return ActionDraft(action, title=f"Ask {gap.supplier_name} for the {_join(names)}",
+                    usd_at_stake=at_stake, draft_email=email, title=title, why=why)
+    return ActionDraft(action, title=title,
                        why=why, subject=subject, to_supplier=s.supplier_id, open_items=names, heats=heats)
 
 
@@ -167,8 +168,10 @@ def _review_award(d: DecisionCheck) -> ActionDraft:
         why = f"{d.reason} A documented alternative is {_usd(at_stake)} a year cheaper."
     else:
         why = f"{d.reason} The current supplier is still the cheapest documented option."
-    action = Action(id="", rank=0, type="review_award", part_ids=[], usd_at_stake=at_stake, draft_email="")
-    return ActionDraft(action, title=f"Review supplier award {d.decision_id}", why=why)
+    title = f"Review supplier award {d.decision_id}"
+    action = Action(id="", rank=0, type="review_award", part_ids=[], usd_at_stake=at_stake, draft_email="",
+                    title=title, why=why)
+    return ActionDraft(action, title=title, why=why)
 
 
 def _saving(d: DecisionCheck | None) -> float:

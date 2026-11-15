@@ -14,6 +14,7 @@ RESPONSES = {
     "decisions": list[models.DecisionCheck],
     "evidence": models.EvidenceStatus,
     "actions": list[models.Action],
+    "intake_documents": list[models.IntakeDocument],
     "send_action": models.SendActionResponse,
     "decline_action": models.DeclineActionResponse,
     "audit": list[models.AuditEvent],

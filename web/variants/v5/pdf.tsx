@@ -12,7 +12,7 @@ import {
   pdf,
 } from "@react-pdf/renderer";
 import type { Citation, WorkspaceData } from "@/lib/contracts";
-import { date, money, percent, words } from "@/lib/format";
+import { actionTitle, date, money, percent, words } from "@/lib/format";
 import { referenceUrl } from "@/lib/reference";
 import { readDeclines, readSubmissions } from "@/lib/submissions";
 import { useFixtures } from "@/lib/data";
@@ -234,7 +234,7 @@ export async function downloadBrief(data: WorkspaceData) {
           .map((action) => (
             <View key={action.id}>
               <Text>
-                {words(action.type)}, {money(action.usd_at_stake)} at stake.
+                {actionTitle(action)}. {money(action.usd_at_stake)} a year at stake.
                 Awaiting review.
               </Text>
               <Text style={styles.paragraph}>{action.draft_email}</Text>
